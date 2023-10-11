@@ -5,17 +5,20 @@ import { useCallback, useEffect } from "react";
 
 import { useAuth } from "../../hooks/auth.hook.js";
 import { useNavigate } from "react-router-dom";
+import { AppRoutes } from "../../helpers/app-routes";
 
 const Login = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const {
     handleLogin,
+    auth,
     mutation: { data, isLoading },
   } = useAuth();
+
   useEffect(() => {
-    if (data) localStorage.setItem("token", data.accessToken);
-  }, [data]);
+    if (auth) navigate(AppRoutes.home);
+  }, [auth, navigate]);
 
   const onFinish = useCallback(() => {
     form.validateFields().then(() => {

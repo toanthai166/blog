@@ -1,9 +1,18 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useAtom } from "jotai";
 import { listBlog } from "../states/blog.state";
-import { changeIsActiveBlog, deleteBlog, getBlogs } from "../api/blog.api";
+import {
+  changeIsActiveBlog,
+  createBlog,
+  deleteBlog,
+  getBlogById,
+  getBlogs,
+  updateBlog,
+} from "../api/blog.api";
 import { useCallback } from "react";
 import { notification } from "antd";
+import { useNavigate } from "react-router-dom";
+import { AppRoutes } from "../helpers/app-routes";
 
 export const useBlog = () => {
   const [blogs, setBlogs] = useAtom(listBlog);
@@ -15,6 +24,41 @@ export const useBlog = () => {
     },
   });
   return { isLoading, error, blogs };
+};
+
+export const useGetBlogById = (blogId) => {
+  const [blog, setBlog] = useAtom(listBlog);
+  const { isLoading, error } = useQuery({
+    queryKey: [`blog/${blogId}`],
+    queryFn: () => getBlogById(blogId),
+    onSuccess: (res) => {
+      setBlog(res.data);
+    },
+  });
+  return { isLoading, error, blog };
+};
+
+export const useCreateBlog = () => {
+  const navigate = useNavigate();
+  const mutation = useMutation(createBlog, {
+    mutationKey: "blogs",
+  });
+  const client = useQueryClient();
+  const handleCreateBlog = useCallback(
+    (data) => {
+      mutation.mutate(data, {
+        onSuccess: () => {
+          client.invalidateQueries("blogs");
+          notification.success({
+            message: "Thêm bài viết thành công",
+          });
+          navigate(AppRoutes.blog);
+        },
+      });
+    },
+    [mutation]
+  );
+  return { mutation, handleCreateBlog };
 };
 
 export const useDeleteBlog = () => {
@@ -38,9 +82,33 @@ export const useDeleteBlog = () => {
   return { mutation, handleDeleteBlog };
 };
 
-export const useChangeIsActiveBlog = () => {
+export const useChangeIsActiveBlog = (id) => {
   const mutation = useMutation(changeIsActiveBlog, {
-    mutationKey: [`blogs`],
+    mutationKey: [`blogs/${id}/active`],
+  });
+  const client = useQueryClient();
+  const handleChangeIsActiveBlog = (data) => {
+    console.log(data);
+    mutation.mutate(data, {
+      onSuccess: () => {
+        client.invalidateQueries("blogs");
+        notification.success({
+          message: "Sửa trạng thái bài viết thành công",
+        });
+      },
+    });
+  };
+  return {
+    mutation,
+    handleChangeIsActiveBlog,
+  };
+};
+
+export const useUpdateBlog = (id) => {
+  const navigate = useNavigate();
+
+  const mutation = useMutation(updateBlog, {
+    mutationKey: [`blogs/${id}`],
   });
   const client = useQueryClient();
   const handleUpdateBlog = (data) => {
@@ -48,8 +116,9 @@ export const useChangeIsActiveBlog = () => {
       onSuccess: () => {
         client.invalidateQueries("blogs");
         notification.success({
-          message: "Sửa trạng thái bài viết thành công",
+          message: "Sửa bài viết thành công",
         });
+        navigate(AppRoutes.blog);
       },
     });
   };

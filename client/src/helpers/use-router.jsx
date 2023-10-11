@@ -8,6 +8,8 @@ import UserManagement from "../screens/admin/user";
 import CategoryManagement from "../screens/admin/category";
 import BookManagement from "../screens/admin/book";
 import ProfileManagement from "../screens/admin/profile-management";
+import FormCreateBlog from "../screens/admin/blog/form";
+import FormCategory from "../screens/admin/category/form";
 
 export const useRouter = () => {
   return createBrowserRouter([
@@ -49,6 +51,30 @@ export const useRouter = () => {
       ),
     },
     {
+      path: AppRoutes.createBlog,
+      element: (
+        <PrivateRoute component={<FormCreateBlog />} role={roles.admin} />
+      ),
+    },
+    {
+      path: AppRoutes.blogEdit,
+      element: (
+        <PrivateRoute
+          component={<FormCreateBlog isEdit />}
+          role={roles.admin}
+        />
+      ),
+    },
+    {
+      path: AppRoutes.blogDetail,
+      element: (
+        <PrivateRoute
+          component={<FormCreateBlog isDetail />}
+          role={roles.admin}
+        />
+      ),
+    },
+    {
       path: AppRoutes.user,
       element: (
         <PrivateRoute component={<UserManagement />} role={roles.admin} />
@@ -61,6 +87,25 @@ export const useRouter = () => {
       ),
     },
     {
+      path: AppRoutes.createCate,
+      element: <PrivateRoute component={<FormCategory />} role={roles.admin} />,
+    },
+    {
+      path: AppRoutes.categoryEdit,
+      element: (
+        <PrivateRoute component={<FormCategory isEdit />} role={roles.admin} />
+      ),
+    },
+    {
+      path: AppRoutes.categoryDetail,
+      element: (
+        <PrivateRoute
+          component={<FormCategory isDetail />}
+          role={roles.admin}
+        />
+      ),
+    },
+    {
       path: AppRoutes.book,
       element: (
         <PrivateRoute component={<BookManagement />} role={roles.admin} />
@@ -70,6 +115,12 @@ export const useRouter = () => {
       path: AppRoutes.book,
       element: (
         <PrivateRoute component={<BookManagement />} role={roles.admin} />
+      ),
+    },
+    {
+      path: AppRoutes.profile_management,
+      element: (
+        <PrivateRoute component={<ProfileManagement />} role={roles.admin} />
       ),
     },
     {

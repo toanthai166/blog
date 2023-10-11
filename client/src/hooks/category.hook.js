@@ -1,12 +1,25 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useAtom } from "jotai";
-import { getCategories } from "../api/category.api";
+import {
+  changeIsActiveCategory,
+  createCategory,
+  deleteCate,
+  getCategories,
+  getCategoriesIsActive,
+  getCategoryById,
+  updateCategory,
+} from "../api/category.api";
 import { listCategory } from "../states/category.state";
-export const useCategory = () => {
+import { notification } from "antd";
+import { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { AppRoutes } from "../helpers/app-routes";
+
+export const useCategoriesIsActive = () => {
   const [categories, setCategories] = useAtom(listCategory);
   const { isLoading, error } = useQuery({
     queryKey: ["category?isActive=true"],
-    queryFn: getCategories,
+    queryFn: getCategoriesIsActive,
     onSuccess: (res) => {
       setCategories(res.data);
     },
@@ -14,96 +27,116 @@ export const useCategory = () => {
   return { isLoading, error, categories };
 };
 
-// export const useUpdatePost = (data) => {
-//   const mutation = useMutation(updateBlog, {
-//     mutationKey: [`blogs/${data.blogId}`],
-//   });
-//   const client = useQueryClient();
-//   const handleUpdateBlog = () => {
-//     mutation.mutate(data, {
-//       onSuccess: () => {
-//         client.invalidateQueries(QUERY_KEYS.posts);
-//         successToast("Cập nhật bài viết thành công");
-//       },
-//     });
-//   };
-//   return {
-//     mutation,
-//     handleUpdateBlog,
-//   };
-// };
-// export const usePublishPost = (data) => {
-//   const mutation = useMutation(publishBlog, {
-//     mutationKey: [`blogs/${data.blogId}/publish`],
-//   });
-//   const client = useQueryClient();
-//   const handleUpdateBlog = () => {
-//     mutation.mutate(data, {
-//       onSuccess: () => {
-//         client.invalidateQueries(QUERY_KEYS.posts);
-//         successToast("Cập nhật bài viết thành công");
-//       },
-//     });
-//   };
-//   return {
-//     mutation,
-//     handleUpdateBlog,
-//   };
-// };
+export const useCategories = () => {
+  const [categories, setCategories] = useAtom(listCategory);
+  const { isLoading, error } = useQuery({
+    queryKey: ["category"],
+    queryFn: getCategories,
+    onSuccess: (res) => {
+      setCategories(res.data);
+    },
+  });
+  return { isLoading, error, categories };
+};
+// changeIsActiveCategory
 
-// export const useGetPublishPost = () => {
-//   //   const [listTag, setListTag] = useAtom(listTagAtom);
-//   const { data, isLoading, error } = useQuery({
-//     queryKey: ["blogs/published"],
-//     queryFn: getPublishedBlogs,
-//     // onSuccess: (res) => {
-//     //   console.log(res.data);
-//     //   return res.data;
-//     // },
-//   });
-//   return { publishBlogs: data?.data, isLoading, error };
-// };
+export const useChangeIsActiveCategory = (id) => {
+  const mutation = useMutation(changeIsActiveCategory, {
+    mutationKey: [`category/${id}/active`],
+  });
+  const client = useQueryClient();
+  const handleChangeIsActiveCate = (data) => {
+    console.log(data);
+    mutation.mutate(data, {
+      onSuccess: () => {
+        client.invalidateQueries("category");
+        notification.success({
+          message: "Sửa trạng thái danh mục thành công",
+        });
+      },
+    });
+  };
+  return {
+    mutation,
+    handleChangeIsActiveCate,
+  };
+};
 
-// export const useDetailPost = (blogId) => {
-//   const { data, isLoading, error } = useQuery({
-//     queryKey: [`blogs/${blogId}`],
-//     queryFn: () => getDetails(blogId),
-//     // onSuccess: (res) => {
-//     //   console.log(res.data);
-//     //   return res.data;
-//     // },
-//   });
-//   return {
-//     detailBlog: data?.data?.blog?.details,
-//     isLoading,
-//     error,
-//   };
-// };
+export const useDeleteCate = () => {
+  const mutation = useMutation(deleteCate, {
+    mutationKey: "category",
+  });
+  const client = useQueryClient();
+  const handleDeleteCate = useCallback(
+    (categoryId) => {
+      mutation.mutate(categoryId, {
+        onSuccess: () => {
+          client.invalidateQueries("category");
+          notification.success({
+            message: "Xóa danh mục thành công",
+          });
+        },
+      });
+    },
+    [mutation]
+  );
+  return { mutation, handleDeleteCate };
+};
 
-// export const useUploadTitleImage = () => {
-//   const [, setTitleImageLink] = useAtom(titleImageLinkAtom);
-//   const titleImageLink = JSON.parse(localStorage.getItem("titleImageLink"));
+export const useCreateCategory = () => {
+  const navigate = useNavigate();
+  const mutation = useMutation(createCategory, {
+    mutationKey: "category",
+  });
+  const client = useQueryClient();
+  const handleCreateCategory = useCallback(
+    (data) => {
+      mutation.mutate(data, {
+        onSuccess: () => {
+          client.invalidateQueries("category");
+          notification.success({
+            message: "Thêm danh mục thành công",
+          });
+          navigate(AppRoutes.category);
+        },
+      });
+    },
+    [mutation]
+  );
+  return { mutation, handleCreateCategory };
+};
 
-//   const mutation = useMutation(upLoadTitleImage, {
-//     mutationKey: "uploadTitleImage",
-//     onSuccess: (data) => {
-//       console.log(data);
-//       setTitleImageLink(data.data.imageLink);
-//     },
-//   });
-//   const handleUploadTitleImage = useCallback(
-//     (formData) => {
-//       mutation.mutate(formData);
-//     },
-//     [mutation]
-//   );
-//   const resetImage = useCallback(() => {
-//     setTitleImageLink(RESET);
-//   }, [mutation]);
-//   return {
-//     titleImageLink,
-//     mutation,
-//     handleUploadTitleImage,
-//     resetImage,
-//   };
-// };
+export const useUpdateCate = (id) => {
+  const navigate = useNavigate();
+
+  const mutation = useMutation(updateCategory, {
+    mutationKey: [`category/${id}`],
+  });
+  const client = useQueryClient();
+  const handleUpdateCate = (data) => {
+    mutation.mutate(data, {
+      onSuccess: () => {
+        client.invalidateQueries("category");
+        notification.success({
+          message: "Sửa danh mục thành công",
+        });
+        navigate(AppRoutes.blog);
+      },
+    });
+  };
+  return {
+    mutation,
+    handleUpdateCate,
+  };
+};
+export const useGetCategoryById = (blogId) => {
+  const [cate, setCate] = useAtom(listCategory);
+  const { isLoading, error } = useQuery({
+    queryKey: [`blog/${blogId}`],
+    queryFn: () => getCategoryById(blogId),
+    onSuccess: (res) => {
+      setCate(res.data);
+    },
+  });
+  return { isLoading, error, cate };
+};

@@ -1,31 +1,30 @@
 import request from "../services/axios.service";
 export const createCategory = async (data) => {
-  const res = await request.post("/blogs", data, { timeout: 5000 });
+  const res = await request.post("/category/create", data);
   return res;
 };
-export const updateBlog = async (data) => {
-  const res = await request.put(`/blogs/${data.blogId}`, data);
-  return res;
-};
-export const publishBlog = async (data) => {
-  const res = await request.put(`/blogs/${data.blogId}/publish`, data);
-  return res;
-};
-export const getAllBlog = async () => {
-  const res = await request.get("/blog?isActive=true");
+
+export const getCategoriesIsActive = async (data) => {
+  const res = await request.get("/category?isActive=true", data);
   return res;
 };
 export const getCategories = async () => {
-  const res = await request.get("/category?isActive=true");
+  const res = await request.get("/category");
   return res;
 };
-export const getDetails = async (blogId) => {
-  const res = await request.get(`/blogs/${blogId}/details`);
+export const changeIsActiveCategory = async (data) => {
+  const res = await request.patch(`/category/${data.categoryId}/active`, data);
   return res;
 };
-export const upLoadTitleImage = async (formData) => {
-  const res = await request.post(`/blogs/upload-title-image`, formData, {
-    timeout: 5000,
-  });
+export const deleteCate = async (categoryId) => {
+  const res = await request.delete(`/category/${categoryId}`);
+  return res;
+};
+export const updateCategory = async (data) => {
+  const res = await request.patch(`/category/${data.id}`, data);
+  return res;
+};
+export const getCategoryById = async (categoryId) => {
+  const res = await request.get(`/category/${categoryId}`);
   return res;
 };

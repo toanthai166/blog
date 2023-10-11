@@ -1,4 +1,4 @@
-import { Popconfirm, Switch, Table, Tag, Tooltip } from "antd";
+import { Button, Popconfirm, Switch, Table, Tag, Tooltip } from "antd";
 import { SubHeader } from "../../../components/sub-header/SubHeader";
 import {
   DeleteOutlined,
@@ -27,12 +27,11 @@ const BlogManagement = () => {
   const { blogs } = useBlog();
 
   const { handleDeleteBlog, mutation } = useDeleteBlog();
-  const { handleUpdateBlog } = useChangeIsActiveBlog();
+  const { handleChangeIsActiveBlog } = useChangeIsActiveBlog();
+
   const handleChangeStatus = (row) => {
     const { id, isActive } = row;
-    console.log(id);
-    console.log(isActive);
-    handleUpdateBlog(id);
+    handleChangeIsActiveBlog({ blogId: id, isActive: !isActive });
   };
 
   const listBlog = blogs?.results
@@ -76,7 +75,7 @@ const BlogManagement = () => {
             placement="topLeft"
             onConfirm={() => handleChangeStatus(it)}
           >
-            <Switch defaultChecked checked={it?.isActive} size="default" />
+            <Switch checked={it?.isActive} size="default" />
           </Popconfirm>
         );
       },
@@ -93,9 +92,7 @@ const BlogManagement = () => {
               <Tag
                 className="hover:cursor-pointer"
                 color="blue"
-                onClick={() =>
-                  navigate(AppRoutes.vehicle + `/${id}` + "?view=edit")
-                }
+                onClick={() => navigate(AppRoutes.blogEditById(id))}
               >
                 <EditOutlined />
               </Tag>
@@ -121,9 +118,7 @@ const BlogManagement = () => {
               <Tag
                 className="hover:cursor-pointer"
                 color="gold"
-                onClick={() =>
-                  navigate(AppRoutes.vehicle + `/${id}` + "?view=detail")
-                }
+                onClick={() => navigate(AppRoutes.blogDetailId(id))}
               >
                 <EyeOutlined />
               </Tag>
@@ -140,9 +135,21 @@ const BlogManagement = () => {
           { title: "Trang chủ", to: AppRoutes.admin },
           { title: "Bài viết", to: AppRoutes.blog },
         ]}
+        rightContent={
+          <Button
+            type="default"
+            onClick={() => {
+              navigate(AppRoutes.createBlog);
+            }}
+          >
+            Tạo bài viết mới
+          </Button>
+        }
       />
       <div className="bg-white mx-5 mt-5">
-        <h2 className="text-lg font-semibold p-5">{} bài viết tất cả</h2>
+        <h2 className="text-lg font-semibold p-5">
+          {blogs?.totalResults} bài viết tất cả
+        </h2>
         <Table
           size="small"
           bordered

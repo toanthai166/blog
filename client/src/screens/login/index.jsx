@@ -17,7 +17,9 @@ const Login = () => {
   } = useAuth();
 
   useEffect(() => {
-    if (auth) navigate(AppRoutes.home);
+    if (auth) {
+      navigate(AppRoutes.home);
+    }
   }, [auth, navigate]);
 
   const onFinish = useCallback(() => {

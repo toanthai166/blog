@@ -129,11 +129,11 @@ export const useUpdateCate = (id) => {
     handleUpdateCate,
   };
 };
-export const useGetCategoryById = (blogId) => {
+export const useGetCategoryById = (categoryId) => {
   const [cate, setCate] = useAtom(listCategory);
   const { isLoading, error } = useQuery({
-    queryKey: [`blog/${blogId}`],
-    queryFn: () => getCategoryById(blogId),
+    queryKey: [`category/${categoryId}`],
+    queryFn: () => getCategoryById(categoryId),
     onSuccess: (res) => {
       setCate(res.data);
     },

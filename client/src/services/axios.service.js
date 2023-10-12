@@ -10,21 +10,60 @@ const request = axios.create({
   },
 });
 
-request.interceptors.request.use(async (config) => {
-  const customHeaders = {};
+async function getNewToken() {
   const auth = localStorage.getItem("auth");
-  const accessToken = JSON.parse(auth)?.tokens?.access?.token;
-  if (accessToken) {
-    customHeaders.authorization = `Bearer ${accessToken}`;
+  const refreshToken = JSON.parse(auth)?.tokens?.refresh?.token;
+  const response = await axios.post(
+    "http://localhost:3000/v1/auth/refresh-tokens",
+    {
+      refreshToken: refreshToken,
+    }
+  );
+
+  return response.data.accessToken;
+}
+function isTokenExpired(token) {
+  return false;
+}
+
+request.interceptors.request.use(
+  async (config) => {
+    const auth = localStorage.getItem("auth");
+    const accessToken = JSON.parse(auth)?.tokens?.access?.token;
+
+    if (isTokenExpired(accessToken)) {
+      // Lấy token mới
+      const newToken = await getNewToken();
+
+      // Cập nhật header của yêu cầu mới với token mới
+      config.headers.Authorization = `Bearer ${newToken}`;
+    } else {
+      // Sử dụng token hiện tại
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
   }
-  return {
-    ...config,
-    headers: {
-      ...customHeaders, // auto attach token
-      ...config.headers, // but you can override for some requests
-    },
-  };
-});
+);
+
+// request.interceptors.request.use(async (config) => {
+//   const customHeaders = {};
+//   const auth = localStorage.getItem("auth");
+//   const accessToken = JSON.parse(auth)?.tokens?.access?.token;
+//   if (accessToken) {
+//     customHeaders.authorization = `Bearer ${accessToken}`;
+//   }
+//   return {
+//     ...config,
+//     headers: {
+//       ...customHeaders, // auto attach token
+//       ...config.headers, // but you can override for some requests
+//     },
+//   };
+// });
 
 request.interceptors.response.use(
   (response) => {

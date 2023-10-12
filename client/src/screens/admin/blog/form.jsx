@@ -21,16 +21,14 @@ const FormCreateBlog = ({ isDetail, isEdit }) => {
   const { blog, isLoading } = useGetBlogById(id);
   const { categories } = useCategoriesIsActive();
   const { handleUpdateBlog } = useUpdateBlog();
-
-  console.log(dataEditor);
+  const { handleCreateBlog } = useCreateBlog();
+  console.log(blog);
 
   useEffect(() => {
     if (blog) {
       form.setFieldsValue({ title: blog.title, categoryId: blog.categoryId });
     }
   }, [blog, form]);
-
-  const { handleCreateBlog } = useCreateBlog();
 
   const onFinish = async (values) => {
     if (isEdit) {
@@ -60,7 +58,7 @@ const FormCreateBlog = ({ isDetail, isEdit }) => {
   }));
 
   return (
-    <div>
+    <Spin spinning={isLoading}>
       <SubHeader
         items={[
           { title: "Trang chủ", to: AppRoutes.admin },
@@ -75,91 +73,79 @@ const FormCreateBlog = ({ isDetail, isEdit }) => {
           },
         ]}
       />
-      <div dangerouslySetInnerHTML={{ __html: dataEditor }} />
-
-      <Spin spinning={isLoading}>
-        <div className="bg-white mx-5 mt-5">
-          <div className="form-news">
-            <Form
-              form={form}
-              labelCol={{ span: 5 }}
-              wrapperCol={{ span: 15 }}
-              labelAlign="left"
-              disabled={isDetail}
-              size="small"
-              id="form-news"
-              name="form-news"
-              onFinish={onFinish}
+      <div className="bg-white mx-5 mt-5 py-5 px-10">
+        <div className="form-news">
+          <Form
+            form={form}
+            labelCol={{ span: 5 }}
+            wrapperCol={{ span: 15 }}
+            labelAlign="left"
+            disabled={isDetail}
+            size="small"
+            id="form-news"
+            name="form-news"
+            onFinish={onFinish}
+          >
+            <Form.Item
+              label={
+                <span>
+                  Tiêu đề<span className="text-red"> *</span>
+                </span>
+              }
+              name="title"
+              rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
+              normalize={(e) => e.trimStart()}
             >
-              <Form.Item
-                label={
-                  <span>
-                    Ảnh<span className="text-red"> *</span>
-                  </span>
+              <Input placeholder="Nhập tiêu đề" maxLength={255}></Input>
+            </Form.Item>
+            <Form.Item
+              label={
+                <span>
+                  Chọn danh mục<span className="text-red"> *</span>
+                </span>
+              }
+              name="categoryId"
+              rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
+            >
+              <Select placeholder="Chọn danh mục" options={categoryOptions} />
+            </Form.Item>
+            <Form.Item label={<span>Mô tả</span>}>
+              <CKEditor
+                disabled={isDetail}
+                editor={ClassicEditor}
+                data={isDetail || isEdit ? blog?.content : ""}
+                onChange={(event, editor) =>
+                  handleChangeCkeditor(event, editor)
                 }
-                name="avatarId"
-              ></Form.Item>
-              <Form.Item
-                label={
-                  <span>
-                    Tiêu đề<span className="text-red"> *</span>
-                  </span>
-                }
-                name="title"
-                rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
-                normalize={(e) => e.trimStart()}
-              >
-                <Input placeholder="Nhập tiêu đề" maxLength={255}></Input>
-              </Form.Item>
-              <Form.Item
-                label={
-                  <span>
-                    Chọn danh mục<span className="text-red"> *</span>
-                  </span>
-                }
-                name="categoryId"
-                rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
-              >
-                <Select placeholder="Chọn danh mục" options={categoryOptions} />
-              </Form.Item>
-              <Form.Item label={<span>Mô tả</span>}>
-                <CKEditor
-                  disabled={isDetail}
-                  editor={ClassicEditor}
-                  data={isDetail || isEdit ? blog?.content : ""}
-                  onChange={(event, editor) =>
-                    handleChangeCkeditor(event, editor)
-                  }
-                />
-              </Form.Item>
+              />
+            </Form.Item>
 
-              {!isDetail && (
-                <Row>
-                  <Col span={20} className="flex justify-end space-x-4">
-                    <Button
-                      className="w-20"
-                      type="default"
-                      onClick={() => navigate(-1)}
-                    >
-                      Huỷ
-                    </Button>
-                    <Button
-                      className="w-20"
-                      type="dashed"
-                      htmlType="submit"
-                      // loading={loadingCreateNews}
-                      // disabled={loadingCreateNews}
-                    >
-                      Lưu
-                    </Button>
-                  </Col>
-                </Row>
-              )}
-            </Form>
-          </div>
+            {!isDetail && (
+              <Row>
+                <Col span={20} className="flex justify-end space-x-4">
+                  <Button
+                    className="w-20"
+                    type="default"
+                    onClick={() => navigate(-1)}
+                  >
+                    Huỷ
+                  </Button>
+                  <Button
+                    className="w-20"
+                    type="dashed"
+                    htmlType="submit"
+                    // loading={loadingCreateNews}
+                    // disabled={loadingCreateNews}
+                  >
+                    Lưu
+                  </Button>
+                </Col>
+              </Row>
+            )}
+          </Form>
         </div>
-      </Spin>
-    </div>
+      </div>
+    </Spin>
   );
 };
 

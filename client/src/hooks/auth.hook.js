@@ -11,9 +11,10 @@ export const useAuth = () => {
   const mutation = useMutation(login, {
     mutationKey: "login",
   });
+  console.log(mutation.data);
   useEffect(() => {
-    mutation.isSuccess && setAuth(mutation.data);
-  }, [mutation.isSuccess]);
+    mutation.data && setAuth(mutation.data);
+  }, [mutation.data, mutation.isSuccess, setAuth]);
 
   const handleLogin = useCallback(
     ({ email, password }) => {

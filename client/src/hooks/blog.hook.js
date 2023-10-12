@@ -32,6 +32,7 @@ export const useGetBlogById = (blogId) => {
     queryKey: [`blog/${blogId}`],
     queryFn: () => getBlogById(blogId),
     onSuccess: (res) => {
+      console.log(res.data);
       setBlog(res.data);
     },
   });

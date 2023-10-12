@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { Outlet, createBrowserRouter } from "react-router-dom";
 import { AppRoutes } from "./app-routes";
 import { Faq, Home, Login, Profile, Register, Secret } from "../screens";
 import PrivateRoute from "../components/PrivateRoute";
@@ -10,6 +10,7 @@ import BookManagement from "../screens/admin/book";
 import ProfileManagement from "../screens/admin/profile-management";
 import FormCreateBlog from "../screens/admin/blog/form";
 import FormCategory from "../screens/admin/category/form";
+import Layouts from "../layouts/main-layout";
 
 export const useRouter = () => {
   return createBrowserRouter([
@@ -21,22 +22,35 @@ export const useRouter = () => {
       path: AppRoutes.register,
       element: <Register />,
     },
+    // Layouts
+
     {
       path: AppRoutes.home,
-      element: <Home />,
+      element: (
+        <Layouts>
+          <Outlet></Outlet>
+        </Layouts>
+      ),
+      children: [
+        {
+          path: AppRoutes.home,
+          element: <Home />,
+        },
+        {
+          path: AppRoutes.faq,
+          element: <Faq />,
+        },
+        {
+          path: AppRoutes.secret,
+          element: <Secret />,
+        },
+        {
+          path: AppRoutes.profile,
+          element: <Profile />,
+        },
+      ],
     },
-    {
-      path: AppRoutes.faq,
-      element: <Faq />,
-    },
-    {
-      path: AppRoutes.secret,
-      element: <Secret />,
-    },
-    {
-      path: AppRoutes.profile,
-      element: <Profile />,
-    },
+
     //
     {
       path: AppRoutes.admin,

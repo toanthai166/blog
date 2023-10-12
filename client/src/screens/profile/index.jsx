@@ -1,10 +1,8 @@
-import { Button, Divider } from "antd";
 import Lable from "../../components/lable";
-import Layouts from "../../layouts/main-layout";
 
 const Profile = () => {
   return (
-    <Layouts>
+    <>
       <Lable title="About Me"> </Lable>{" "}
       <div className="flex w-[70%] mx-20 justify-end mt-20 relative">
         <div className="-mr-6 bg-neutral-100 absolute left-[15%] top-1/2 -translate-y-1/2  w-[500px] flex flex-col gap-5 p-10">
@@ -30,7 +28,7 @@ const Profile = () => {
           alt=""
         />
       </div>
-    </Layouts>
+    </>
   );
 };
 

@@ -120,7 +120,7 @@ export const useUpdateCate = (id) => {
         notification.success({
           message: "Sửa danh mục thành công",
         });
-        navigate(AppRoutes.blog);
+        navigate(AppRoutes.category);
       },
     });
   };

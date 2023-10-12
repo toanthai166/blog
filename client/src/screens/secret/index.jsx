@@ -1,13 +1,12 @@
-import { Tabs } from "antd";
+import { Spin, Tabs } from "antd";
 import Lable from "../../components/lable";
-import Layouts from "../../layouts/main-layout";
 import PostItem from "../../components/post-item";
 import { useBlog } from "../../hooks/blog.hook";
 import { useCategoriesIsActive } from "../../hooks/category.hook";
 
 const Secret = () => {
-  const { categories } = useCategoriesIsActive();
-  const { blogs } = useBlog();
+  const { categories, isLoading } = useCategoriesIsActive();
+  const { blogs, isLoading: loadingBlogs } = useBlog();
   console.log("blogs", blogs);
 
   console.log("categories", categories);
@@ -30,7 +29,7 @@ const Secret = () => {
     },
   ];
   return (
-    <Layouts>
+    <Spin spinning={isLoading || loadingBlogs}>
       <Lable title=" Tất cả bí quyết"></Lable>
       <div className="mt-20 flex justify-start">
         <Tabs
@@ -49,7 +48,7 @@ const Secret = () => {
         <PostItem />
         <PostItem />
       </div>
-    </Layouts>
+    </Spin>
   );
 };
 

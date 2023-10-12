@@ -1,11 +1,10 @@
 import { Button, Divider, FloatButton } from "antd";
 import {} from "../../assets";
 import PostItem from "../../components/post-item";
-import Layouts from "../../layouts/main-layout";
 
 const Home = () => {
   return (
-    <Layouts>
+    <>
       {/* content */}
       <div>
         <div className="flex gap-5 mx-40">
@@ -62,7 +61,7 @@ const Home = () => {
         </div>
         <FloatButton.BackTop />
       </div>
-    </Layouts>
+    </>
   );
 };
 

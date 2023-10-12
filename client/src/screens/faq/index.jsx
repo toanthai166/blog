@@ -1,11 +1,10 @@
-import { Collapse } from "antd";
-import Layouts from "../../layouts/main-layout";
+import { Collapse, Spin } from "antd";
 import { useFAQ } from "../../hooks/faq.hook";
 import Lable from "../../components/lable";
 
 const Faq = () => {
-  const { Faqs } = useFAQ();
-  console.log(JSON.stringify(Faqs));
+  const { Faqs, isLoading } = useFAQ();
+  console.log(isLoading);
   const onChange = (key) => {
     console.log(key);
   };
@@ -17,18 +16,20 @@ const Faq = () => {
   }));
 
   return (
-    <Layouts>
+    <>
       <Lable title=" FAQ's"></Lable>
       <div className="my-[80px]">Những câu hỏi thường gặp</div>
       <div className="w-full max-w-[1200px] faq">
-        <Collapse
-          defaultActiveKey={["1"]}
-          expandIconPosition="end"
-          onChange={onChange}
-          items={items}
-        />
+        <Spin spinning={isLoading}>
+          <Collapse
+            defaultActiveKey={["1"]}
+            expandIconPosition="end"
+            onChange={onChange}
+            items={items}
+          />
+        </Spin>
       </div>
-    </Layouts>
+    </>
   );
 };
 

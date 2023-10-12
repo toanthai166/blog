@@ -8,7 +8,6 @@ import {
 } from "@ant-design/icons";
 
 import { AppRoutes } from "../../../helpers/app-routes";
-import AdminDashboard from "../dashboard";
 import { useState } from "react";
 import { DefaultPagination } from "../../../ultis/pagination";
 import {
@@ -129,7 +128,7 @@ const BlogManagement = () => {
     },
   ];
   return (
-    <AdminDashboard>
+    <>
       <SubHeader
         items={[
           { title: "Trang chủ", to: AppRoutes.admin },
@@ -165,7 +164,7 @@ const BlogManagement = () => {
         />
       </div>
       <div></div>
-    </AdminDashboard>
+    </>
   );
 };
 

@@ -3,10 +3,10 @@ import Lable from "../../components/lable";
 import Layouts from "../../layouts/main-layout";
 import PostItem from "../../components/post-item";
 import { useBlog } from "../../hooks/blog.hook";
-import { useCategory } from "../../hooks/category.hook";
+import { useCategoriesIsActive } from "../../hooks/category.hook";
 
 const Secret = () => {
-  const { categories } = useCategory();
+  const { categories } = useCategoriesIsActive();
   const { blogs } = useBlog();
   console.log("blogs", blogs);
 

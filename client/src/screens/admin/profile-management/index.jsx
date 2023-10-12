@@ -1,7 +1,5 @@
-import AdminDashboard from "../dashboard";
-
 const ProfileManagement = () => {
-  return <AdminDashboard>profile</AdminDashboard>;
+  return <>profile</>;
 };
 
 export default ProfileManagement;

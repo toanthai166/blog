@@ -1,7 +1,6 @@
 import { Button, Popconfirm, Switch, Table, Tag, Tooltip } from "antd";
 import { SubHeader } from "../../../components/sub-header/SubHeader";
 import { AppRoutes } from "../../../helpers/app-routes";
-import AdminDashboard from "../dashboard";
 import { useNavigate } from "react-router-dom";
 import {
   DeleteOutlined,
@@ -114,7 +113,7 @@ const CategoryManagement = () => {
     },
   ];
   return (
-    <AdminDashboard>
+    <>
       <SubHeader
         items={[
           { title: "Trang chủ", to: AppRoutes.admin },
@@ -148,7 +147,7 @@ const CategoryManagement = () => {
         />
       </div>
       <div></div>
-    </AdminDashboard>
+    </>
   );
 };
 

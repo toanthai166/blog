@@ -5,7 +5,8 @@ const request = axios.create({
   baseURL: apiUrl,
   timeout: 3000,
   headers: {
-    Accept: "application/json",
+    "Content-Type": "application/json",
+    // "Content-Type": "text/html",
   },
 });
 

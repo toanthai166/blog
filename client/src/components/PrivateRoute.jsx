@@ -1,9 +1,10 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { roles } from "../ultis/role";
 import { AppRoutes } from "../helpers/app-routes";
+import AdminDashboard from "../screens/admin/dashboard";
 
-const PrivateRoute = ({ component, role }) => {
+const PrivateRoute = ({ role }) => {
   const navigate = useNavigate();
   const auth = localStorage.getItem("auth");
   console.log(auth);
@@ -22,9 +23,13 @@ const PrivateRoute = ({ component, role }) => {
       return;
     };
     getPermission();
-  }, []);
+  }, [auth, navigate, role]);
 
-  return component;
+  return (
+    <AdminDashboard>
+      <Outlet></Outlet>
+    </AdminDashboard>
+  );
 };
 
 export default PrivateRoute;

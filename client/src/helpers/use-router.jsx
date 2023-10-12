@@ -40,94 +40,62 @@ export const useRouter = () => {
     //
     {
       path: AppRoutes.admin,
-      element: (
-        <PrivateRoute component={<BlogManagement />} role={roles.admin} />
-      ),
-    },
-    {
-      path: AppRoutes.blog,
-      element: (
-        <PrivateRoute component={<BlogManagement />} role={roles.admin} />
-      ),
-    },
-    {
-      path: AppRoutes.createBlog,
-      element: (
-        <PrivateRoute component={<FormCreateBlog />} role={roles.admin} />
-      ),
-    },
-    {
-      path: AppRoutes.blogEdit,
-      element: (
-        <PrivateRoute
-          component={<FormCreateBlog isEdit />}
-          role={roles.admin}
-        />
-      ),
-    },
-    {
-      path: AppRoutes.blogDetail,
-      element: (
-        <PrivateRoute
-          component={<FormCreateBlog isDetail />}
-          role={roles.admin}
-        />
-      ),
-    },
-    {
-      path: AppRoutes.user,
-      element: (
-        <PrivateRoute component={<UserManagement />} role={roles.admin} />
-      ),
-    },
-    {
-      path: AppRoutes.category,
-      element: (
-        <PrivateRoute component={<CategoryManagement />} role={roles.admin} />
-      ),
-    },
-    {
-      path: AppRoutes.createCate,
-      element: <PrivateRoute component={<FormCategory />} role={roles.admin} />,
-    },
-    {
-      path: AppRoutes.categoryEdit,
-      element: (
-        <PrivateRoute component={<FormCategory isEdit />} role={roles.admin} />
-      ),
-    },
-    {
-      path: AppRoutes.categoryDetail,
-      element: (
-        <PrivateRoute
-          component={<FormCategory isDetail />}
-          role={roles.admin}
-        />
-      ),
-    },
-    {
-      path: AppRoutes.book,
-      element: (
-        <PrivateRoute component={<BookManagement />} role={roles.admin} />
-      ),
-    },
-    {
-      path: AppRoutes.book,
-      element: (
-        <PrivateRoute component={<BookManagement />} role={roles.admin} />
-      ),
-    },
-    {
-      path: AppRoutes.profile_management,
-      element: (
-        <PrivateRoute component={<ProfileManagement />} role={roles.admin} />
-      ),
-    },
-    {
-      path: AppRoutes.profile_management,
-      element: (
-        <PrivateRoute component={<ProfileManagement />} role={roles.admin} />
-      ),
+      element: <PrivateRoute role={roles.admin} />,
+      children: [
+        { path: AppRoutes.blog, element: <BlogManagement /> },
+        {
+          path: AppRoutes.createBlog,
+          element: <FormCreateBlog />,
+        },
+        {
+          path: AppRoutes.blogEdit,
+          element: <FormCreateBlog isEdit />,
+        },
+        {
+          path: AppRoutes.blogDetail,
+          element: <FormCreateBlog isDetail />,
+        },
+        {
+          path: AppRoutes.user,
+          element: <UserManagement />,
+        },
+        {
+          path: AppRoutes.category,
+          element: <CategoryManagement />,
+        },
+        {
+          path: AppRoutes.createCate,
+          element: <FormCategory />,
+        },
+        {
+          path: AppRoutes.categoryEdit,
+          element: <FormCategory isEdit />,
+        },
+        {
+          path: AppRoutes.categoryDetail,
+          element: <FormCategory isDetail />,
+        },
+        {
+          path: AppRoutes.book,
+          element: <BookManagement />,
+        },
+        {
+          path: AppRoutes.book,
+          element: <BookManagement />,
+        },
+        {
+          path: AppRoutes.profile_management,
+          element: <ProfileManagement />,
+        },
+        {
+          path: AppRoutes.profile_management,
+          element: <ProfileManagement />,
+        },
+        {
+          path: AppRoutes.category,
+          element: <CategoryManagement />,
+        },
+      ],
     },
   ]);
 };

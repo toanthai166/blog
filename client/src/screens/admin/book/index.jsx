@@ -1,8 +1,6 @@
-import AdminDashboard from "../dashboard";
-
 const BookManagement = () => {
   console.log(12);
-  return <AdminDashboard>book</AdminDashboard>;
+  return <>book</>;
 };
 
 export default BookManagement;

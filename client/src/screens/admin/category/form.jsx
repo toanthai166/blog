@@ -1,7 +1,6 @@
 import { Button, Col, Form, Input, Row } from "antd";
 import { SubHeader } from "../../../components/sub-header/SubHeader";
 import { AppRoutes } from "../../../helpers/app-routes";
-import AdminDashboard from "../dashboard";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { useEffect } from "react";
@@ -39,7 +38,7 @@ const FormCategory = ({ isDetail, isEdit }) => {
   };
 
   return (
-    <AdminDashboard>
+    <>
       <SubHeader
         items={[
           { title: "Trang chủ", to: AppRoutes.admin },
@@ -105,7 +104,7 @@ const FormCategory = ({ isDetail, isEdit }) => {
           </Form>
         </div>
       </div>
-    </AdminDashboard>
+    </>
   );
 };
 

@@ -1,7 +1,7 @@
 import { Layout, Menu, theme } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { Content, Footer, Header } from "antd/es/layout/layout";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import { AppRoutes } from "../../../helpers/app-routes";
@@ -31,21 +31,6 @@ const AdminDashboard = ({ children }) => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-
-  const location = useLocation();
-  const path = location.pathname;
-  // console.log(path);
-
-  // useEffect(() => {
-  //   switch (path) {
-  //     case AppRoutes.blog:
-  //       setActiveMenu(1);
-  //       break;
-
-  //     default:
-  //       break;
-  //   }
-  // }, [path]);
 
   const handleChange = (e) => {
     console.log(e.key);

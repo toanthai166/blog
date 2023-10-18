@@ -24,6 +24,14 @@ export const AppRoutes = {
   categoryDetail: "/admin/category/detail/:id",
   categoryDetailId: (id) => `/admin/category/detail/${id}`,
   book: "/admin/book",
-  contact: "/admin/contact",
   profile_management: "/admin/profile_management",
+
+  faqManagement: "/admin/faq-management",
+  createFaq: "/admin/faq/create",
+  faqEdit: "/admin/faq/edit/:id",
+  faqEditById: (id) => `/admin/faq/edit/${id}`,
+  faqDetail: "/admin/faq/detail/:id",
+  faqDetailId: (id) => `/admin/faq/detail/${id}`,
+
+  contactManagement: "/admin/contact-management",
 };

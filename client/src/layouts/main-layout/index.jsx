@@ -63,7 +63,12 @@ const Layouts = ({ children }) => {
                 size="small"
                 icon={<UserOutlined />}
               />
-              <span className="-translate-y-2">Login</span>
+              <span
+                className="-translate-y-2 cursor-pointer"
+                onClick={() => navigate(AppRoutes.login)}
+              >
+                Login
+              </span>
             </div>
           </div>
         </div>

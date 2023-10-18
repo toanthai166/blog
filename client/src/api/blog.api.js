@@ -12,8 +12,10 @@ export const changeIsActiveBlog = async (data) => {
   const res = await request.patch(`/blog/${data.blogId}/active`, data);
   return res;
 };
-export const getBlogs = async () => {
-  const res = await request.get("/blog");
+export const getBlogs = async (filter) => {
+  const res = await request.get(
+    `/blog?page=${filter.page}&limit=${filter.limit}`
+  );
   return res;
 };
 export const deleteBlog = async (blogId) => {

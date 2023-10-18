@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Row, Select } from "antd";
+import { Button, Col, Form, Input, Row, Spin } from "antd";
 import { SubHeader } from "../../../components/sub-header/SubHeader";
 import { AppRoutes } from "../../../helpers/app-routes";
 import { useNavigate, useParams } from "react-router-dom";
@@ -6,49 +6,40 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import { debounce } from "debounce";
 import { useEffect, useState } from "react";
-import {
-  useCreateBlog,
-  useGetBlogById,
-  useUpdateBlog,
-} from "../../../hooks/blog.hook";
-import { useCategoriesIsActive } from "../../../hooks/category.hook";
 
-const FormCreateBlog = ({ isDetail, isEdit }) => {
+import {
+  useCreateFaq,
+  useGetFaqById,
+  useUpdateFaq,
+} from "../../../hooks/faq.hook";
+
+const FormFaq = ({ isDetail, isEdit }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [dataEditor, setDataEditor] = useState("");
-  const { blog } = useGetBlogById(id);
-  const { categories } = useCategoriesIsActive();
-  const { handleUpdateBlog } = useUpdateBlog();
-  const { handleCreateBlog } = useCreateBlog();
-  console.log(blog);
+  const { faq, isLoading } = useGetFaqById(id);
+  console.log(faq);
+  const { handleUpdateFaq } = useUpdateFaq();
+  const { handleCreateFaq } = useCreateFaq();
 
   useEffect(() => {
-    if (blog) {
-      form.setFieldsValue({
-        title: blog.title,
-        categoryId: blog.categoryId,
-        image: blog.image,
-      });
+    if (faq) {
+      form.setFieldsValue({ title: faq.title });
     }
-  }, [blog, form]);
+  }, [faq, form]);
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     if (isEdit) {
-      handleUpdateBlog({
+      await handleUpdateFaq({
         id: id,
-        image: values.image,
         title: values.title,
-        categoryId: values.categoryId,
-        content: dataEditor ? dataEditor : blog.content,
+        description: dataEditor ? dataEditor : faq.description,
       });
     } else {
-      handleCreateBlog({
-        image: values.image,
+      await handleCreateFaq({
         title: values.title,
-        categoryId: values.categoryId,
-        content: dataEditor,
+        description: dataEditor,
       });
     }
   };
@@ -58,23 +49,18 @@ const FormCreateBlog = ({ isDetail, isEdit }) => {
     setDataEditor(data);
   }, 800);
 
-  const categoryOptions = categories?.results?.map((it) => ({
-    label: it.name,
-    value: it.id,
-  }));
-
   return (
-    <>
+    <Spin spinning={isLoading}>
       <SubHeader
         items={[
           { title: "Trang chủ", to: AppRoutes.admin },
-          { title: "Bài viết", to: AppRoutes.blog },
+          { title: "Câu hỏi", to: AppRoutes.faqManagement },
           {
             title: isDetail
-              ? "Thông tin chi tiết bài viết"
+              ? "Thông tin chi tiết câu hỏi"
               : !isDetail && isEdit
-              ? "Chỉnh sửa bài viết"
-              : "Thêm mới bài viết",
+              ? "Chỉnh sửa câu hỏi"
+              : "Thêm mới câu hỏi",
             to: null,
           },
         ]}
@@ -95,18 +81,6 @@ const FormCreateBlog = ({ isDetail, isEdit }) => {
             <Form.Item
               label={
                 <span>
-                  Đường dẫn ảnh:<span className="text-red"> *</span>
-                </span>
-              }
-              name="image"
-              rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
-              normalize={(e) => e.trimStart()}
-            >
-              <Input placeholder="Nhập đường dẫn" maxLength={255}></Input>
-            </Form.Item>
-            <Form.Item
-              label={
-                <span>
                   Tiêu đề<span className="text-red"> *</span>
                 </span>
               }
@@ -116,22 +90,12 @@ const FormCreateBlog = ({ isDetail, isEdit }) => {
             >
               <Input placeholder="Nhập tiêu đề" maxLength={255}></Input>
             </Form.Item>
-            <Form.Item
-              label={
-                <span>
-                  Chọn danh mục<span className="text-red"> *</span>
-                </span>
-              }
-              name="categoryId"
-              rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
-            >
-              <Select placeholder="Chọn danh mục" options={categoryOptions} />
-            </Form.Item>
+
             <Form.Item label={<span>Mô tả</span>}>
               <CKEditor
                 disabled={isDetail}
                 editor={ClassicEditor}
-                data={isDetail || isEdit ? blog?.content : ""}
+                data={isDetail || isEdit ? faq?.description : ""}
                 onChange={(event, editor) =>
                   handleChangeCkeditor(event, editor)
                 }
@@ -163,8 +127,8 @@ const FormCreateBlog = ({ isDetail, isEdit }) => {
           </Form>
         </div>
       </div>
-    </>
+    </Spin>
   );
 };
 
-export default FormCreateBlog;
+export default FormFaq;

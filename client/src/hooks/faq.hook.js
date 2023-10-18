@@ -1,11 +1,34 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { listFaq } from "../states/faq.state";
 import { useAtom } from "jotai";
-import { getFaqs } from "../api/faq.api";
+import {
+  changeIsActiveFaq,
+  createFaq,
+  getFaqById,
+  getFaqIsActive,
+  getFaqs,
+  updateFaq,
+} from "../api/faq.api";
+import { notification } from "antd";
+import { useNavigate } from "react-router-dom";
+import { useCallback } from "react";
+import { AppRoutes } from "../helpers/app-routes";
+export const useFAQIsActive = () => {
+  const [Faqs, setFaqs] = useAtom(listFaq);
+  const { isLoading, error } = useQuery({
+    queryKey: ["faq"],
+    queryFn: getFaqIsActive,
+    onSuccess: (res) => {
+      setFaqs(res.results);
+    },
+  });
+  return { isLoading, error, Faqs };
+};
+
 export const useFAQ = () => {
   const [Faqs, setFaqs] = useAtom(listFaq);
   const { isLoading, error } = useQuery({
-    // queryKey: ["faq"],
+    queryKey: ["faqs"],
     queryFn: getFaqs,
     onSuccess: (res) => {
       setFaqs(res.results);
@@ -14,96 +37,82 @@ export const useFAQ = () => {
   return { isLoading, error, Faqs };
 };
 
-// export const useUpdatePost = (data) => {
-//   const mutation = useMutation(updateBlog, {
-//     mutationKey: [`blogs/${data.blogId}`],
-//   });
-//   const client = useQueryClient();
-//   const handleUpdateBlog = () => {
-//     mutation.mutate(data, {
-//       onSuccess: () => {
-//         client.invalidateQueries(QUERY_KEYS.posts);
-//         successToast("Cập nhật bài viết thành công");
-//       },
-//     });
-//   };
-//   return {
-//     mutation,
-//     handleUpdateBlog,
-//   };
-// };
-// export const usePublishPost = (data) => {
-//   const mutation = useMutation(publishBlog, {
-//     mutationKey: [`blogs/${data.blogId}/publish`],
-//   });
-//   const client = useQueryClient();
-//   const handleUpdateBlog = () => {
-//     mutation.mutate(data, {
-//       onSuccess: () => {
-//         client.invalidateQueries(QUERY_KEYS.posts);
-//         successToast("Cập nhật bài viết thành công");
-//       },
-//     });
-//   };
-//   return {
-//     mutation,
-//     handleUpdateBlog,
-//   };
-// };
+export const useChangeIsActiveFaq = (id) => {
+  const mutation = useMutation(changeIsActiveFaq, {
+    mutationKey: [`faq/${id}/active`],
+  });
+  const client = useQueryClient();
+  const handleChangeIsActiveFaq = (data) => {
+    console.log(data);
+    mutation.mutate(data, {
+      onSuccess: () => {
+        client.invalidateQueries("faqs");
+        notification.success({
+          message: "Sửa trạng thái câu hỏi thành công",
+        });
+      },
+    });
+  };
+  return {
+    mutation,
+    handleChangeIsActiveFaq,
+  };
+};
 
-// export const useGetPublishPost = () => {
-//   //   const [listTag, setListTag] = useAtom(listTagAtom);
-//   const { data, isLoading, error } = useQuery({
-//     queryKey: ["blogs/published"],
-//     queryFn: getPublishedBlogs,
-//     // onSuccess: (res) => {
-//     //   console.log(res.data);
-//     //   return res.data;
-//     // },
-//   });
-//   return { publishBlogs: data?.data, isLoading, error };
-// };
+export const useCreateFaq = () => {
+  const navigate = useNavigate();
+  const mutation = useMutation(createFaq, {
+    mutationKey: "faqs",
+  });
+  const client = useQueryClient();
+  const handleCreateFaq = useCallback(
+    (data) => {
+      mutation.mutate(data, {
+        onSuccess: (res) => {
+          client.invalidateQueries("faqs");
+          notification.success({
+            message: "Thêm câu hỏi thành công",
+          });
+          navigate(AppRoutes.faqManagement);
+        },
+      });
+    },
+    [mutation]
+  );
+  return { mutation, handleCreateFaq };
+};
 
-// export const useDetailPost = (blogId) => {
-//   const { data, isLoading, error } = useQuery({
-//     queryKey: [`blogs/${blogId}`],
-//     queryFn: () => getDetails(blogId),
-//     // onSuccess: (res) => {
-//     //   console.log(res.data);
-//     //   return res.data;
-//     // },
-//   });
-//   return {
-//     detailBlog: data?.data?.blog?.details,
-//     isLoading,
-//     error,
-//   };
-// };
+export const useUpdateFaq = (id) => {
+  const navigate = useNavigate();
 
-// export const useUploadTitleImage = () => {
-//   const [, setTitleImageLink] = useAtom(titleImageLinkAtom);
-//   const titleImageLink = JSON.parse(localStorage.getItem("titleImageLink"));
-
-//   const mutation = useMutation(upLoadTitleImage, {
-//     mutationKey: "uploadTitleImage",
-//     onSuccess: (data) => {
-//       console.log(data);
-//       setTitleImageLink(data.data.imageLink);
-//     },
-//   });
-//   const handleUploadTitleImage = useCallback(
-//     (formData) => {
-//       mutation.mutate(formData);
-//     },
-//     [mutation]
-//   );
-//   const resetImage = useCallback(() => {
-//     setTitleImageLink(RESET);
-//   }, [mutation]);
-//   return {
-//     titleImageLink,
-//     mutation,
-//     handleUploadTitleImage,
-//     resetImage,
-//   };
-// };
+  const mutation = useMutation(updateFaq, {
+    mutationKey: [`faq/${id}`],
+  });
+  const client = useQueryClient();
+  const handleUpdateFaq = (data) => {
+    mutation.mutate(data, {
+      onSuccess: () => {
+        client.invalidateQueries("faqs");
+        notification.success({
+          message: "Sửa câu hỏi thành công",
+        });
+        navigate(AppRoutes.faqManagement);
+      },
+    });
+  };
+  return {
+    mutation,
+    handleUpdateFaq,
+  };
+};
+export const useGetFaqById = (id) => {
+  const [faq, setFaq] = useAtom(listFaq);
+  const { isLoading, error } = useQuery({
+    queryKey: [`blog/${id}`],
+    queryFn: () => getFaqById(id),
+    onSuccess: (res) => {
+      setFaq(res);
+    },
+  });
+  return { isLoading, error, faq };
+};

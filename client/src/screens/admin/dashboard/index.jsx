@@ -23,6 +23,7 @@ const items = [
   getItem("Quản lý sách", "4"),
   getItem("Quản lý liên hệ", "5"),
   getItem("Thiết lập hồ sơ", "6"),
+  getItem("Câu hỏi thường gặp", "7"),
 ];
 
 const AdminDashboard = ({ children }) => {
@@ -51,10 +52,13 @@ const AdminDashboard = ({ children }) => {
         navigate(AppRoutes.book);
         break;
       case "5":
-        navigate(AppRoutes.contact);
+        navigate(AppRoutes.contactManagement);
         break;
       case "6":
         navigate(AppRoutes.profile_management);
+        break;
+      case "7":
+        navigate(AppRoutes.faqManagement);
         break;
       default:
         return null;

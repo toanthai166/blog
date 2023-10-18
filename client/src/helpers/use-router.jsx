@@ -11,6 +11,9 @@ import ProfileManagement from "../screens/admin/profile-management";
 import FormCreateBlog from "../screens/admin/blog/form";
 import FormCategory from "../screens/admin/category/form";
 import Layouts from "../layouts/main-layout";
+import FaqManagement from "../screens/admin/faq-management";
+import ContactManagement from "../screens/admin/contact";
+import FormFaq from "../screens/admin/faq-management/form";
 
 export const useRouter = () => {
   return createBrowserRouter([
@@ -106,8 +109,25 @@ export const useRouter = () => {
           element: <ProfileManagement />,
         },
         {
-          path: AppRoutes.category,
-          element: <CategoryManagement />,
+          path: AppRoutes.faqManagement,
+          element: <FaqManagement />,
+        },
+
+        {
+          path: AppRoutes.createFaq,
+          element: <FormFaq />,
+        },
+        {
+          path: AppRoutes.faqDetail,
+          element: <FormFaq isDetail />,
+        },
+        {
+          path: AppRoutes.faqEdit,
+          element: <FormFaq isEdit />,
+        },
+        {
+          path: AppRoutes.contactManagement,
+          element: <ContactManagement />,
         },
       ],
     },

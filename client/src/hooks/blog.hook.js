@@ -14,11 +14,11 @@ import { notification } from "antd";
 import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "../helpers/app-routes";
 
-export const useBlog = () => {
+export const useBlog = (filter) => {
   const [blogs, setBlogs] = useAtom(listBlog);
   const { isLoading, error } = useQuery({
     queryKey: ["blogs"],
-    queryFn: getBlogs,
+    queryFn: () => getBlogs(filter),
     onSuccess: (res) => {
       setBlogs(res.data);
     },

@@ -1,49 +1,33 @@
-import { Button, Popconfirm, Spin, Switch, Table, Tag, Tooltip } from "antd";
-import { SubHeader } from "../../../components/sub-header/SubHeader";
+import { Button, Popconfirm, Switch, Table, Tag, Tooltip } from "antd";
+import { AppRoutes } from "../../../helpers/app-routes";
 import {
   DeleteOutlined,
   EditOutlined,
   EyeOutlined,
   QuestionCircleOutlined,
 } from "@ant-design/icons";
-
-import { AppRoutes } from "../../../helpers/app-routes";
-import { useState } from "react";
-import { DefaultPagination } from "../../../ultis/pagination";
-import {
-  useBlog,
-  useChangeIsActiveBlog,
-  useDeleteBlog,
-} from "../../../hooks/blog.hook";
 import { useNavigate } from "react-router-dom";
+import { SubHeader } from "../../../components/sub-header/SubHeader";
+import { useChangeIsActiveFaq, useFAQ } from "../../../hooks/faq.hook";
 
-const BlogManagement = () => {
+const FaqManagement = () => {
   const navigate = useNavigate();
-  const [filter, setFilter] = useState({
-    limit: 100,
-    page: 1,
-  });
-  const { blogs, isLoading } = useBlog({ ...filter });
 
-  const { handleDeleteBlog, mutation } = useDeleteBlog();
-  const { handleChangeIsActiveBlog } = useChangeIsActiveBlog();
-
-  const handleChangeStatus = (row) => {
-    const { id, isActive } = row;
-    handleChangeIsActiveBlog({ blogId: id, isActive: !isActive });
-  };
-
-  const listBlog = blogs?.results
-    ? blogs?.results?.map((item, index) => ({
+  const { Faqs } = useFAQ();
+  const listFaq = Faqs
+    ? Faqs?.map((item, index) => ({
         ...item,
         key: item.id,
         index: ++index,
       }))
     : [];
+  const { handleChangeIsActiveFaq } = useChangeIsActiveFaq();
 
-  const onChangePage = (newPage) => {
-    setFilter({ ...filter, page: newPage });
+  const handleChangeStatus = async (row) => {
+    const { id, isActive } = row;
+    await handleChangeIsActiveFaq({ id: id, isActive: !isActive });
   };
+
   const columns = [
     {
       title: "STT",
@@ -58,17 +42,12 @@ const BlogManagement = () => {
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "id danh mục",
-      dataIndex: "categoryId",
-      key: "categoryId",
-    },
-    {
       title: "Trạng thái",
       key: "isActive",
       render: (it) => {
         return (
           <Popconfirm
-            title={`Bạn có chắc muốn cập nhật trạng thái khảo sát ?`}
+            title={`Bạn có chắc muốn cập nhật trạng thái câu hỏi thường gặp ?`}
             okText="Đồng ý"
             cancelText="Huỷ bỏ"
             placement="topLeft"
@@ -91,7 +70,7 @@ const BlogManagement = () => {
               <Tag
                 className="hover:cursor-pointer"
                 color="blue"
-                onClick={() => navigate(AppRoutes.blogEditById(id))}
+                onClick={() => navigate(AppRoutes.faqEditById(id))}
               >
                 <EditOutlined />
               </Tag>
@@ -99,9 +78,9 @@ const BlogManagement = () => {
             <span className="translate-y-0.5 text-grayscale-border">|</span>
             <Popconfirm
               title="Xóa bài viết"
-              okButtonProps={{ disabled: mutation.isLoading }}
+              // okButtonProps={{ disabled: mutation.isLoading }}
               onConfirm={() => {
-                handleDeleteBlog(id);
+                // handleDeleteBlog(id);
               }}
               description="Bạn có chắc chắn xóa bài viết này?"
               icon={<QuestionCircleOutlined style={{ color: "red" }} />}
@@ -117,7 +96,7 @@ const BlogManagement = () => {
               <Tag
                 className="hover:cursor-pointer"
                 color="gold"
-                onClick={() => navigate(AppRoutes.blogDetailId(id))}
+                onClick={() => navigate(AppRoutes.faqDetailId(id))}
               >
                 <EyeOutlined />
               </Tag>
@@ -128,7 +107,7 @@ const BlogManagement = () => {
     },
   ];
   return (
-    <Spin spinning={isLoading}>
+    <>
       <SubHeader
         items={[
           { title: "Trang chủ", to: AppRoutes.admin },
@@ -138,34 +117,28 @@ const BlogManagement = () => {
           <Button
             type="default"
             onClick={() => {
-              navigate(AppRoutes.createBlog);
+              navigate(AppRoutes.createFaq);
             }}
           >
-            Tạo bài viết mới
+            Tạo câu hỏi mới
           </Button>
         }
       />
       <div className="bg-white mx-5 mt-5">
         <h2 className="text-lg font-semibold p-5">
-          {blogs?.totalResults} bài viết tất cả
+          {Faqs?.totalResults} câu hỏi tất cả
         </h2>
         <Table
           size="small"
           bordered
           columns={columns}
-          dataSource={listBlog}
-          pagination={{
-            ...DefaultPagination,
-            onChange: onChangePage,
-            current: Number(filter?.page),
-            total: blogs?.totalResults,
-          }}
+          dataSource={listFaq}
           scroll={{ y: "calc(100vh - 320px)" }}
         />
       </div>
       <div></div>
-    </Spin>
+    </>
   );
 };
 
-export default BlogManagement;
+export default FaqManagement;

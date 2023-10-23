@@ -6,7 +6,6 @@ import { roles } from "../ultis/role";
 import BlogManagement from "../screens/admin/blog";
 import UserManagement from "../screens/admin/user";
 import CategoryManagement from "../screens/admin/category";
-import BookManagement from "../screens/admin/book";
 import ProfileManagement from "../screens/admin/profile-management";
 import FormCreateBlog from "../screens/admin/blog/form";
 import FormCategory from "../screens/admin/category/form";
@@ -14,6 +13,8 @@ import Layouts from "../layouts/main-layout";
 import FaqManagement from "../screens/admin/faq-management";
 import ContactManagement from "../screens/admin/contact";
 import FormFaq from "../screens/admin/faq-management/form";
+import ProductManagement from "../screens/admin/product";
+import FormProduct from "../screens/admin/product/form";
 
 export const useRouter = () => {
   return createBrowserRouter([
@@ -93,12 +94,20 @@ export const useRouter = () => {
           element: <FormCategory isDetail />,
         },
         {
-          path: AppRoutes.book,
-          element: <BookManagement />,
+          path: AppRoutes.product,
+          element: <ProductManagement />,
         },
         {
-          path: AppRoutes.book,
-          element: <BookManagement />,
+          path: AppRoutes.createProduct,
+          element: <FormProduct />,
+        },
+        {
+          path: AppRoutes.productDetail,
+          element: <FormProduct isDetail />,
+        },
+        {
+          path: AppRoutes.productEdit,
+          element: <FormProduct isEdit />,
         },
         {
           path: AppRoutes.profile_management,

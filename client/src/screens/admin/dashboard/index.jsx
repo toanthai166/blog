@@ -3,7 +3,7 @@ import Sider from "antd/es/layout/Sider";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 import { useState } from "react";
 
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "../../../helpers/app-routes";
 
 function getItem(label, key, icon, children) {
@@ -28,7 +28,7 @@ const items = [
 
 const AdminDashboard = ({ children }) => {
   const navigate = useNavigate();
-  const [activeMenu, setActiveMenu] = useState("");
+  const [activeMenu] = useState("");
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -49,7 +49,7 @@ const AdminDashboard = ({ children }) => {
         navigate(AppRoutes.user);
         break;
       case "4":
-        navigate(AppRoutes.book);
+        navigate(AppRoutes.product);
         break;
       case "5":
         navigate(AppRoutes.contactManagement);

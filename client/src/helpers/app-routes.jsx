@@ -23,7 +23,12 @@ export const AppRoutes = {
   categoryEditById: (id) => `/admin/category/edit/${id}`,
   categoryDetail: "/admin/category/detail/:id",
   categoryDetailId: (id) => `/admin/category/detail/${id}`,
-  book: "/admin/book",
+  product: "/admin/product",
+  createProduct: "/admin/product/create",
+  productEdit: "/admin/product/edit/:id",
+  productEditById: (id) => `/admin/product/edit/${id}`,
+  productDetail: "/admin/product/detail/:id",
+  productDetailId: (id) => `/admin/product/detail/${id}`,
   profile_management: "/admin/profile_management",
 
   faqManagement: "/admin/faq-management",

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useAuth } from "../hooks/auth.hook";
 // import { errorToast } from "../utils/toast";
 const apiUrl = "http://localhost:3000/v1/";
 const request = axios.create({

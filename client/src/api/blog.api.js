@@ -14,7 +14,9 @@ export const changeIsActiveBlog = async (data) => {
 };
 export const getBlogs = async (filter) => {
   const res = await request.get(
-    `/blog?page=${filter.page}&limit=${filter.limit}`
+    `/blog?page=${filter.page}&limit=${filter.limit}${
+      filter.isActive ? `&isActive=true` : ""
+    }${filter.categoryId ? `&categoryId=${filter.categoryId}` : ""}`
   );
   return res;
 };
@@ -23,6 +25,7 @@ export const deleteBlog = async (blogId) => {
   return res;
 };
 export const getBlogById = async (blogId) => {
+  if (!blogId) return null;
   const res = await request.get(`/blog/${blogId}`);
   return res;
 };

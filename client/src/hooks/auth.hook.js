@@ -35,7 +35,7 @@ export const useAuth = () => {
 };
 
 export const useRegister = () => {
-  const [auth, setAuth] = useAtom(authAtom);
+  const [setAuth] = useAtom(authAtom);
   const mutation = useMutation(register, {
     mutationKey: "register",
   });

@@ -1,10 +1,23 @@
-import { Button, Divider, FloatButton } from "antd";
+import { App, Button, Divider, FloatButton, Spin } from "antd";
 import {} from "../../assets";
 import PostItem from "../../components/post-item";
+import { useBlog } from "../../hooks/blog.hook";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AppRoutes } from "../../helpers/app-routes";
 
 const Home = () => {
+  const navigate = useNavigate();
+  const [filter, setFilter] = useState({
+    limit: 100,
+    page: 1,
+    isActive: true,
+  });
+  const { blogs, isLoading } = useBlog({ ...filter });
+  const listBlog = blogs.results;
+  console.log(listBlog);
   return (
-    <>
+    <Spin spinning={isLoading}>
       {/* content */}
       <div>
         <div className="flex gap-5 mx-40">
@@ -18,7 +31,12 @@ const Home = () => {
               <h2 className="text-5xl text-white">
                 When Life Gives You Flour and Butter, You Better Bake
               </h2>
-              <Button className="mx-auto bg-white">Tất cả bí quyết</Button>
+              <Button
+                className="mx-auto bg-white"
+                onClick={() => navigate(AppRoutes.secret)}
+              >
+                Tất cả bí quyết
+              </Button>
             </div>
           </div>
           <div className="flex-1  mx-44 ">
@@ -32,9 +50,9 @@ const Home = () => {
           Popular Recipes
         </div>
         <div className="w-full max-w-[900px] grid grid-cols-3 gap-5 mx-auto">
-          <PostItem />
-          <PostItem />
-          <PostItem />
+          {listBlog?.slice(0, 3).map((it) => (
+            <PostItem key={it.id} it={it} />
+          ))}
         </div>
         <div className="flex mx-40 justify-end mt-20 relative">
           <div className="-mr-6 bg-neutral-100 absolute left-[20%] w-[500px] top-1/2 -translate-y-1/2 flex flex-col gap-5 p-10">
@@ -61,7 +79,7 @@ const Home = () => {
         </div>
         <FloatButton.BackTop />
       </div>
-    </>
+    </Spin>
   );
 };
 

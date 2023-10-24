@@ -33,7 +33,6 @@ const Secret = () => {
       <Lable title=" Tất cả bí quyết"></Lable>
       <div className="mt-20 flex justify-start">
         <Tabs
-          defaultActiveKey="1"
           items={items}
           onChange={onChange}
           indicatorSize={(origin) => origin - 16}

@@ -21,6 +21,7 @@ const items = [
   getItem("Quản lý danh mục", "2"),
   getItem("Quản lý tài khoản", "3"),
   getItem("Quản lý sách", "4"),
+  getItem("Quản lý đơn hàng", "8"),
   getItem("Quản lý liên hệ", "5"),
   getItem("Thiết lập hồ sơ", "6"),
   getItem("Câu hỏi thường gặp", "7"),
@@ -59,6 +60,9 @@ const AdminDashboard = ({ children }) => {
         break;
       case "7":
         navigate(AppRoutes.faqManagement);
+        break;
+      case "8":
+        navigate(AppRoutes.orderManagement);
         break;
       default:
         return null;

@@ -31,6 +31,10 @@ export const AppRoutes = {
   productDetailId: (id) => `/admin/product/detail/${id}`,
   profile_management: "/admin/profile_management",
 
+  orderManagement: "/admin/order-management",
+  adminOrderDetail: "/admin/order-management/detail/:id",
+  adminOrderDetailId: (id) => `/admin/order-management/detail/${id}`,
+
   faqManagement: "/admin/faq-management",
   createFaq: "/admin/faq/create",
   faqEdit: "/admin/faq/edit/:id",

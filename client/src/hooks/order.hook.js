@@ -32,7 +32,6 @@ export const useGetOrderById = (id) => {
     queryKey: [`order/${id}`],
     queryFn: () => getOrderById(id),
     onSuccess: (res) => {
-      console.log(res.data);
       setBlog(res.data);
     },
   });

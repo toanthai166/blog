@@ -1,4 +1,4 @@
-import { Button, Popconfirm, Switch, Table, Tag, Tooltip } from "antd";
+import { Button, Popconfirm, Spin, Switch, Table, Tag, Tooltip } from "antd";
 import { AppRoutes } from "../../../helpers/app-routes";
 import {
   DeleteOutlined,
@@ -13,7 +13,9 @@ import { useChangeIsActiveFaq, useFAQ } from "../../../hooks/faq.hook";
 const FaqManagement = () => {
   const navigate = useNavigate();
 
-  const { Faqs } = useFAQ();
+  const { Faqs, isLoading } = useFAQ();
+
+  console.log(Faqs);
   const listFaq = Faqs
     ? Faqs?.map((item, index) => ({
         ...item,
@@ -23,9 +25,9 @@ const FaqManagement = () => {
     : [];
   const { handleChangeIsActiveFaq } = useChangeIsActiveFaq();
 
-  const handleChangeStatus = async (row) => {
+  const handleChangeStatus = (row) => {
     const { id, isActive } = row;
-    await handleChangeIsActiveFaq({ id: id, isActive: !isActive });
+    handleChangeIsActiveFaq({ id: id, isActive: !isActive });
   };
 
   const columns = [
@@ -107,7 +109,7 @@ const FaqManagement = () => {
     },
   ];
   return (
-    <>
+    <Spin spinning={isLoading}>
       <SubHeader
         items={[
           { title: "Trang chủ", to: AppRoutes.admin },
@@ -137,7 +139,7 @@ const FaqManagement = () => {
         />
       </div>
       <div></div>
-    </>
+    </Spin>
   );
 };
 

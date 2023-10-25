@@ -17,6 +17,7 @@ import ProductManagement from "../screens/admin/product";
 import FormProduct from "../screens/admin/product/form";
 import OrderManagement from "../screens/admin/order";
 import DetailOrder from "../screens/admin/order/detail";
+import ContactDetail from "../screens/admin/contact/detail";
 
 export const useRouter = () => {
   return createBrowserRouter([
@@ -143,6 +144,10 @@ export const useRouter = () => {
         {
           path: AppRoutes.contactManagement,
           element: <ContactManagement />,
+        },
+        {
+          path: AppRoutes.contactDetail,
+          element: <ContactDetail />,
         },
       ],
     },

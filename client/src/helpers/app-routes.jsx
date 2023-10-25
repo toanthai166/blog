@@ -43,4 +43,6 @@ export const AppRoutes = {
   faqDetailId: (id) => `/admin/faq/detail/${id}`,
 
   contactManagement: "/admin/contact-management",
+  contactDetail: "/admin/contact-management/detail/:id",
+  contactDetailId: (id) => `/admin/contact-management/detail/${id}`,
 };

@@ -37,22 +37,25 @@ export const useFAQ = () => {
   return { isLoading, error, Faqs };
 };
 
-export const useChangeIsActiveFaq = (id) => {
+export const useChangeIsActiveFaq = () => {
   const mutation = useMutation(changeIsActiveFaq, {
-    mutationKey: [`faq/${id}/active`],
+    mutationKey: [`faq/active`],
   });
   const client = useQueryClient();
-  const handleChangeIsActiveFaq = (data) => {
-    console.log(data);
-    mutation.mutate(data, {
-      onSuccess: () => {
-        client.invalidateQueries("faqs");
-        notification.success({
-          message: "Sửa trạng thái câu hỏi thành công",
-        });
-      },
-    });
-  };
+  const handleChangeIsActiveFaq = useCallback(
+    (data) => {
+      console.log(data);
+      mutation.mutate(data, {
+        onSuccess: () => {
+          client.invalidateQueries("faqs");
+          notification.success({
+            message: "Sửa trạng thái câu hỏi thành công",
+          });
+        },
+      });
+    },
+    [client, mutation]
+  );
   return {
     mutation,
     handleChangeIsActiveFaq,
@@ -89,17 +92,20 @@ export const useUpdateFaq = (id) => {
     mutationKey: [`faq/${id}`],
   });
   const client = useQueryClient();
-  const handleUpdateFaq = (data) => {
-    mutation.mutate(data, {
-      onSuccess: () => {
-        client.invalidateQueries("faqs");
-        notification.success({
-          message: "Sửa câu hỏi thành công",
-        });
-        navigate(AppRoutes.faqManagement);
-      },
-    });
-  };
+  const handleUpdateFaq = useCallback(
+    (data) => {
+      mutation.mutate(data, {
+        onSuccess: () => {
+          client.invalidateQueries("faqs");
+          notification.success({
+            message: "Sửa câu hỏi thành công",
+          });
+          navigate(AppRoutes.faqManagement);
+        },
+      });
+    },
+    [client, mutation, navigate]
+  );
   return {
     mutation,
     handleUpdateFaq,

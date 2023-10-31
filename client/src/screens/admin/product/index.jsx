@@ -119,7 +119,9 @@ const ProductManagement = () => {
               <Tag
                 className="hover:cursor-pointer"
                 color="gold"
-                onClick={() => navigate(AppRoutes.productDetailId(id))}
+                onClick={() =>
+                  navigate(AppRoutes.productManagementDetailId(id))
+                }
               >
                 <EyeOutlined />
               </Tag>
@@ -134,7 +136,7 @@ const ProductManagement = () => {
       <SubHeader
         items={[
           { title: "Trang chủ", to: AppRoutes.admin },
-          { title: "Sản phẩm", to: AppRoutes.product },
+          { title: "Sản phẩm", to: AppRoutes.productManagement },
         ]}
         rightContent={
           <Button

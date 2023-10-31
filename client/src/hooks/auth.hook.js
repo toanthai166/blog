@@ -11,7 +11,6 @@ export const useAuth = () => {
   const mutation = useMutation(login, {
     mutationKey: "login",
   });
-  console.log(mutation.data);
   useEffect(() => {
     mutation.data && setAuth(mutation.data);
   }, [mutation.data, mutation.isSuccess, setAuth]);

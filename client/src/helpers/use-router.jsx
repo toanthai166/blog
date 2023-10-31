@@ -18,6 +18,10 @@ import FormProduct from "../screens/admin/product/form";
 import OrderManagement from "../screens/admin/order";
 import DetailOrder from "../screens/admin/order/detail";
 import ContactDetail from "../screens/admin/contact/detail";
+import Contact from "../screens/contact";
+import PostDetail from "../screens/secret/post-detail";
+import Product from "../screens/product";
+import ProductDetail from "../screens/product/detail";
 
 export const useRouter = () => {
   return createBrowserRouter([
@@ -52,8 +56,24 @@ export const useRouter = () => {
           element: <Secret />,
         },
         {
+          path: AppRoutes.postDetail,
+          element: <PostDetail />,
+        },
+        {
+          path: AppRoutes.product,
+          element: <Product />,
+        },
+        {
+          path: AppRoutes.productDetail,
+          element: <ProductDetail />,
+        },
+        {
           path: AppRoutes.profile,
           element: <Profile />,
+        },
+        {
+          path: AppRoutes.contact,
+          element: <Contact />,
         },
       ],
     },
@@ -97,7 +117,7 @@ export const useRouter = () => {
           element: <FormCategory isDetail />,
         },
         {
-          path: AppRoutes.product,
+          path: AppRoutes.productManagement,
           element: <ProductManagement />,
         },
         {
@@ -105,7 +125,7 @@ export const useRouter = () => {
           element: <FormProduct />,
         },
         {
-          path: AppRoutes.productDetail,
+          path: AppRoutes.productManagementDetail,
           element: <FormProduct isDetail />,
         },
         {

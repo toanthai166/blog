@@ -38,11 +38,10 @@ const FormProduct = ({ isDetail, isEdit }) => {
     console.log(values);
     if (isEdit) {
       handleUpdateProduct({
+        id: id,
         image: values.image,
         name: values.name,
         quantity: Number(values.quantity),
-        unitPrice: Number(values.unitPrice),
-        author: values.author,
         description: dataEditor ? dataEditor : product.description,
       });
     } else {
@@ -67,7 +66,7 @@ const FormProduct = ({ isDetail, isEdit }) => {
       <SubHeader
         items={[
           { title: "Trang chủ", to: AppRoutes.admin },
-          { title: "Sản phẩm", to: AppRoutes.product },
+          { title: "Sản phẩm", to: AppRoutes.productManagement },
           {
             title: isDetail
               ? "Thông tin chi tiết sản phẩm"

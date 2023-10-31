@@ -1,10 +1,11 @@
-import { Layout, Menu, theme } from "antd";
+import { Button, Layout, Menu, theme } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 import { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "../../../helpers/app-routes";
+import { useAuth } from "../../../hooks/auth.hook";
 
 function getItem(label, key, icon, children) {
   return {
@@ -29,6 +30,9 @@ const items = [
 
 const AdminDashboard = ({ children }) => {
   const navigate = useNavigate();
+
+  const { logout } = useAuth();
+
   const [activeMenu] = useState("");
   const {
     token: { colorBgContainer },
@@ -50,7 +54,7 @@ const AdminDashboard = ({ children }) => {
         navigate(AppRoutes.user);
         break;
       case "4":
-        navigate(AppRoutes.product);
+        navigate(AppRoutes.productManagement);
         break;
       case "5":
         navigate(AppRoutes.contactManagement);
@@ -90,7 +94,19 @@ const AdminDashboard = ({ children }) => {
             padding: 0,
             background: colorBgContainer,
           }}
-        />
+        >
+          <div className="flex justify-end p-4">
+            <Button
+              type="dashed"
+              onClick={() => {
+                navigate(AppRoutes.login);
+                logout();
+              }}
+            >
+              Đăng xuất
+            </Button>
+          </div>
+        </Header>
         <Content
           style={{
             margin: "0 16px",

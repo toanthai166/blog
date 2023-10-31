@@ -1,14 +1,20 @@
 import { Collapse, Spin } from "antd";
-import { useFAQIsActive } from "../../hooks/faq.hook";
+import { useFAQ } from "../../hooks/faq.hook";
 import Lable from "../../components/lable";
+import { useState } from "react";
 
 const Faq = () => {
-  const { Faqs, isLoading } = useFAQIsActive();
+  const [filter, setFilter] = useState({
+    limit: 100,
+    page: 1,
+    isActive: true,
+  });
+  const { faqs, isLoading } = useFAQ(filter);
   const onChange = (key) => {
     console.log(key);
   };
 
-  const items = Faqs.map((it, index) => ({
+  const items = faqs?.results?.map((it, index) => ({
     key: index,
     label: <span className="text-[#A62B00]">{it.title}</span>,
     children: <div>{it.description}</div>,

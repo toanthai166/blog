@@ -8,16 +8,25 @@ import {
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { SubHeader } from "../../../components/sub-header/SubHeader";
-import { useChangeIsActiveFaq, useFAQ } from "../../../hooks/faq.hook";
+import {
+  useChangeIsActiveFaq,
+  useDeleteFaq,
+  useFAQ,
+} from "../../../hooks/faq.hook";
+import { useState } from "react";
 
 const FaqManagement = () => {
   const navigate = useNavigate();
+  const [filter, setFilter] = useState({
+    limit: 100,
+    page: 1,
+  });
 
-  const { Faqs, isLoading } = useFAQ();
+  const { faqs, isLoading } = useFAQ({ ...filter });
+  const { handleDeleteFaq, mutation } = useDeleteFaq();
 
-  console.log(Faqs);
-  const listFaq = Faqs
-    ? Faqs?.map((item, index) => ({
+  const listFaq = faqs
+    ? faqs?.results?.map((item, index) => ({
         ...item,
         key: item.id,
         index: ++index,
@@ -80,9 +89,9 @@ const FaqManagement = () => {
             <span className="translate-y-0.5 text-grayscale-border">|</span>
             <Popconfirm
               title="Xóa bài viết"
-              // okButtonProps={{ disabled: mutation.isLoading }}
+              okButtonProps={{ disabled: mutation.isLoading }}
               onConfirm={() => {
-                // handleDeleteBlog(id);
+                handleDeleteFaq(id);
               }}
               description="Bạn có chắc chắn xóa bài viết này?"
               icon={<QuestionCircleOutlined style={{ color: "red" }} />}
@@ -113,7 +122,7 @@ const FaqManagement = () => {
       <SubHeader
         items={[
           { title: "Trang chủ", to: AppRoutes.admin },
-          { title: "Bài viết", to: AppRoutes.blog },
+          { title: "Câu hỏi", to: AppRoutes.faqManagement },
         ]}
         rightContent={
           <Button
@@ -128,7 +137,7 @@ const FaqManagement = () => {
       />
       <div className="bg-white mx-5 mt-5">
         <h2 className="text-lg font-semibold p-5">
-          {Faqs?.totalResults} câu hỏi tất cả
+          {faqs?.totalResults} câu hỏi tất cả
         </h2>
         <Table
           size="small"

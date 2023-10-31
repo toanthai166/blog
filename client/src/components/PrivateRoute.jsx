@@ -35,5 +35,5 @@ const PrivateRoute = ({ role }) => {
 export default PrivateRoute;
 
 PrivateRoute.defaultProps = {
-  role: roles.user,
+  role: roles.admin,
 };

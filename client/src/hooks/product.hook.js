@@ -53,7 +53,7 @@ export const useCreateProduct = () => {
           notification.success({
             message: "Thêm sách thành công",
           });
-          navigate(AppRoutes.product);
+          navigate(AppRoutes.productManagement);
         },
       });
     },
@@ -118,7 +118,7 @@ export const useUpdateProduct = (id) => {
         notification.success({
           message: "Sửa thành công",
         });
-        navigate(AppRoutes.product);
+        navigate(AppRoutes.productManagement);
       },
     });
   };

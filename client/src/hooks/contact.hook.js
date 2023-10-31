@@ -52,6 +52,11 @@ export const useCreateContact = () => {
           });
           navigate(AppRoutes.home);
         },
+        onError: () => {
+          notification.error({
+            message: "Gửi liên hệ thất bại",
+          });
+        },
       });
     },
     [mutation]

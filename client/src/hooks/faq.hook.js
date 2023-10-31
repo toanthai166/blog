@@ -4,8 +4,8 @@ import { useAtom } from "jotai";
 import {
   changeIsActiveFaq,
   createFaq,
+  deleteFaq,
   getFaqById,
-  getFaqIsActive,
   getFaqs,
   updateFaq,
 } from "../api/faq.api";
@@ -13,28 +13,17 @@ import { notification } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useCallback } from "react";
 import { AppRoutes } from "../helpers/app-routes";
-export const useFAQIsActive = () => {
-  const [Faqs, setFaqs] = useAtom(listFaq);
-  const { isLoading, error } = useQuery({
-    queryKey: ["faq"],
-    queryFn: getFaqIsActive,
-    onSuccess: (res) => {
-      setFaqs(res.results);
-    },
-  });
-  return { isLoading, error, Faqs };
-};
 
-export const useFAQ = () => {
-  const [Faqs, setFaqs] = useAtom(listFaq);
+export const useFAQ = (filter) => {
+  const [faqs, setFaqs] = useAtom(listFaq);
   const { isLoading, error } = useQuery({
     queryKey: ["faqs"],
-    queryFn: getFaqs,
+    queryFn: () => getFaqs(filter),
     onSuccess: (res) => {
-      setFaqs(res.results);
+      setFaqs(res);
     },
   });
-  return { isLoading, error, Faqs };
+  return { isLoading, error, faqs };
 };
 
 export const useChangeIsActiveFaq = () => {
@@ -52,6 +41,12 @@ export const useChangeIsActiveFaq = () => {
             message: "Sửa trạng thái câu hỏi thành công",
           });
         },
+        onError: () => {
+          client.invalidateQueries("faqs");
+          notification.error({
+            message: "Sửa trạng thái câu hỏi thất bại",
+          });
+        },
       });
     },
     [client, mutation]
@@ -65,16 +60,22 @@ export const useChangeIsActiveFaq = () => {
 export const useCreateFaq = () => {
   const navigate = useNavigate();
   const mutation = useMutation(createFaq, {
-    mutationKey: "faqs",
+    mutationKey: "faq/create",
   });
   const client = useQueryClient();
   const handleCreateFaq = useCallback(
     (data) => {
       mutation.mutate(data, {
-        onSuccess: (res) => {
+        onSuccess: () => {
           client.invalidateQueries("faqs");
           notification.success({
             message: "Thêm câu hỏi thành công",
+          });
+          navigate(AppRoutes.faqManagement);
+        },
+        onError: () => {
+          notification.error({
+            message: "Thêm câu hỏi thất bại",
           });
           navigate(AppRoutes.faqManagement);
         },
@@ -87,7 +88,6 @@ export const useCreateFaq = () => {
 
 export const useUpdateFaq = (id) => {
   const navigate = useNavigate();
-
   const mutation = useMutation(updateFaq, {
     mutationKey: [`faq/${id}`],
   });
@@ -121,4 +121,30 @@ export const useGetFaqById = (id) => {
     },
   });
   return { isLoading, error, faq };
+};
+export const useDeleteFaq = () => {
+  const mutation = useMutation(deleteFaq, {
+    mutationKey: "faq",
+  });
+  const client = useQueryClient();
+  const handleDeleteFaq = useCallback(
+    (blogId) => {
+      mutation.mutate(blogId, {
+        onSuccess: () => {
+          client.invalidateQueries("faqs");
+          notification.success({
+            message: "Xóa câu hỏi thành công",
+          });
+        },
+        onError: () => {
+          client.invalidateQueries("faqs");
+          notification.error({
+            message: "Xóa câu hỏi thất bại",
+          });
+        },
+      });
+    },
+    [mutation]
+  );
+  return { mutation, handleDeleteFaq };
 };

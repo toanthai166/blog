@@ -22,6 +22,7 @@ import Contact from "../screens/contact";
 import PostDetail from "../screens/secret/post-detail";
 import Product from "../screens/product";
 import ProductDetail from "../screens/product/detail";
+import MyAddress from "../screens/address";
 
 export const useRouter = () => {
   return createBrowserRouter([
@@ -66,6 +67,11 @@ export const useRouter = () => {
         {
           path: AppRoutes.productDetail,
           element: <ProductDetail />,
+        },
+        // address
+        {
+          path: AppRoutes.myAddress,
+          element: <MyAddress />,
         },
         {
           path: AppRoutes.profile,

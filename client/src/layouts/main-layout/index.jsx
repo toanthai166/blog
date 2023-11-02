@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 const Layouts = ({ children }) => {
   const [user, setUser] = useState();
 
-  const { logout } = useAuth();
+  const { logout, auth } = useAuth();
 
   const navigate = useNavigate();
 
@@ -102,7 +102,17 @@ const Layouts = ({ children }) => {
                         },
                         {
                           label: (
-                            <Button className="w-full" type="dashed">
+                            <Button
+                              className="w-full"
+                              type="dashed"
+                              onClick={() =>
+                                navigate(AppRoutes.myAddress, {
+                                  state: {
+                                    userId: auth.user.id,
+                                  },
+                                })
+                              }
+                            >
                               Địa chỉ của tôi
                             </Button>
                           ),

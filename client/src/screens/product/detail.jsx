@@ -1,7 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useGetBlogById } from "../../hooks/blog.hook";
 import { useGetProductById } from "../../hooks/product.hook";
-import { Breadcrumb, Button, Col, InputNumber, Row } from "antd";
+import { Breadcrumb, Button, Col, Drawer, InputNumber, Row, Spin } from "antd";
 import { AppRoutes } from "../../helpers/app-routes";
 import { numberWithDots } from "../../ultis/pagination";
 import { useCallback, useState } from "react";
@@ -12,13 +11,14 @@ const ProductDetail = () => {
   const { id = "" } = useParams();
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
+  const [isOpenDrawer, setIsOpenDrawer] = useState(false);
 
-  console.log(id);
   const { product, isLoading } = useGetProductById(id);
   console.log(product);
 
   const hanldeAddToCart = () => {
     console.log(1);
+    setIsOpenDrawer(true);
   };
 
   const handleChangeQuantity = useCallback(
@@ -36,7 +36,7 @@ const ProductDetail = () => {
     [product?.quantity, quantity]
   );
   return (
-    <div>
+    <Spin spinning={isLoading}>
       <Breadcrumb
         className="text-2xl  "
         items={[
@@ -172,7 +172,17 @@ const ProductDetail = () => {
           dangerouslySetInnerHTML={{ __html: product.description }}
         ></div>
       </div>
-    </div>
+
+      <Drawer
+        title="Giỏ hàng"
+        className="text-center"
+        placement="right"
+        onClose={() => setIsOpenDrawer(false)}
+        open={isOpenDrawer}
+      >
+        fsdf
+      </Drawer>
+    </Spin>
   );
 };
 

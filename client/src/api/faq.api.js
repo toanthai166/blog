@@ -1,4 +1,4 @@
-import * as request from "../services/axios.service";
+import request from "../services/axios.service";
 
 export const getFaqs = async (filter) => {
   const res = await request.get(

@@ -4,6 +4,11 @@ export const AppRoutes = {
   postDetail: "/post/detail/:id",
   postDetailId: (id) => `/post/detail/${id}`,
   profile: "/profile",
+
+  myAddress: "/address",
+  addressDetail: "/address/detail/:id",
+  addressDetailId: (id) => `/address/detail/${id}`,
+
   product: "/product",
   productDetail: "/product/detail/:id",
   productDetailId: (id) => `/product/detail/${id}`,

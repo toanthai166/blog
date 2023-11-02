@@ -59,8 +59,9 @@ const BlogManagement = () => {
     },
     {
       title: "id danh mục",
-      dataIndex: "categoryId",
-      key: "categoryId",
+      dataIndex: "category",
+      key: "category",
+      render: (category) => <a>{category?.name}</a>,
     },
     {
       title: "Trạng thái",

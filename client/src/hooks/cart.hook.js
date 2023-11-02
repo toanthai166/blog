@@ -47,7 +47,6 @@ export const useAddToCart = () => {
 };
 
 export const useRemoveToCart = () => {
-  const navigate = useNavigate();
   const mutation = useMutation(removeToCart, {
     mutationKey: [`cart/remove`],
   });
@@ -57,14 +56,10 @@ export const useRemoveToCart = () => {
       mutation.mutate(data, {
         onSuccess: () => {
           client.invalidateQueries("carts");
-          notification.success({
-            message: "Sửa địa chỉ thành công",
-          });
-          navigate(AppRoutes.myAddress);
         },
       });
     },
-    [client, mutation, navigate]
+    [client, mutation]
   );
   return {
     mutation,

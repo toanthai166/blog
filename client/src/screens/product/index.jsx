@@ -1,7 +1,6 @@
-import { Button, Spin, Tabs } from "antd";
+import { Button, Spin } from "antd";
 import Lable from "../../components/lable";
-import PostItem from "../../components/post-item";
-import { useBlog } from "../../hooks/blog.hook";
+
 import { useState } from "react";
 import { useProduct } from "../../hooks/product.hook";
 import { numberWithDots } from "../../ultis/pagination";
@@ -21,9 +20,9 @@ const Product = () => {
 
   console.log(listproduct);
 
-  const onChange = (key) => {
-    setFilter({ ...filter, categoryId: key });
-  };
+  // const onChange = (key) => {
+  //   setFilter({ ...filter, categoryId: key });
+  // };
 
   return (
     <>
@@ -31,7 +30,10 @@ const Product = () => {
       <div className="my-10 text-[#A62B00] font-normal text-2xl">
         Công thức nấu ăn phổ biến của tôi
       </div>
-      <div className="w-full grid grid-cols-2 gap-10 max-w-[900px]">
+      <Spin
+        spinning={isLoading}
+        className="w-full grid grid-cols-2 gap-10 max-w-[900px]"
+      >
         {listproduct?.map((it) => (
           <div key={it.id}>
             <Link to={AppRoutes.productDetailId(it.id)}>
@@ -59,7 +61,7 @@ const Product = () => {
             </div>
           </div>
         ))}
-      </div>
+      </Spin>
     </>
   );
 };

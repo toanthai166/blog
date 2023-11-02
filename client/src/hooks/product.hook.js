@@ -32,7 +32,6 @@ export const useGetProductById = (id) => {
     queryKey: [`product/${id}`],
     queryFn: () => getproducById(id),
     onSuccess: (res) => {
-      console.log(res.data);
       setProduct(res.data);
     },
   });

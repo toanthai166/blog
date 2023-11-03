@@ -30,20 +30,12 @@ const orderSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Address',
     },
-    productId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Product',
-    },
-    quantity: {
-      type: Number,
-      require: true,
-    },
     total: {
       type: Number,
       default: 0,
     },
     product: {
-      type: Object,
+      type: Array,
     },
     user: {
       type: Object,

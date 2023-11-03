@@ -7,7 +7,7 @@ const User = require('../models/user.model');
 
 const createOrder = async (body) => {
   const addressId = body.addressId;
-  const productId = body.productId;
+  const items = body.items;
   const userId = body.userId;
   const addresses = await Address.findById(addressId);
   if (!addresses) {
@@ -17,14 +17,29 @@ const createOrder = async (body) => {
   if (!user) {
     throw new Error('user not found');
   }
-  const product = await Product.findById(productId);
-  if (!product) {
-    throw new Error('product not found');
-  }
-  body.product = product.toObject();
-  body.addresses = addresses.toObject();
-  body.user = user.toObject();
-  return Order.create({ ...body, product: product, addresses: addresses, user: user });
+  const getProductDetails = async (item) => {
+    const product = await Product.findById(item.productId);
+    if (!product) {
+      throw new Error('Product not found');
+    }
+
+    return {
+      product: product,
+      quantity: item.quantity,
+    };
+  };
+
+  const itemDetailsPromises = items.map(getProductDetails);
+  Promise.all(itemDetailsPromises)
+    .then((itemDetails) => {
+      body.addresses = addresses.toObject();
+      body.user = user.toObject();
+      console.log('itemDetails :>> ', itemDetails);
+      return Order.create({ ...body, product: itemDetails, addresses: addresses, user: user });
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
 };
 
 const queryOrders = async (filter, options) => {

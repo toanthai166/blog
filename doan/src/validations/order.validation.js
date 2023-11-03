@@ -3,9 +3,15 @@ const { password, objectId } = require('./custom.validation');
 
 const createOrder = {
   body: Joi.object().keys({
-    productId: Joi.string().required(),
+    items: Joi.array()
+      .items(
+        Joi.object().keys({
+          productId: Joi.string().required(),
+          quantity: Joi.number().required(),
+        })
+      )
+      .required(),
     total: Joi.number().required(),
-    quantity: Joi.number().required(),
     note: Joi.string(),
     addressId: Joi.string().required(),
   }),

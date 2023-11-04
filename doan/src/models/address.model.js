@@ -5,28 +5,18 @@ const { toJSON, paginate } = require('./plugins');
 const { roles } = require('../config/roles');
 const Category = require('./category.model');
 
+// const addressSchema = mongoose.Schema({
+//   street: String,
+//   city: String,
+//   state: String,
+//   postalCode: String,
+//   // Các trường khác mà bạn muốn thêm vào địa chỉ
+// });
+
 const addressSchema = mongoose.Schema(
   {
-    fullname: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    phone: {
-      type: String,
-      required: true,
-    },
-    addressName: {
-      type: String,
-      required: true,
-    },
-    addressMoreInfo: {
-      type: String,
-      required: true,
-    },
-    isDefault: {
-      type: Boolean,
-      default: false,
+    addresses: {
+      type: Array,
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,

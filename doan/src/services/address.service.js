@@ -34,14 +34,20 @@ const getAddresById = async (id) => {
  * @param {Object} updateBody
  * @returns {Promise<User>}
  */
-const updateAddressById = async (id, updateBody) => {
-  const address = await getAddresById(id);
-  if (!address) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'address not found');
+const updateAddress = async (id, updateBody) => {
+  const cart = await Address.findById(id);
+  if (!cart) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'cart not found');
   }
-  Object.assign(address, updateBody);
-  await address.save();
-  return address;
+  Object.assign(cart, updateBody);
+  try {
+    await cart.save();
+  } catch (error) {
+    console.error('Lỗi cơ sở dữ liệu:', error);
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Lỗi cơ sở dữ liệu');
+  }
+  // await cart.save();
+  return cart;
 };
 
 /**
@@ -62,6 +68,5 @@ module.exports = {
   createAddress,
   queryAddresses,
   getAddresById,
-  updateAddressById,
-  deleteBlogById,
+  updateAddress,
 };

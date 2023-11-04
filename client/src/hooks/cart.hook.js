@@ -1,9 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useAtom } from "jotai";
 import { notification } from "antd";
-import { useNavigate } from "react-router-dom";
 import { useCallback } from "react";
-import { AppRoutes } from "../helpers/app-routes";
 
 import { addToCart, myCart, removeToCart } from "../api/cart.api";
 import { carts } from "../states/cart.state";

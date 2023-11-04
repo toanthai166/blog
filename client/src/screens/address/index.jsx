@@ -40,6 +40,7 @@ const MyAddress = () => {
     },
     [form]
   );
+  console.log("addresses :>> ", addresses);
 
   // const { city } = useSearchAddress();
   // console.log(city);
@@ -228,29 +229,10 @@ const MyAddress = () => {
             </div>
           </div>
         </Modal>
-        {/* <ModalCustomize
-          open={isModalOpen}
-          title={!addressItem ? "Địa chỉ mới" : "Cập nhật địa chỉ"}
-          onCancel={handleCancelModal}
-          onOk={handleOk}
-          footer={
-            <div className="flex justify-end shadow-md p-3 rounded-md">
-              <Button onClick={handleCancelModal}>Hủy</Button>
-              <Button type="primary" htmlType="submit" onClick={handleOk}>
-                Lưu
-              </Button>
-            </div>
-          }
-        >
-          <BodyModalAddress
-            setAddressMapInfo={setAddressMapInfo}
-            addressItem={addressItem}
-          ></BodyModalAddress>
-        </ModalCustomize> */}
       </Form>
 
       <div className="mt-5 flex flex-col gap-5 w-full">
-        {addresses?.map((address) => (
+        {addresses[0]?.addresses?.map((address) => (
           <div key={address?.id} className="bg-white p-5 ">
             <div className=" w-full flex items-center justify-between">
               <div className="flex gap-4 flex-col">
@@ -286,7 +268,9 @@ const MyAddress = () => {
                   </Button>
                   <Divider className="translate-y-4" type="vertical" />
                   <Popconfirm
-                    onConfirm={() => handleDeleteAddress(address?.id)}
+                    onConfirm={() =>
+                      handleDeleteAddress({ addressId: address?.id })
+                    }
                     title="Xóa địa chỉ"
                     description="Bạn có chắc chắn xóa địa chỉ này?"
                     icon={<QuestionCircleOutlined style={{ color: "red" }} />}

@@ -1,18 +1,15 @@
-import { Button, Divider, Drawer, Input, InputNumber, Table } from "antd";
+import { Button, Drawer, Input, InputNumber, Table } from "antd";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useCart, useRemoveToCart } from "../../hooks/cart.hook";
 import { numberWithDots } from "../../ultis/pagination";
-import { json, useNavigate } from "react-router-dom";
 
 const minQuantity = 1;
 
 const Cart = ({ open, setIsOpenDrawer }) => {
-  const navigate = useNavigate();
   const [quantityByProduct, setQuantityByProduct] = useState([]);
   const auth = localStorage.getItem("auth");
   const user = JSON.parse(auth);
   const { cart } = useCart(user?.user.id);
-  const [checkInputAll, setCheckInputAll] = useState();
 
   const { handleRemoveToCart } = useRemoveToCart();
 

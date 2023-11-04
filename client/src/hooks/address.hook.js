@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useAtom } from "jotai";
 import { notification } from "antd";
 import { useNavigate } from "react-router-dom";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { AppRoutes } from "../helpers/app-routes";
 import { listAddress } from "../states/address.state";
 import {
@@ -67,7 +67,7 @@ export const useCreateAddress = (setIsModalOpen) => {
     (data) => {
       mutation.mutate(data, {
         onSuccess: () => {
-          client.invalidateQueries("faqs");
+          client.invalidateQueries("addresses");
           notification.success({
             message: "Thêm địa chỉ thành công",
           });
@@ -81,15 +81,15 @@ export const useCreateAddress = (setIsModalOpen) => {
         },
       });
     },
-    [mutation]
+    [client, mutation, navigate, setIsModalOpen]
   );
   return { mutation, handleCreateAddress };
 };
 
-export const useUpdateAddress = (id) => {
+export const useUpdateAddress = () => {
   const navigate = useNavigate();
   const mutation = useMutation(updateAddress, {
-    mutationKey: [`updateaddress/${id}`],
+    mutationKey: [`updateaddress`],
   });
   const client = useQueryClient();
   const handleUpdateAddress = useCallback(
@@ -128,8 +128,8 @@ export const useDeleteAddress = () => {
   });
   const client = useQueryClient();
   const handleDeleteAddress = useCallback(
-    (id) => {
-      mutation.mutate(id, {
+    (data) => {
+      mutation.mutate(data, {
         onSuccess: () => {
           client.invalidateQueries("addresses");
           notification.success({

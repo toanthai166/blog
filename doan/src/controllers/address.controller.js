@@ -3,24 +3,41 @@ const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { addressService } = require('../services');
-const Category = require('../models/category.model');
+const Address = require('../models/address.model');
 
 const createAddress = catchAsync(async (req, res) => {
-  const newAddress = {
-    ...req.body,
-    userId: req.user.id,
-  };
-  await addressService.createAddress(newAddress);
-  res.status(httpStatus.CREATED).send(newAddress);
-});
+  const userId = req.user.id;
+  const addresses = await Address.findOne({ userId });
+  if (addresses === null) {
+    const id = new Date().getTime();
+    const addresses = [];
+    req.body.id = String(id);
+    addresses.push({ ...req.body });
+    await addressService.createAddress({ addresses: addresses, userId: req.user.id });
+    res.status(httpStatus.CREATED).send({ addresses: addresses, userId: req.user.id });
+  } else {
+    if (req.body.id) {
+      const address = addresses.addresses.filter((it) => it.id !== req.body.id);
+      address.forEach((item) => {
+        item.isDefault = false;
+      });
 
-const changeIsDefaultAddress = catchAsync(async (req, res) => {
-  if (!req.body.id) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'address not found');
+      address.push({ ...req.body });
+      const newAddress = await addressService.updateAddress(addresses.id, { addresses: address });
+      res.send(newAddress);
+    } else {
+      const id = new Date().getTime();
+      req.body.id = String(id);
+      if (req.body.isDefault == true) {
+        addresses.addresses.forEach((item) => {
+          item.isDefault = false;
+        });
+      }
+      addresses.addresses.push({ ...req.body });
+      const newAddress = await addressService.updateAddress(addresses.id, { addresses: addresses.addresses });
+      res.send(newAddress);
+    }
   }
-
-  const address = await addressService.getAddresById(req.body.id, req.body);
-  res.send(address);
 });
 
 const getAddresses = catchAsync(async (req, res) => {
@@ -35,21 +52,19 @@ const getAddress = catchAsync(async (req, res) => {
   res.send(address);
 });
 
-const updateAddress = catchAsync(async (req, res) => {
-  const blog = await addressService.updateAddressById(req.params.id, req.body);
-  res.send(blog);
-});
-
-const deleteAddress = catchAsync(async (req, res) => {
-  await addressService.deleteBlogById(req.params.id);
-  res.status(httpStatus.NO_CONTENT).send();
+const removeAddress = catchAsync(async (req, res) => {
+  const userId = req.user.id;
+  const addresses = await Address.findOne({ userId });
+  const newData = addresses.addresses.filter((item) => {
+    return String(item.id) !== req.body.addressId;
+  });
+  const address = await addressService.updateAddress(addresses.id, { addresses: newData });
+  res.send(address);
 });
 
 module.exports = {
   createAddress,
-  changeIsDefaultAddress,
   getAddresses,
-  updateAddress,
+  removeAddress,
   getAddress,
-  deleteAddress,
 };

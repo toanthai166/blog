@@ -53,7 +53,6 @@ const removeToCart = catchAsync(async (req, res) => {
   const newData = cart.products.filter((item) => {
     return String(item.product._id) !== req.body.productId;
   });
-
   const cartItem = await cartService.updateCart(cart.id, { products: newData });
   res.send(cartItem);
 });

@@ -7,16 +7,11 @@ const addressController = require('../../controllers/address.controller');
 const router = express.Router();
 
 router.route('/create').post(auth('address'), validate(addressValidation.createAddress), addressController.createAddress);
+router.route('/edit').post(auth('address'), validate(addressValidation.editAddress), addressController.createAddress);
+router.route('/remove').post(auth('address'), validate(addressValidation.removeAddress), addressController.removeAddress);
 router.route('/').get(auth('address'), validate(addressValidation.getAddresses), addressController.getAddresses);
 
-router
-  .route('/:id/default')
-  .patch(auth('address'), validate(addressValidation.changeIsDefaultAddress), addressController.changeIsDefaultAddress);
-router
-  .route('/:id')
-  .get(auth('address'), validate(addressValidation.getAddress), addressController.getAddress)
-  .patch(auth('address'), validate(addressValidation.updateAddress), addressController.updateAddress)
-  .delete(auth('address'), validate(addressValidation.deleteAddress), addressController.deleteAddress);
+router.route('/get-address').get(auth('address'), validate(addressValidation.getAddress), addressController.getAddress);
 
 module.exports = router;
 

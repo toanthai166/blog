@@ -7,6 +7,7 @@ const createAddress = {
     fullname: Joi.string().required(),
     phone: Joi.string().required(),
     addressMoreInfo: Joi.string().required(),
+    isDefault: Joi.boolean().required(),
   }),
 };
 
@@ -20,20 +21,9 @@ const getAddresses = {
 };
 
 const getAddress = {
-  params: Joi.object().keys({
-    id: Joi.string().custom(objectId),
+  body: Joi.object().keys({
+    id: Joi.string().required(),
   }),
-};
-const changeIsDefaultAddress = {
-  params: Joi.object().keys({
-    id: Joi.string().custom(objectId),
-  }),
-  body: Joi.object()
-    .keys({
-      id: Joi.string().custom(objectId),
-      isDefault: Joi.boolean().required(),
-    })
-    .min(1),
 };
 
 const updateAddress = {
@@ -42,7 +32,6 @@ const updateAddress = {
   }),
   body: Joi.object()
     .keys({
-      id: Joi.required().custom(objectId),
       fullname: Joi.string(),
       phone: Joi.string(),
       isDefault: Joi.boolean(),
@@ -52,9 +41,22 @@ const updateAddress = {
     .min(1),
 };
 
-const deleteAddress = {
-  params: Joi.object().keys({
-    id: Joi.string().custom(objectId),
+const editAddress = {
+  body: Joi.object()
+    .keys({
+      id: Joi.string(),
+      fullname: Joi.string(),
+      phone: Joi.string(),
+      isDefault: Joi.boolean(),
+      addressMoreInfo: Joi.string(),
+      addressName: Joi.string(),
+    })
+    .min(1),
+};
+
+const removeAddress = {
+  body: Joi.object().keys({
+    addressId: Joi.string().required(),
   }),
 };
 
@@ -62,7 +64,7 @@ module.exports = {
   createAddress,
   getAddresses,
   getAddress,
-  changeIsDefaultAddress,
+  editAddress,
   updateAddress,
-  deleteAddress,
+  removeAddress,
 };

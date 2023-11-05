@@ -13,6 +13,7 @@ const feedbackRoute = require('./contact.route');
 const addressRoute = require('./address.route');
 const orderRoute = require('./order.route');
 const cartRoute = require('./cart.route');
+const discountRoute = require('./discount.route');
 const config = require('../../config/config');
 
 const router = express.Router();
@@ -70,6 +71,10 @@ const defaultRoutes = [
   {
     path: '/cart',
     route: cartRoute,
+  },
+  {
+    path: '/discount',
+    route: discountRoute,
   },
 ];
 

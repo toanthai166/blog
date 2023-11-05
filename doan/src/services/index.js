@@ -12,3 +12,4 @@ module.exports.contactService = require('./contact.service');
 module.exports.addressService = require('./address.service');
 module.exports.orderService = require('./order.service');
 module.exports.cartService = require('./cart.service');
+module.exports.discountService = require('./discount.service');

@@ -23,6 +23,8 @@ import PostDetail from "../screens/secret/post-detail";
 import Product from "../screens/product";
 import ProductDetail from "../screens/product/detail";
 import MyAddress from "../screens/address";
+import DiscountManagement from "../screens/admin/discount";
+import FormDiscount from "../screens/admin/discount/form";
 
 export const useRouter = () => {
   return createBrowserRouter([
@@ -175,6 +177,33 @@ export const useRouter = () => {
           path: AppRoutes.contactDetail,
           element: <ContactDetail />,
         },
+
+        //
+        {
+          path: AppRoutes.discountManagement,
+          element: <DiscountManagement />,
+        },
+
+        {
+          path: AppRoutes.createDiscount,
+          element: <FormDiscount />,
+        },
+        // {
+        //   path: AppRoutes.faqDetail,
+        //   element: <FormFaq isDetail />,
+        // },
+        // {
+        //   path: AppRoutes.faqEdit,
+        //   element: <FormFaq isEdit />,
+        // },
+        // {
+        //   path: AppRoutes.contactManagement,
+        //   element: <ContactManagement />,
+        // },
+        // {
+        //   path: AppRoutes.contactDetail,
+        //   element: <ContactDetail />,
+        // },
       ],
     },
   ]);

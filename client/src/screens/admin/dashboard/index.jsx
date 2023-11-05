@@ -26,6 +26,7 @@ const items = [
   getItem("Quản lý liên hệ", "5"),
   getItem("Thiết lập hồ sơ", "6"),
   getItem("Câu hỏi thường gặp", "7"),
+  getItem("Quản lý mã giảm giá", "9"),
 ];
 
 const AdminDashboard = ({ children }) => {
@@ -67,6 +68,9 @@ const AdminDashboard = ({ children }) => {
         break;
       case "8":
         navigate(AppRoutes.orderManagement);
+        break;
+      case "9":
+        navigate(AppRoutes.discountManagement);
         break;
       default:
         return null;

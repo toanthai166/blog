@@ -6,10 +6,8 @@ import { useCallback } from "react";
 import { AppRoutes } from "../helpers/app-routes";
 import { listAddress } from "../states/address.state";
 import {
-  changeIsDefaultAddress,
   createAddress,
   deleteAddress,
-  getAddressById,
   getAddresses,
   updateAddress,
 } from "../api/address.api";
@@ -24,37 +22,6 @@ export const useAddress = (userId) => {
     },
   });
   return { isLoading, error, addresses };
-};
-
-export const useChangeIsDefaultAddress = () => {
-  const mutation = useMutation(changeIsDefaultAddress, {
-    mutationKey: [`address/default`],
-  });
-  const client = useQueryClient();
-  const handleChangeIsDefaultAddress = useCallback(
-    (data) => {
-      console.log(data);
-      mutation.mutate(data, {
-        onSuccess: () => {
-          client.invalidateQueries("addresses");
-          notification.success({
-            message: "Thiết lập thành công",
-          });
-        },
-        onError: () => {
-          client.invalidateQueries("addresses");
-          notification.error({
-            message: "Thiết lập thất bại",
-          });
-        },
-      });
-    },
-    [client, mutation]
-  );
-  return {
-    mutation,
-    handleChangeIsDefaultAddress,
-  };
 };
 
 export const useCreateAddress = (setIsModalOpen) => {
@@ -111,17 +78,7 @@ export const useUpdateAddress = () => {
     handleUpdateAddress,
   };
 };
-export const useGetAddressById = (id) => {
-  const [address, setAddress] = useAtom(listAddress);
-  const { isLoading, error } = useQuery({
-    queryKey: [`address/${id}`],
-    queryFn: () => getAddressById(id),
-    onSuccess: (res) => {
-      setAddress(res);
-    },
-  });
-  return { isLoading, error, address };
-};
+
 export const useDeleteAddress = () => {
   const mutation = useMutation(deleteAddress, {
     mutationKey: "deleteAddress",

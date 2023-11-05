@@ -53,6 +53,13 @@ export const AppRoutes = {
   faqDetail: "/admin/faq/detail/:id",
   faqDetailId: (id) => `/admin/faq/detail/${id}`,
 
+  discountManagement: "/admin/discount-management",
+  createDiscount: "/admin/discount/create",
+  discountEdit: "/admin/discount/edit/:id",
+  discountEditById: (id) => `/admin/discount/edit/${id}`,
+  discountDetail: "/admin/discount/detail/:id",
+  discountDetailId: (id) => `/admin/discount/detail/${id}`,
+
   contactManagement: "/admin/contact-management",
   contactDetail: "/admin/contact-management/detail/:id",
   contactDetailId: (id) => `/admin/contact-management/detail/${id}`,

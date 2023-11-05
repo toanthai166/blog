@@ -23,14 +23,17 @@ const getDiscounts = catchAsync(async (req, res) => {
 
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await discountService.queryDiscounts(filter, options);
-
-  const desiredData = result.results.filter((item) =>
-    JSON.parse(req.query.productIds).some((id) => item.productIds.includes(id))
-  );
-  if (desiredData.length > 0) {
-    res.send(desiredData);
+  if (req.query.productIds) {
+    const desiredData = result.results.filter((item) =>
+      JSON.parse(req.query.productIds).some((id) => item.productIds.includes(id))
+    );
+    if (desiredData.length > 0) {
+      res.send(desiredData);
+    } else {
+      console.log('không tìm thấy id tương ứng');
+    }
   } else {
-    console.log('Không tìm thấy dữ liệu với ID tương ứng.');
+    res.send(result);
   }
 });
 

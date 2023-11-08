@@ -1,11 +1,11 @@
 import request from "../services/axios.service";
 
 export const getDiscounts = async (filter) => {
-  const res = await request.get(
-    `/discount?page=${filter.page}&limit=${filter.limit}${
-      filter.isActive ? `&isActive=${filter.isActive}` : ""
-    }${filter.productIds ? `&productIds=${filter.productIds}` : ""}`
-  );
+  const paramQuery = JSON.stringify(filter.productIds);
+  const url = `/discount?page=${filter.page}&limit=${filter.limit}${
+    filter.isActive ? `&isActive=${filter.isActive}` : ""
+  }${filter.productIds ? `&productIds=${paramQuery}` : ""}`;
+  const res = await request.get(url);
   return res;
 };
 export const changeIsActiveDiscount = async (data) => {

@@ -7,10 +7,12 @@ const User = require('../models/user.model');
 
 const createOrder = async (body) => {
   const addressId = body.addressId;
+  console.log('addressId', addressId);
   const items = body.items;
   const userId = body.userId;
-  const addresses = await Address.findById(addressId);
-  if (!addresses) {
+  const addresses = await Address.findOne({ userId });
+  const address = addresses.addresses.find((it) => it.id == addressId);
+  if (!address) {
     throw new Error('address not found');
   }
   const user = await User.findById(userId);
@@ -32,10 +34,9 @@ const createOrder = async (body) => {
   const itemDetailsPromises = items.map(getProductDetails);
   Promise.all(itemDetailsPromises)
     .then((itemDetails) => {
-      body.addresses = addresses.toObject();
       body.user = user.toObject();
-      console.log('itemDetails :>> ', itemDetails);
-      return Order.create({ ...body, product: itemDetails, addresses: addresses, user: user });
+      console.log('address', address);
+      return Order.create({ ...body, product: itemDetails, addresses: address, user: user });
     })
     .catch((error) => {
       console.error('Error:', error);

@@ -52,7 +52,7 @@ export const useCreateOrder = () => {
           notification.success({
             message: "Tạo đơn hàng thành công",
           });
-          navigate(AppRoutes.blog);
+          navigate(AppRoutes.product);
         },
       });
     },

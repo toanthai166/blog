@@ -1,4 +1,5 @@
 import {
+  Divider,
   Popconfirm,
   Spin,
   Table,
@@ -39,6 +40,7 @@ const OrderManagement = () => {
   });
   const { orders, isLoading } = useOrder({ ...filter });
   const { handleUpdateOrder, mutation } = useUpdateOrder();
+  console.log("orders", orders);
 
   const listOrder = orders?.results
     ? orders?.results?.map((item, index) => ({
@@ -263,22 +265,53 @@ const OrderManagement = () => {
       render: (code) => <span>{code}</span>,
     },
     {
-      title: "Tên sản phẩm",
+      title: "Sản phẩm",
       dataIndex: "product",
       key: "product",
-      render: (product) => <span>{product?.name}</span>,
+      render: (product) => {
+        return product.map((it, idx) => (
+          <div key={idx} className="flex flex-col">
+            <div className="flex">
+              <img
+                className="w-[30px] h-[30px] rounded object-cover"
+                src={it?.product?.image}
+              />
+              <span className="pl-12px text-14px font-medium leading-20px line-clamp-1">
+                {it?.product?.name}
+              </span>
+            </div>
+            {idx !== product.length - 1 && <Divider />}
+          </div>
+        ));
+      },
     },
     {
       title: "Số lượng",
       dataIndex: "quantity",
       key: "quantity",
-      render: (quantity) => <span>{quantity}</span>,
+      render: (product) => {
+        return product.map((it, idx) => (
+          <div key={"quantity" + it?.id} className="flex flex-col">
+            <div className="h-[30px] mb-8px">{"x" + it?.quantity}</div>
+            {idx !== product.length - 1 && <Divider />}
+          </div>
+        ));
+      },
     },
     {
       title: "Đơn giá",
       dataIndex: "product",
       key: "product",
-      render: (product) => <span>{product?.unitPrice}</span>,
+      render: (product) => {
+        return product.map((it, idx) => (
+          <div className="flex flex-col" key={"unitPrice" + it?.id}>
+            <div className="h-[30px] mb-8px">
+              {numberWithDots(it?.product?.unitPrice) + "đ"}
+              {idx !== product.length - 1 && <Divider />}
+            </div>
+          </div>
+        ));
+      },
     },
     {
       title: "Tổng tiền",
@@ -315,40 +348,38 @@ const OrderManagement = () => {
       key: "product",
       dataIndex: "product",
       width: "30%",
-      render: (product) => <span>{product?.name}</span>,
 
-      // render: (products) => {
-      //   return products.map((it, idx) => (
-      //     <div key={idx} className="flex flex-col">
-      //       <div className="flex">
-      //         <img
-      //           className="w-[30px] h-[30px] rounded object-cover"
-      //           src={it?.avatar?.fullThumbUrl}
-      //         />
-      //         <span className="pl-12px text-14px font-medium leading-20px line-clamp-1">
-      //           {it.name}
-      //         </span>
-      //       </div>
-      //       {idx !== products.length - 1 && <Divider />}
-      //     </div>
-      //   ));
-      // },
+      render: (product) => {
+        return product.map((it, idx) => (
+          <div key={idx} className="flex flex-col">
+            <div className="flex">
+              <img
+                className="w-[30px] h-[30px] rounded object-cover"
+                src={it?.product?.image}
+              />
+              <span className="pl-12px text-14px font-medium leading-20px line-clamp-1">
+                {it?.product?.name}
+              </span>
+            </div>
+            {idx !== product.length - 1 && <Divider />}
+          </div>
+        ));
+      },
     },
     {
       title: "Số lượng",
-      key: "quantity",
-      dataIndex: "quantity",
+      key: "product",
+      dataIndex: "product",
       align: "right",
       width: "10%",
-      render: (quantity) => <span>{quantity}</span>,
-      // render: (products) => {
-      //   return products.map((it, idx) => (
-      //     <div key={"quantity" + it?.id} className="flex flex-col">
-      //       <div className="h-[30px] mb-8px">{"x" + it?.quantity}</div>
-      //       {idx !== products.length - 1 && <Divider />}
-      //     </div>
-      //   ));
-      // },
+      render: (product) => {
+        return product.map((it, idx) => (
+          <div key={"quantity" + it?.id} className="flex flex-col">
+            <div className="h-[30px] mb-8px">{"x" + it?.quantity}</div>
+            {idx !== product.length - 1 && <Divider />}
+          </div>
+        ));
+      },
     },
     {
       title: "Đơn giá",
@@ -356,17 +387,16 @@ const OrderManagement = () => {
       dataIndex: "product",
       align: "right",
       width: "15%",
-      render: (product) => <span>{product?.unitPrice}</span>,
-      // render: (products) => {
-      //   return products.map((it, idx) => (
-      //     <div className="flex flex-col" key={"unitPrice" + it?.id}>
-      //       <div className="h-[30px] mb-8px">
-      //         {numberWithDots(it?.unitPrice) + "đ"}
-      //         {idx !== products.length - 1 && <Divider />}
-      //       </div>
-      //     </div>
-      //   ));
-      // },
+      render: (product) => {
+        return product.map((it, idx) => (
+          <div className="flex flex-col" key={"unitPrice" + it?.id}>
+            <div className="h-[30px] mb-8px">
+              {numberWithDots(it?.product?.unitPrice) + "đ"}
+              {idx !== product.length - 1 && <Divider />}
+            </div>
+          </div>
+        ));
+      },
     },
     {
       title: "Tổng cộng",
@@ -420,23 +450,22 @@ const OrderManagement = () => {
       key: "product",
       dataIndex: "product",
       width: "30%",
-      render: (product) => <span>{product?.name}</span>,
-      // render: (products) => {
-      //   return products.map((it, idx) => (
-      //     <div key={idx} className="flex flex-col">
-      //       <div className="flex">
-      //         <img
-      //           className="w-[30px] h-[30px] rounded object-cover"
-      //           src={it?.avatar?.fullThumbUrl}
-      //         />
-      //         <span className="pl-12px text-14px font-medium leading-20px line-clamp-1">
-      //           {it.name}
-      //         </span>
-      //       </div>
-      //       {idx !== products.length - 1 && <Divider />}
-      //     </div>
-      //   ));
-      // },
+      render: (product) => {
+        return product.map((it, idx) => (
+          <div key={idx} className="flex flex-col">
+            <div className="flex">
+              <img
+                className="w-[30px] h-[30px] rounded object-cover"
+                src={it?.product?.image}
+              />
+              <span className="pl-12px text-14px font-medium leading-20px line-clamp-1">
+                {it?.product?.name}
+              </span>
+            </div>
+            {idx !== product.length - 1 && <Divider />}
+          </div>
+        ));
+      },
     },
     {
       title: "Số lượng",
@@ -444,15 +473,14 @@ const OrderManagement = () => {
       dataIndex: "quantity",
       align: "right",
       width: "10%",
-      render: (quantity) => <span>{quantity}</span>,
-      // render: (products) => {
-      //   return products.map((it, idx) => (
-      //     <div key={"quantity" + it?.id} className="flex flex-col">
-      //       <div className="h-[30px] mb-8px">{"x" + it?.quantity}</div>
-      //       {idx !== products.length - 1 && <Divider />}
-      //     </div>
-      //   ));
-      // },
+      render: (product) => {
+        return product.map((it, idx) => (
+          <div key={"quantity" + it?.id} className="flex flex-col">
+            <div className="h-[30px] mb-8px">{"x" + it?.quantity}</div>
+            {idx !== product.length - 1 && <Divider />}
+          </div>
+        ));
+      },
     },
     {
       title: "Đơn giá",
@@ -460,18 +488,16 @@ const OrderManagement = () => {
       dataIndex: "product",
       align: "right",
       width: "15%",
-      render: (product) => <span>{product.unitPrice}</span>,
-
-      // render: (products) => {
-      //   return products.map((it, idx) => (
-      //     <div className="flex flex-col" key={"unitPrice" + it?.id}>
-      //       <div className="h-[30px] mb-8px">
-      //         {numberWithDots(it?.unitPrice) + "đ"}
-      //         {idx !== products.length - 1 && <Divider />}
-      //       </div>
-      //     </div>
-      //   ));
-      // },
+      render: (product) => {
+        return product.map((it, idx) => (
+          <div className="flex flex-col" key={"unitPrice" + it?.id}>
+            <div className="h-[30px] mb-8px">
+              {numberWithDots(it?.product?.unitPrice) + "đ"}
+              {idx !== product.length - 1 && <Divider />}
+            </div>
+          </div>
+        ));
+      },
     },
     {
       title: "Tổng cộng",

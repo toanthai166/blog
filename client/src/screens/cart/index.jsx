@@ -2,14 +2,18 @@ import { Button, Drawer, Input, InputNumber, Table } from "antd";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useCart, useRemoveToCart } from "../../hooks/cart.hook";
 import { numberWithDots } from "../../ultis/pagination";
+import { AppRoutes } from "../../helpers/app-routes";
+import { useNavigate } from "react-router-dom";
 
 const minQuantity = 1;
 
 const Cart = ({ open, setIsOpenDrawer }) => {
+  const navigate = useNavigate();
   const [quantityByProduct, setQuantityByProduct] = useState([]);
   const auth = localStorage.getItem("auth");
   const user = JSON.parse(auth);
   const { cart } = useCart(user?.user.id);
+  const [productOrder, setProductOrder] = useState([]);
 
   const { handleRemoveToCart } = useRemoveToCart();
 
@@ -59,17 +63,24 @@ const Cart = ({ open, setIsOpenDrawer }) => {
   const handleChangeInput = useCallback(
     (e) => {
       const { value, checked } = e.target;
+      console.log(JSON.stringify(cart[0]?.products));
+      const product = cart[0]?.products?.find((it) => it.product._id === value);
 
       if (checked === true && !productsBuy.includes(value)) {
         const item = quantityByProduct.find((it) => it.productId === value);
         setProductsBuy([...productsBuy, item]);
+        setProductOrder([...productOrder, product]);
       }
       if (checked === false) {
         const item = productsBuy.filter((it) => it.productId !== value);
+        const newProductOrder = productOrder.filter(
+          (it) => it.product._id !== value
+        );
+        setProductOrder(newProductOrder);
         setProductsBuy(item);
       }
     },
-    [productsBuy, quantityByProduct]
+    [cart, productOrder, productsBuy, quantityByProduct]
   );
   const columnDefault = useMemo(
     () => [
@@ -216,7 +227,31 @@ const Cart = ({ open, setIsOpenDrawer }) => {
             <span className="text-14px font-semibold leading-20px">
               {numberWithDots(totalPayment) + " đ"}
             </span>
-            <Button type="dashed">Đặt mua</Button>
+            <Button
+              type="dashed"
+              disabled={
+                !productsBuy || (productsBuy && productsBuy.length === 0)
+              }
+              onClick={() => {
+                setIsOpenDrawer(false);
+                navigate(AppRoutes.payment, {
+                  state: {
+                    products: productOrder,
+                    carts: productsBuy,
+                    quantityByProduct: quantityByProduct.filter(
+                      (it) =>
+                        !!productsBuy.find(
+                          (i) => i?.productId === it?.productId
+                        )
+                    ),
+                    isCart: true,
+                    totalPayment,
+                  },
+                });
+              }}
+            >
+              Đặt mua
+            </Button>
           </div>
         }
       >

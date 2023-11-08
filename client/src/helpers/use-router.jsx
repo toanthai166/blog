@@ -25,6 +25,7 @@ import ProductDetail from "../screens/product/detail";
 import MyAddress from "../screens/address";
 import DiscountManagement from "../screens/admin/discount";
 import FormDiscount from "../screens/admin/discount/form";
+import Payment from "../screens/payment";
 
 export const useRouter = () => {
   return createBrowserRouter([
@@ -65,6 +66,10 @@ export const useRouter = () => {
         {
           path: AppRoutes.product,
           element: <Product />,
+        },
+        {
+          path: AppRoutes.payment,
+          element: <Payment />,
         },
         {
           path: AppRoutes.productDetail,

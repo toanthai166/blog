@@ -60,18 +60,19 @@ if (config.env === 'production') {
 
 // v1 api routes
 app.use('/v1', routes);
-async function updateDiscountStatus() {
-  const currentDate = new Date();
-  await Discount.updateMany({ endDate: { $lte: currentDate } }, { isActive: false });
-}
+// async function updateDiscountStatus() {
+//   const currentDate = new Date();
+//   console.log('currentDate', currentDate);
+//   await Discount.updateMany({ endDate: { $lte: currentDate } }, { isActive: false });
+// }
 
-updateDiscountStatus()
-  .then(() => {
-    console.log('Trạng thái mã giảm giá đã được cập nhật.');
-  })
-  .catch((error) => {
-    console.error('Lỗi khi cập nhật trạng thái mã giảm giá:', error);
-  });
+// updateDiscountStatus()
+//   .then(() => {
+//     console.log('Trạng thái mã giảm giá đã được cập nhật.');
+//   })
+//   .catch((error) => {
+//     console.error('Lỗi khi cập nhật trạng thái mã giảm giá:', error);
+//   });
 
 // send back a 404 error for any unknown api request
 app.use((req, res, next) => {

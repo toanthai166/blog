@@ -27,8 +27,7 @@ const orderSchema = mongoose.Schema(
       ref: 'User',
     },
     addressId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Address',
+      type: String,
     },
     total: {
       type: Number,

@@ -17,6 +17,7 @@ export const AppRoutes = {
   contact: "/contact",
   register: "/register",
   404: "/404",
+  payment: "/payment",
 
   // Admin
   admin: "/admin",

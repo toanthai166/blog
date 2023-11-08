@@ -6,9 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "../../helpers/app-routes";
 import { useAuth } from "../../hooks/auth.hook";
 import { useEffect, useState } from "react";
+import Cart from "../../screens/cart";
 
 const Layouts = ({ children }) => {
   const [user, setUser] = useState();
+  const [open, setOpen] = useState(false);
 
   const { logout, auth } = useAuth();
 
@@ -33,6 +35,9 @@ const Layouts = ({ children }) => {
       case "5":
         navigate(AppRoutes.contact);
         break;
+      case "6":
+        setOpen(true);
+        break;
     }
   };
 
@@ -56,6 +61,10 @@ const Layouts = ({ children }) => {
     {
       key: "5",
       label: "Liên hệ",
+    },
+    {
+      key: "6",
+      label: "Giỏ hàng",
     },
   ];
 
@@ -158,6 +167,7 @@ const Layouts = ({ children }) => {
         </div>
       </header>
       <section className="container mt-10">{children}</section>
+      <Cart open={open} setIsOpenDrawer={setOpen}></Cart>
       <footer className="grid grid-cols-9 grid-rows-1 gap-12 pb-20 mt-20">
         <div className="col-span-2 col-start-2">4</div>
         <div className="col-start-5 flex flex-col gap-5">

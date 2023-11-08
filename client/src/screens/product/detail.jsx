@@ -1,19 +1,9 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGetProductById } from "../../hooks/product.hook";
-import {
-  Breadcrumb,
-  Button,
-  Col,
-  Drawer,
-  Input,
-  InputNumber,
-  Row,
-  Spin,
-  Table,
-} from "antd";
+import { Breadcrumb, Button, Col, InputNumber, Row, Spin } from "antd";
 import { AppRoutes } from "../../helpers/app-routes";
 import { numberWithDots } from "../../ultis/pagination";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { CartIcon } from "../../assets";
 import { useAddToCart, useCart } from "../../hooks/cart.hook";
 import Cart from "../cart";
@@ -150,28 +140,6 @@ const ProductDetail = () => {
                         Thêm vào giỏ hàng
                       </span>
                     </div>
-                  </Button>
-                  <Button
-                    type="dashed"
-                    className="basis-5/12 w-full"
-                    onClick={() =>
-                      navigate(AppRoutes.shopping.payment.value, {
-                        state: {
-                          products: [product],
-                          quantityByProduct: [
-                            {
-                              productId: product?.id,
-                              quantity: quantity,
-                              note: "",
-                            },
-                          ],
-                          product,
-                          defaultQuantity: quantity,
-                        },
-                      })
-                    }
-                  >
-                    Đặt mua
                   </Button>
                 </div>
               </div>

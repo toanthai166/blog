@@ -23,10 +23,10 @@ const getDiscounts = catchAsync(async (req, res) => {
 
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await discountService.queryDiscounts(filter, options);
+
   if (req.query.productIds) {
-    const desiredData = result.results.filter((item) =>
-      JSON.parse(req.query.productIds).some((id) => item.productIds.includes(id))
-    );
+    const productIds = JSON.parse(req.query.productIds);
+    const desiredData = result.results.filter((item) => productIds.some((id) => item.productIds.includes(id)));
     if (desiredData.length > 0) {
       res.send(desiredData);
     } else {

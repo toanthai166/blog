@@ -22,3 +22,6 @@
 .ant-input-textarea-affix-wrapper:hover {
   border: 1px solid #9c3a17;
 }
+.ant-upload-list {
+  display: none;
+}

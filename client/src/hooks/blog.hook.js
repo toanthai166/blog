@@ -31,7 +31,9 @@ export const useGetBlogById = (blogId) => {
   const { isLoading, error } = useQuery({
     queryKey: [`blog/${blogId}`],
     queryFn: () => getBlogById(blogId),
+    enabled: blogId ? true : false,
     onSuccess: (res) => {
+      console.log("res :>> ", res);
       setBlog(res.data);
     },
   });

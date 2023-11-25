@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Row, Select } from "antd";
+import { Button, Col, Form, Input, Row, Select, Upload, message } from "antd";
 import { SubHeader } from "../../../components/sub-header/SubHeader";
 import { AppRoutes } from "../../../helpers/app-routes";
 import { useNavigate, useParams } from "react-router-dom";
@@ -13,7 +13,10 @@ import {
 } from "../../../hooks/blog.hook";
 import { useCategoriesIsActive } from "../../../hooks/category.hook";
 
+import useUploadImage from "../../../components/upload";
+
 const FormCreateBlog = ({ isDetail, isEdit }) => {
+  const [image, setImage] = useState();
   const { id } = useParams();
   const navigate = useNavigate();
   const [form] = Form.useForm();
@@ -22,7 +25,7 @@ const FormCreateBlog = ({ isDetail, isEdit }) => {
   const { categories } = useCategoriesIsActive();
   const { handleUpdateBlog } = useUpdateBlog();
   const { handleCreateBlog } = useCreateBlog();
-  console.log(blog);
+  const { handleUploadFile, image: imageUpload } = useUploadImage();
 
   useEffect(() => {
     if (blog) {
@@ -34,7 +37,7 @@ const FormCreateBlog = ({ isDetail, isEdit }) => {
     }
   }, [blog, form]);
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     if (isEdit) {
       handleUpdateBlog({
         id: id,
@@ -45,7 +48,7 @@ const FormCreateBlog = ({ isDetail, isEdit }) => {
       });
     } else {
       handleCreateBlog({
-        image: values.image,
+        image: imageUpload,
         title: values.title,
         categoryId: values.categoryId,
         content: dataEditor,
@@ -62,6 +65,28 @@ const FormCreateBlog = ({ isDetail, isEdit }) => {
     label: it.name,
     value: it.id,
   }));
+
+  const handleSetImage = ({ file }) => {
+    setImage(file);
+    handleUploadFile(file);
+  };
+
+  const props = {
+    listType: "picture",
+    onChange: handleSetImage,
+    onRemove: () => {
+      return Promise.resolve(false);
+    },
+    beforeUpload: (file) => {
+      const maxSizeInMB = 10;
+      const isAllowedSize = file.size / 1024 / 1024 < maxSizeInMB;
+      if (!isAllowedSize) {
+        message.error(`Dung lượng ảnh tối đa là ${maxSizeInMB} MB`);
+        return false;
+      }
+      return false;
+    },
+  };
 
   return (
     <>
@@ -99,11 +124,20 @@ const FormCreateBlog = ({ isDetail, isEdit }) => {
                 </span>
               }
               name="image"
-              rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
-              normalize={(e) => e.trimStart()}
             >
-              <Input placeholder="Nhập đường dẫn" maxLength={255}></Input>
+              <Upload
+                listType="picture"
+                accept="image/png, image/gif, image/jpeg"
+                {...props}
+              >
+                <Button type="link">Thay đổi</Button>
+              </Upload>
             </Form.Item>
+            <img
+              className="ml-60 my-10"
+              src={image ? URL.createObjectURL(image) : blog?.image}
+              alt=""
+            />
             <Form.Item
               label={
                 <span>

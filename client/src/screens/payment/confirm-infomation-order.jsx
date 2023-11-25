@@ -58,41 +58,39 @@ export const ConfirmInfomationOrder = ({
             title: "Trang chủ",
             to: AppRoutes.home,
           },
-          // {
-          //   title: AppRoutes.shopping.list.label,
-          //   to: AppRoutes.shopping.list.value,
-          // },
           {
             title: "Đặt hàng",
           },
         ]}
       />
-      <div className="bg-ghost-white p-20px">
+      <div className="bg-ghost-white p-20px pb-40">
         <Row gutter={20}>
           <Col span={16}>
-            <div className=" mb-16px p-20px">
-              <h2 className="uppercase">Địa chỉ nhận hàng</h2>
+            <div className="  p-5 mt-10">
+              <h2 className="uppercase text-lg font-semibold">
+                Địa chỉ nhận hàng
+              </h2>
               <Divider className="my-12px" />
               <div className="flex justify-between items-center">
-                <div className="text-[13px] font-semibold leading-18px line-clamp-1">
+                <div className="text-lg items-center font-semibold flex gap-1 leading-18px line-clamp-1">
                   {address?.fullname}
                   {address?.isDefault && (
-                    <span className="text-[13px] text-primary inline pl-8px">
+                    <span className="text-base text-primary inline pl-8px">
                       (Địa chỉ mặc định)
                     </span>
                   )}
                 </div>
                 <span
-                  className="hover:cursor-pointer font-semibold text-[13px] text-primary"
+                  className="hover:cursor-pointer font-semibold text-sm text-primary"
                   onClick={onReChooseAddress}
                 >
                   Thay đổi
                 </span>
               </div>
-              <p className="text-[13px] text-grayscale-gray leading-18px">
+              <p className="text-base text-grayscale-gray leading-18px">
                 {address?.phone}
               </p>
-              <p className="text-[13px] text-grayscale-gray leading-18px">
+              <p className="text-base text-grayscale-gray leading-18px">
                 {address?.addressName}
               </p>
             </div>
@@ -177,15 +175,26 @@ export const ConfirmInfomationOrder = ({
                 })}
               </Descriptions>
             </div>
+            <div className="flex gap-5 mt-5">
+              <span className="text-base">Ghi chú đơn hàng:</span>
+              <TextArea
+                showCount
+                rows={3}
+                maxLength={255}
+                onChange={(e) => setNote(e.target.value)}
+              />
+            </div>
           </Col>
           <Col span={8}>
-            <div className="bg-white mb-16px p-20px">
-              <h2 className="uppercase mb-20px">Mã giảm giá</h2>
+            <div className="bg-white mt-24 mb-16px p-20px">
+              <h2 className="uppercase mb-5 text-base font-semibold">
+                Mã giảm giá
+              </h2>
               <div
-                className="hover:cursor-pointer px-16px py-[10px] flex items-center justify-between border border-solid border-grayscale-border rounded"
+                className="hover:cursor-pointer p-4  mb-5 flex items-center justify-between border border-solid border-grayscale-border rounded"
                 onClick={() => onReChooseVoucher()}
               >
-                <div className="border border-solid border-primary rounded-lg text-primary px-8px py-[4px]">
+                <div className="border border-solid border-primary rounded-lg text-primary text-base px-2 py-1">
                   {discount
                     ? `Mã giảm  ${discount?.value} ${
                         discount?.unit === "PERCENTAGE" ? " %" : " đ"
@@ -200,9 +209,11 @@ export const ConfirmInfomationOrder = ({
               </div>
             </div>
             <div className="bg-white mb-16px p-20px">
-              <h2 className="uppercase mb-20px">Phương thức thanh toán</h2>
+              <h2 className="uppercase mb-5 text-lg font-medium">
+                Phương thức thanh toán
+              </h2>
               <div className="px-16px py-[10px] flex items-center justify-between">
-                <span className="text-14px leading-20px ">
+                <span className="text-base leading-5 font-medium">
                   Thanh toán khi nhận hàng
                 </span>
                 <Radio checked disabled />
@@ -210,10 +221,8 @@ export const ConfirmInfomationOrder = ({
             </div>
             <div className="bg-white mb-16px p-20px">
               <div className="px-16px py-[10px] flex items-center justify-between">
-                <span className="text-14px leading-20px ">
-                  Tổng thanh toán{" "}
-                </span>
-                <span className="font-semibold text-18px">
+                <span className="text-base leading-5 ">Tổng thanh toán </span>
+                <span className="font-semibold text-lg">
                   {numberWithDots(
                     totalPayments ? totalPayments : totalPayment
                   ) + " đ"}
@@ -222,15 +231,7 @@ export const ConfirmInfomationOrder = ({
             </div>
           </Col>
         </Row>
-        <div className="flex gap-5">
-          <span>Ghi chú đơn hàng:</span>
-          <TextArea
-            showCount
-            rows={2}
-            maxLength={255}
-            onChange={(e) => setNote(e.target.value)}
-          />
-        </div>
+
         <div
           className="fixed left-[240px] right-0 bottom-0
          bg-white px-24px py-8px flex justify-end"

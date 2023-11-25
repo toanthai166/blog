@@ -1,7 +1,8 @@
 import { Button, Layout, Menu, theme } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { Content, Footer, Header } from "antd/es/layout/layout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import "../../../styles/index.css";
 
 import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "../../../helpers/app-routes";
@@ -33,6 +34,10 @@ const AdminDashboard = ({ children }) => {
   const navigate = useNavigate();
 
   const { logout } = useAuth();
+  useEffect(() => {
+    const auth = JSON.parse(localStorage.getItem("auth"));
+    if (auth?.user?.role == "user") navigate(AppRoutes.home);
+  }, [navigate]);
 
   const [activeMenu] = useState("");
   const {

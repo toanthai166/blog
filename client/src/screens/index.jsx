@@ -16,5 +16,4 @@ export const Home = () => LazyLayout(() => import("./home"));
 export const Login = () => LazyLayout(() => import("./login"));
 export const Register = () => LazyLayout(() => import("./register"));
 export const Faq = () => LazyLayout(() => import("./faq"));
-export const Secret = () => LazyLayout(() => import("./secret"));
 export const Profile = () => LazyLayout(() => import("./profile"));

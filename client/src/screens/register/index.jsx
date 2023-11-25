@@ -37,14 +37,14 @@ const Register = () => {
 
         <div className="flex gap-5">
           <div className="cursor-pointer text-14px mr-16px text-dim-gray">
-            Bạn chưa có tài khoản?
+            Bạn có tài khoản?
           </div>
           <Button
             //   onClick={onClickRegister}
             size="small"
             className="w-[87px] !h-[30px] !text-[12px] !font-medium leading-[16px]"
           >
-            Đăng ký
+            Đăng nhập
           </Button>
         </div>
       </div>

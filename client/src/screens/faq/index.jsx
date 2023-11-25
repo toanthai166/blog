@@ -14,7 +14,7 @@ const Faq = () => {
     console.log(key);
   };
 
-  const items = faqs?.results?.map((it, index) => ({
+  const items = faqs?.data?.results?.map((it, index) => ({
     key: index,
     label: <span className="text-[#A62B00]">{it.title}</span>,
     children: <div>{it.description}</div>,
@@ -24,7 +24,7 @@ const Faq = () => {
     <>
       <Lable title=" FAQ's"></Lable>
       <div className="my-[80px]">Những câu hỏi thường gặp</div>
-      <div className="w-full max-w-[1200px] faq">
+      <div className="w-full pb-40 px-10 faq">
         <Spin spinning={isLoading}>
           <Collapse
             defaultActiveKey={["1"]}

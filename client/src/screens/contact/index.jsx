@@ -15,7 +15,7 @@ const Contact = () => {
   return (
     <>
       <Lable title="Liên hệ"></Lable>
-      <div className="mt-20 w-full">
+      <div className="mt-20 pb-40 w-full">
         <Form form={form} onFinish={onFinish}>
           <Row>
             <Col span={20} className="mx-auto">

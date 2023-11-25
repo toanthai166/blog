@@ -14,53 +14,40 @@ const Product = () => {
     isActive: true,
   });
   const { products, isLoading } = useProduct(filter);
-  // const { blogs, isLoading: loadingBlogs } = useBlog({ ...filter });
-  // const listBlog = blogs.results;
   const listproduct = products.results;
 
   console.log(listproduct);
 
-  // const onChange = (key) => {
-  //   setFilter({ ...filter, categoryId: key });
-  // };
-
   return (
     <>
-      <Lable title="Sản phẩm"></Lable>
-      <div className="my-10 text-[#A62B00] font-normal text-2xl">
+      <Lable title="Sản phẩm của tôi"></Lable>
+      {/* <div className="my-10 text-[#A62B00] font-normal text-2xl">
         Công thức nấu ăn phổ biến của tôi
-      </div>
-      <Spin
-        spinning={isLoading}
-        className="w-full grid grid-cols-2 gap-10 max-w-[900px]"
-      >
-        {listproduct?.map((it) => (
-          <div key={it.id}>
-            <Link to={AppRoutes.productDetailId(it.id)}>
-              <img
-                src={it.image ?? ""}
-                alt=""
-                className="w-full object-cover rounded"
-              />
-            </Link>
-            <div className="p-5 flex flex-col gap-5">
+      </div> */}
+      <Spin spinning={isLoading}>
+        <div className="w-full grid grid-cols-2 gap-10 mt-20">
+          {listproduct?.map((it) => (
+            <div key={it.id} data-aos="fade-up" data-aos-duration="1500">
               <Link to={AppRoutes.productDetailId(it.id)}>
-                <span className="text-2xl font-normal text-[#A62B00] ">
-                  {it?.name}
-                </span>
+                <img
+                  src={it.image ?? ""}
+                  alt=""
+                  className="w-full object-cover rounded"
+                />
               </Link>
-              <span>{numberWithDots(it?.unitPrice) + " đ"}</span>
+              <div className="p-10 px-28 flex flex-col  gap-5">
+                <Link to={AppRoutes.productDetailId(it.id)}>
+                  <span className="text-2xl font-normal text-[#A62B00] ">
+                    {it?.name}
+                  </span>
+                </Link>
+                <span className="text-lg font-normal">
+                  {numberWithDots(it?.unitPrice) + " đ"}
+                </span>
+              </div>
             </div>
-            <div className="flex gap-10">
-              <Button type="dashed" block>
-                Thêm vào giở hàng
-              </Button>
-              <Button type="dashed" block>
-                Mua ngay
-              </Button>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </Spin>
     </>
   );

@@ -26,7 +26,7 @@ const FaqManagement = () => {
   const { handleDeleteFaq, mutation } = useDeleteFaq();
 
   const listFaq = faqs
-    ? faqs?.results?.map((item, index) => ({
+    ? faqs?.data?.results?.map((item, index) => ({
         ...item,
         key: item.id,
         index: ++index,

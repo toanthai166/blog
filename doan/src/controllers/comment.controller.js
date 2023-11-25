@@ -4,14 +4,23 @@ const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { commentService } = require('../services');
 const Comment = require('../models/comment.model');
+const { User } = require('../models');
 
 const createComment = catchAsync(async (req, res) => {
-  const newComment = {
-    ...req.body,
-    author: req.user,
-  };
-  await commentService.createComment(newComment);
-  res.status(httpStatus.CREATED).send(newComment);
+  const userId = req.user.id;
+
+  const user = await User.findById(userId);
+
+  console.log(user);
+
+  if (!user) {
+    throw new Error('user not found');
+  }
+
+  req.body.user = user.toObject();
+  console.log('req.body', req.body);
+  await commentService.createComment(req.body);
+  res.status(httpStatus.CREATED).send(req.body);
 });
 
 const getCommentByBlogId = catchAsync(async (req, res) => {

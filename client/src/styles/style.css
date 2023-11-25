@@ -11,3 +11,13 @@
 .ant-collapse {
   border: none;
 }
+.ant-tabs-tab-btn {
+  color: #a62b00;
+}
+.ant-breadcrumb-link a {
+  color: black;
+}
+.ant-breadcrumb-link a:hover {
+  color: #a62b00;
+  background: transparent;
+}

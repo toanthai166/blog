@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.post-detail {
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+.post-detail img {
+  display: flex;
+  margin: 0 auto;
+}
+.ant-input {
+  height: 44px;
+  border: 1px solid #b4755e;
+}
+.ant-input-textarea-affix-wrapper {
+  border: 1px solid #b4755e;
+}
+.ant-input:hover,
+.ant-input-textarea-affix-wrapper:hover {
+  border: 1px solid #9c3a17;
+}

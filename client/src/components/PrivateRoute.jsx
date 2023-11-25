@@ -7,7 +7,6 @@ import AdminDashboard from "../screens/admin/dashboard";
 const PrivateRoute = ({ role }) => {
   const navigate = useNavigate();
   const auth = localStorage.getItem("auth");
-  // console.log(auth);
   useEffect(() => {
     if (!auth) {
       navigate(AppRoutes.login);

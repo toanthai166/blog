@@ -11,16 +11,16 @@ export const SubHeader = (props) => {
             return (
               <div className="inline" key={idx}>
                 {item.to ? (
-                  <Link to={item.to} className="text-xs text-grayscale-light">
+                  <Link to={item.to} className="text-2xl text-grayscale-light">
                     {item.title}
                   </Link>
                 ) : (
-                  <span className="text-xs text-grayscale-light">
+                  <span className="text-2xl text-grayscale-light">
                     {item.title}
                   </span>
                 )}
                 {!(items.length - 1 === idx) && (
-                  <span className="px-2 text-xs text-grayscale-light">/</span>
+                  <span className="px-2 text-2xl text-grayscale-light">/</span>
                 )}
               </div>
             );

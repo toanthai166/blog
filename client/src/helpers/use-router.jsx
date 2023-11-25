@@ -1,6 +1,6 @@
 import { Outlet, createBrowserRouter } from "react-router-dom";
 import { AppRoutes } from "./app-routes";
-import { Faq, Home, Login, Profile, Register, Secret } from "../screens";
+import { Faq, Home, Login, Profile, Register } from "../screens";
 import PrivateRoute from "../components/PrivateRoute";
 import { roles } from "../ultis/role";
 import BlogManagement from "../screens/admin/blog";
@@ -19,13 +19,13 @@ import OrderManagement from "../screens/admin/order";
 import DetailOrder from "../screens/admin/order/detail";
 import ContactDetail from "../screens/admin/contact/detail";
 import Contact from "../screens/contact";
-import PostDetail from "../screens/secret/post-detail";
 import Product from "../screens/product";
 import ProductDetail from "../screens/product/detail";
 import MyAddress from "../screens/address";
 import DiscountManagement from "../screens/admin/discount";
 import FormDiscount from "../screens/admin/discount/form";
 import Payment from "../screens/payment";
+import PostDetail from "../screens/home/post-detail";
 
 export const useRouter = () => {
   return createBrowserRouter([
@@ -55,10 +55,7 @@ export const useRouter = () => {
           path: AppRoutes.faq,
           element: <Faq />,
         },
-        {
-          path: AppRoutes.secret,
-          element: <Secret />,
-        },
+
         {
           path: AppRoutes.postDetail,
           element: <PostDetail />,

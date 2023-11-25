@@ -13,7 +13,7 @@ const Login = () => {
   const {
     handleLogin,
     auth,
-    mutation: { data, isLoading },
+    mutation: { data, isLoading, isError, error },
   } = useAuth();
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const Login = () => {
             Bạn chưa có tài khoản?
           </div>
           <Button
-            //   onClick={onClickRegister}
+            onClick={() => navigate(AppRoutes.register)}
             size="small"
             className="w-[87px] !h-[30px] !text-[12px] !font-medium leading-[16px]"
           >
@@ -83,7 +83,7 @@ const Login = () => {
           <Form.Item
             name="email"
             rules={[
-              { required: true, message: "dday la truong bat buoc" },
+              { required: true, message: "Đây là trường bắt buộc" },
               // {
               //   validator(_, value) {
               //     if (!value) return Promise.resolve();
@@ -122,7 +122,7 @@ const Login = () => {
           </div>
           <Form.Item
             name="password"
-            rules={[{ required: true, message: "dday la truong bat buoc" }]}
+            rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
           >
             <Input.Password />
           </Form.Item>

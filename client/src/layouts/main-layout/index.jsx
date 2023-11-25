@@ -26,9 +26,7 @@ const Layouts = ({ children }) => {
       case "1":
         navigate(AppRoutes.home);
         break;
-      case "2":
-        navigate(AppRoutes.secret);
-        break;
+
       case "3":
         navigate(AppRoutes.product);
         break;
@@ -46,10 +44,7 @@ const Layouts = ({ children }) => {
       key: "1",
       label: "Trang chủ",
     },
-    {
-      key: "2",
-      label: "Bí quyết",
-    },
+
     {
       key: "3",
       label: "My book",
@@ -70,14 +65,15 @@ const Layouts = ({ children }) => {
 
   return (
     <div className="bg-neutral-100">
-      <header className="">
-        <div className="flex justify-between p-5 mx-40 ">
+      <header className="bg-white 2xl:mx-[17.65%]">
+        <div className="flex justify-between p-5  ">
           <div className="flex gap-5 items-center">
             <Logo className="w-14 h-14" />
             <span>FLOUR & BUTTER</span>
           </div>
           <div className="flex items-center gap-5">
             <Tabs
+              className="text-[#A62B00]"
               accessKey="0"
               defaultActiveKey="0"
               items={items}
@@ -166,7 +162,9 @@ const Layouts = ({ children }) => {
           </div>
         </div>
       </header>
-      <section className="container mt-10">{children}</section>
+      <section className="container mt-10 bg-white shadow-xl">
+        {children}
+      </section>
       <Cart open={open} setIsOpenDrawer={setOpen}></Cart>
       <footer className="grid grid-cols-9 grid-rows-1 gap-12 pb-20 mt-20">
         <div className="col-span-2 col-start-2">4</div>

@@ -30,7 +30,7 @@ function isTokenExpired(token) {
 request.interceptors.request.use(
   async (config) => {
     const auth = localStorage.getItem("auth");
-    const accessToken = JSON.parse(auth)?.tokens?.access?.token;
+    const accessToken = JSON.parse(auth)?.data?.tokens?.access?.token;
 
     if (isTokenExpired(accessToken)) {
       // Lấy token mới

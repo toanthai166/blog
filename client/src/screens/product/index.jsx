@@ -20,14 +20,18 @@ const Product = () => {
 
   return (
     <>
-      <Lable title="Sản phẩm của tôi"></Lable>
-      {/* <div className="my-10 text-[#A62B00] font-normal text-2xl">
-        Công thức nấu ăn phổ biến của tôi
-      </div> */}
+      <div className="bg-slate-100 pt-10">
+        <Lable title="Sản phẩm của tôi"></Lable>
+      </div>
       <Spin spinning={isLoading}>
-        <div className="w-full grid grid-cols-2 gap-10 mt-20">
+        <div className="w-full grid grid-cols-3 gap-10 mt-20">
           {listproduct?.map((it) => (
-            <div key={it.id} data-aos="fade-up" data-aos-duration="1500">
+            <div
+              key={it.id}
+              data-aos="fade-up"
+              data-aos-duration="1500"
+              className="bg-white rounded-lg p-6"
+            >
               <Link to={AppRoutes.productDetailId(it.id)}>
                 <img
                   src={it.image ?? ""}
@@ -35,14 +39,14 @@ const Product = () => {
                   className="w-full object-cover rounded"
                 />
               </Link>
-              <div className="p-10 px-28 flex flex-col  gap-5">
+              <div className="px-12 pt-4 flex flex-col justify-between  gap-5">
                 <Link to={AppRoutes.productDetailId(it.id)}>
-                  <span className="text-2xl font-normal text-[#A62B00] ">
+                  <span className="text-xl font-medium text-black opacity-90 hover:text-red-700 transition-all  line-clamp-2">
                     {it?.name}
                   </span>
                 </Link>
-                <span className="text-lg font-normal">
-                  {numberWithDots(it?.unitPrice) + " đ"}
+                <span className="text-lg font-normal text-center text-[#A62B00]">
+                  Giá: {numberWithDots(it?.unitPrice) + " đ"}
                 </span>
               </div>
             </div>

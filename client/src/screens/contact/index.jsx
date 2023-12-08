@@ -14,40 +14,64 @@ const Contact = () => {
   };
   return (
     <>
-      <Lable title="Liên hệ"></Lable>
+      <div className="bg-slate-100 pt-10">
+        <Lable title="Liên hệ" />
+      </div>
       <div className="mt-20 pb-40 w-full">
         <Form form={form} onFinish={onFinish}>
           <Row>
             <Col span={20} className="mx-auto">
-              <h3>Thông tin liên hệ</h3>
+              <h3 className="font-semibold text-2xl left-6">
+                Thông tin liên hệ
+              </h3>
+              <div className="mt-10 mb-1 font-medium text-lg">
+                Họ và tên <span className="text-red-700">*</span>
+              </div>
               <Form.Item
                 name="fullname"
-                className="w-full mt-10"
+                className="w-full"
                 rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
               >
                 <Input placeholder="Nhập họ và tên" />
               </Form.Item>
             </Col>
             <Col span={20} className="flex gap-10 mx-auto">
-              <Form.Item
-                name="email"
-                className="w-full mt-10"
-                rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
-              >
-                <Input placeholder="Email" />
-              </Form.Item>
-              <Form.Item
-                name="phone"
-                className="w-full mt-10"
-                rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
-              >
-                <Input placeholder="Số điện thoại" />
-              </Form.Item>
+              <div className="w-full">
+                <div className=" mb-1 font-medium text-lg">
+                  Email <span className="text-red-700">*</span>
+                </div>
+                <Form.Item
+                  name="email"
+                  className="w-full"
+                  rules={[
+                    { required: true, message: "Đây là trường bắt buộc" },
+                  ]}
+                >
+                  <Input placeholder="Email" />
+                </Form.Item>
+              </div>
+              <div className="w-full">
+                <div className="mb-1 font-medium text-lg">
+                  Số điện thoại <span className="text-red-700">*</span>
+                </div>
+                <Form.Item
+                  name="phone"
+                  className="w-full"
+                  rules={[
+                    { required: true, message: "Đây là trường bắt buộc" },
+                  ]}
+                >
+                  <Input placeholder="Số điện thoại" />
+                </Form.Item>
+              </div>
             </Col>
             <Col span={20} className="mx-auto">
+              <div className="mb-1 font-medium text-lg">
+                Nội dung liên hệ <span className="text-red-700">*</span>
+              </div>
               <Form.Item
                 name="content"
-                className="w-full mt-10"
+                className="w-full"
                 rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
               >
                 <TextArea
@@ -60,7 +84,7 @@ const Contact = () => {
               <Button
                 loading={mutation.isLoading}
                 disabled={mutation.isLoading}
-                type="dashed"
+                type="primary"
                 htmlType="submit"
               >
                 Gửi liên hệ

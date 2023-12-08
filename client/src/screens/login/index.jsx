@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Input } from "antd";
+import { Button, Checkbox, Form, Input, notification } from "antd";
 
 import { AuthLayout } from "../../layouts/auth-layout";
 import { useCallback, useEffect } from "react";
@@ -6,6 +6,7 @@ import { useCallback, useEffect } from "react";
 import { useAuth } from "../../hooks/auth.hook.js";
 import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "../../helpers/app-routes";
+import { REGEX_EMAIL } from "../../helpers/regex.js";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -13,14 +14,24 @@ const Login = () => {
   const {
     handleLogin,
     auth,
-    mutation: { data, isLoading, isError, error },
+    error,
+    mutation: { isLoading },
   } = useAuth();
+  console.log("error :>> ", error);
 
   useEffect(() => {
     if (auth) {
       navigate(AppRoutes.home);
     }
   }, [auth, navigate]);
+  useEffect(() => {
+    if (error !== undefined) {
+      notification.error({
+        message: "Tài khoản hoặc mật khẩu không chính xác",
+      });
+      form.resetFields();
+    }
+  }, [error, form]);
 
   const onFinish = useCallback(() => {
     form.validateFields().then(() => {
@@ -78,32 +89,22 @@ const Login = () => {
                 )} */}
           <div className="mt-32px" />
           <div className="mb-[8px] font-medium text-14px text-yankees-blue">
-            Email hoặc số điện thoại
+            Email
           </div>
           <Form.Item
             name="email"
             rules={[
               { required: true, message: "Đây là trường bắt buộc" },
-              // {
-              //   validator(_, value) {
-              //     if (!value) return Promise.resolve();
-              //     if (value.startsWith("0") && !value.includes("@")) {
-              //       const validation = REGEX_PHONE.test(value);
-              //       return validation
-              //         ? Promise.resolve()
-              //         : Promise.reject(
-              //             new Error(errorLogin.invalidFormatPhone)
-              //           );
-              //     } else {
-              //       const validation = REGEX_EMAIL.test(value);
-              //       return validation
-              //         ? Promise.resolve()
-              //         : Promise.reject(
-              //             new Error(errorLogin.invalidFormatEmail)
-              //           );
-              //     }
-              //   },
-              // },
+              {
+                validator(_, value) {
+                  if (!value) return Promise.resolve();
+
+                  const validation = REGEX_EMAIL.test(value);
+                  return validation
+                    ? Promise.resolve()
+                    : Promise.reject(new Error("Email chưa đúng định dạng"));
+                },
+              },
             ]}
           >
             <Input />

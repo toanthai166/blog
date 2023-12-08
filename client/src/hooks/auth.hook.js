@@ -1,5 +1,5 @@
 import { useMutation } from "react-query";
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { login, register } from "../api/auth.api";
 import { useAtom } from "jotai";
 import { authAtom } from "../states/auth.state";
@@ -8,6 +8,7 @@ import { RESET } from "jotai/utils";
 
 export const useAuth = () => {
   const [auth, setAuth] = useAtom(authAtom);
+  const [error, setError] = useState();
   const mutation = useMutation(login, {
     mutationKey: "login",
   });
@@ -17,7 +18,10 @@ export const useAuth = () => {
 
   const handleLogin = useCallback(
     ({ email, password }) => {
-      mutation.mutate({ email, password });
+      mutation.mutate(
+        { email, password },
+        { onError: (err) => setError(err.response.data.message) }
+      );
     },
     [mutation]
   );
@@ -29,6 +33,7 @@ export const useAuth = () => {
     mutation,
     handleLogin,
     auth,
+    error,
     logout,
   };
 };
@@ -38,12 +43,19 @@ export const useRegister = () => {
   const mutation = useMutation(register, {
     mutationKey: "register",
   });
-  useMemo(() => {
-    setAuth(mutation.data ?? {});
-  }, [mutation.data]);
+  // useMemo(() => {
+  //   setAuth(mutation.data ?? {});
+  // }, [mutation.data]);
   const handleRegister = useCallback(
     ({ email, name, password }) => {
-      mutation.mutate({ email, name, password });
+      mutation.mutate(
+        { email, name, password },
+        {
+          onError: (err) => {
+            console.log(err);
+          },
+        }
+      );
     },
     [mutation]
   );

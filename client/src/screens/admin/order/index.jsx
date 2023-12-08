@@ -269,7 +269,7 @@ const OrderManagement = () => {
       dataIndex: "product",
       key: "product",
       render: (product) => {
-        return product.map((it, idx) => (
+        return product?.map((it, idx) => (
           <div key={idx} className="flex flex-col">
             <div className="flex">
               <img
@@ -290,7 +290,7 @@ const OrderManagement = () => {
       dataIndex: "quantity",
       key: "quantity",
       render: (product) => {
-        return product.map((it, idx) => (
+        return product?.map((it, idx) => (
           <div key={"quantity" + it?.id} className="flex flex-col">
             <div className="h-[30px] mb-8px">{"x" + it?.quantity}</div>
             {idx !== product.length - 1 && <Divider />}
@@ -303,7 +303,7 @@ const OrderManagement = () => {
       dataIndex: "product",
       key: "product",
       render: (product) => {
-        return product.map((it, idx) => (
+        return product?.map((it, idx) => (
           <div className="flex flex-col" key={"unitPrice" + it?.id}>
             <div className="h-[30px] mb-8px">
               {numberWithDots(it?.product?.unitPrice) + "đ"}
@@ -350,7 +350,7 @@ const OrderManagement = () => {
       width: "30%",
 
       render: (product) => {
-        return product.map((it, idx) => (
+        return product?.map((it, idx) => (
           <div key={idx} className="flex flex-col">
             <div className="flex">
               <img
@@ -373,7 +373,7 @@ const OrderManagement = () => {
       align: "right",
       width: "10%",
       render: (product) => {
-        return product.map((it, idx) => (
+        return product?.map((it, idx) => (
           <div key={"quantity" + it?.id} className="flex flex-col">
             <div className="h-[30px] mb-8px">{"x" + it?.quantity}</div>
             {idx !== product.length - 1 && <Divider />}
@@ -388,7 +388,7 @@ const OrderManagement = () => {
       align: "right",
       width: "15%",
       render: (product) => {
-        return product.map((it, idx) => (
+        return product?.map((it, idx) => (
           <div className="flex flex-col" key={"unitPrice" + it?.id}>
             <div className="h-[30px] mb-8px">
               {numberWithDots(it?.product?.unitPrice) + "đ"}
@@ -451,7 +451,7 @@ const OrderManagement = () => {
       dataIndex: "product",
       width: "30%",
       render: (product) => {
-        return product.map((it, idx) => (
+        return product?.map((it, idx) => (
           <div key={idx} className="flex flex-col">
             <div className="flex">
               <img
@@ -474,7 +474,7 @@ const OrderManagement = () => {
       align: "right",
       width: "10%",
       render: (product) => {
-        return product.map((it, idx) => (
+        return product?.map((it, idx) => (
           <div key={"quantity" + it?.id} className="flex flex-col">
             <div className="h-[30px] mb-8px">{"x" + it?.quantity}</div>
             {idx !== product.length - 1 && <Divider />}
@@ -489,7 +489,7 @@ const OrderManagement = () => {
       align: "right",
       width: "15%",
       render: (product) => {
-        return product.map((it, idx) => (
+        return product?.map((it, idx) => (
           <div className="flex flex-col" key={"unitPrice" + it?.id}>
             <div className="h-[30px] mb-8px">
               {numberWithDots(it?.product?.unitPrice) + "đ"}
@@ -587,7 +587,6 @@ const OrderManagement = () => {
           scroll={{ y: "calc(100vh - 320px)" }}
         />
       </div>
-      <div></div>
     </Spin>
   );
 };

@@ -18,10 +18,84 @@
 .ant-input-textarea-affix-wrapper {
   border: 1px solid #b4755e;
 }
+.ant-table-cell .antd-input {
+  height: 20px !important;
+}
 .ant-input:hover,
 .ant-input-textarea-affix-wrapper:hover {
   border: 1px solid #9c3a17;
 }
 .ant-upload-list {
   display: none;
+}
+
+.ant-btn-primary {
+  background-color: #9c3a17;
+}
+.ant-tabs-tab-btn {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+:where(.css-dev-only-do-not-override-1eeekto).ant-tabs-top
+  > .ant-tabs-nav::before,
+:where(.css-dev-only-do-not-override-1eeekto).ant-tabs-top
+  > div
+  > .ant-tabs-nav::before {
+  bottom: 0;
+  display: none;
+}
+.item-banner .ant-tabs-tab-btn {
+  color: #9c3a17;
+  font-size: 18px;
+  font-weight: 500;
+}
+.header
+  :where(.css-dev-only-do-not-override-12r0slu).ant-tabs
+  .ant-tabs-tab-active
+  .ant-tabs-tab-btn {
+  color: white;
+  text-shadow: 0 0 0.25px currentcolor;
+}
+.header
+  :where(.css-dev-only-do-not-override-12r0slu).ant-tabs-top
+  > .ant-tabs-nav::before,
+:where(.css-dev-only-do-not-override-12r0slu).ant-tabs-top
+  > div
+  > .ant-tabs-nav::before {
+  display: none;
+  bottom: 0;
+}
+
+.product-detail
+  :where(.css-dev-only-do-not-override-1eeekto).ant-divider-horizontal {
+  display: flex;
+  clear: both;
+  width: 100%;
+  min-width: 100%;
+  margin: 3px 0;
+}
+/* .overflow-y-scroll {
+  overflow-y: hidden;
+} */
+
+.swiper {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+.ant-collapse-header-text {
+  font-size: 18px;
+  font-weight: 500;
+}
+.ant-collapse-content-box {
+  font-size: 16px;
+  font-weight: 400;
+}
+.ant-input-group-addon {
+  border: 1px solid #b4755e;
+  border-left: transparent;
+}
+
+.post-details .swiper-slide {
+  width: 30% !important;
 }

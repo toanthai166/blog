@@ -1,4 +1,5 @@
-import * as request from "../services/axios.service";
+// import * as request from "../services/axios.service";
+import request from "../services/axios.service";
 
 export const login = async ({ email, password }) => {
   const data = await request.post("/auth/login", {

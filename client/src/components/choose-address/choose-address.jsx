@@ -8,9 +8,9 @@ import { useAddress } from "../../hooks/address.hook";
 export const ChooseAddress = ({ onCancel, open, onFinish, defaultAddress }) => {
   const navigate = useNavigate();
   const auth = localStorage.getItem("auth");
-  const user = JSON.parse(auth);
+  const user = JSON.parse(auth)?.data;
 
-  const { addresses } = useAddress(user?.user.id);
+  const { addresses } = useAddress(user?.user?.id);
 
   const listAddress = useMemo(() => {
     const addressClone = addresses[0]?.addresses;
@@ -58,7 +58,7 @@ export const ChooseAddress = ({ onCancel, open, onFinish, defaultAddress }) => {
               <div
                 className={`border border-solid  rounded flex items-center  gap-x-4 p-16px mb-16px p-5 hover:cursor-pointer ${
                   addressSelected?.id === add?.id
-                    ? "border-[#FFC42C]"
+                    ? "border-red-500"
                     : "border-slate-200"
                 }`}
                 key={"address" + add?.id}

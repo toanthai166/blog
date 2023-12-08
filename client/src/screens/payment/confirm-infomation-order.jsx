@@ -1,11 +1,21 @@
 import { useCallback, useMemo, useState } from "react";
-import { Avatar, Button, Col, Descriptions, Divider, Radio, Row } from "antd";
+import {
+  Avatar,
+  Breadcrumb,
+  Button,
+  Col,
+  Descriptions,
+  Divider,
+  Radio,
+  Row,
+} from "antd";
 import { RightOutlined } from "@ant-design/icons";
 import { SubHeader } from "../../components/sub-header/SubHeader";
 import { AppRoutes } from "../../helpers/app-routes";
 import { numberWithDots } from "../../ultis/pagination";
 import TextArea from "antd/es/input/TextArea";
 import { useCreateOrder } from "../../hooks/order.hook";
+import { Link } from "react-router-dom";
 
 export const ConfirmInfomationOrder = ({
   discount,
@@ -52,21 +62,21 @@ export const ConfirmInfomationOrder = ({
 
   return (
     <div>
-      <SubHeader
+      <Breadcrumb
+        className="text-2xl pt-10 "
         items={[
           {
-            title: "Trang chủ",
-            to: AppRoutes.home,
+            title: <Link to={AppRoutes.home}>Trang chủ</Link>,
           },
           {
-            title: "Đặt hàng",
+            title: <sppan>Đặt hàng</sppan>,
           },
         ]}
       />
-      <div className="bg-ghost-white p-20px pb-40">
-        <Row gutter={20}>
-          <Col span={16}>
-            <div className="  p-5 mt-10">
+      <div className="pb-40">
+        <Row gutter={24}>
+          <Col span={16} className="bg-white p-6 rounded-md mt-10 pb-10">
+            <div className="px-6">
               <h2 className="uppercase text-lg font-semibold">
                 Địa chỉ nhận hàng
               </h2>
@@ -80,12 +90,13 @@ export const ConfirmInfomationOrder = ({
                     </span>
                   )}
                 </div>
-                <span
+                <Button
+                  type="default"
                   className="hover:cursor-pointer font-semibold text-sm text-primary"
                   onClick={onReChooseAddress}
                 >
                   Thay đổi
-                </span>
+                </Button>
               </div>
               <p className="text-base text-grayscale-gray leading-18px">
                 {address?.phone}
@@ -94,90 +105,55 @@ export const ConfirmInfomationOrder = ({
                 {address?.addressName}
               </p>
             </div>
-            <div className="bg-white p-20px">
-              <Descriptions
-                className="w-full "
-                bordered
-                column={{ xl: 2, lg: 2, md: 2 }}
-              >
-                <Descriptions.Item
-                  label="Sản phẩm"
-                  labelStyle={{ backgroundColor: "#fff", textAlign: "center" }}
-                  contentStyle={{ textAlign: "center" }}
-                >
-                  Số lượng
-                </Descriptions.Item>
-                <Descriptions.Item
-                  label="Đơn giá"
-                  labelStyle={{ backgroundColor: "#fff", textAlign: "center" }}
-                  contentStyle={{ textAlign: "center" }}
-                >
-                  Thành tiền
-                </Descriptions.Item>
-                {carts.map((p) => {
-                  const product = productsBuy.find(
-                    (it) => it?.product._id === p?.productId
-                  );
-                  return (
-                    <>
-                      <Descriptions.Item
-                        label={
-                          <div className="flex" key={product?.product?.id}>
-                            {product?.product?.image && (
-                              <Avatar
-                                shape="square"
-                                src={product?.product?.image}
-                              />
-                            )}
-                            <span className="pl-12px text-14px font-medium leading-20px line-clamp-1">
-                              {product?.product?.name}
-                            </span>
-                          </div>
-                        }
-                        labelStyle={{
-                          backgroundColor: "#fff",
-                          color: "rgba(19, 19, 19, 1)",
-                          fontWeight: 600,
-                          textAlign: "center",
-                        }}
-                        contentStyle={{
-                          backgroundColor: "#fff",
-                          color: "rgba(19, 19, 19, 1)",
-                          fontWeight: 600,
-                          textAlign: "center",
-                        }}
-                      >
-                        {p?.quantity}
-                      </Descriptions.Item>
-                      <Descriptions.Item
-                        label={
-                          numberWithDots(product?.product?.unitPrice) + "đ "
-                        }
-                        labelStyle={{
-                          backgroundColor: "#fff",
-                          color: "rgba(19, 19, 19, 1)",
-                          fontWeight: 600,
-                          textAlign: "center",
-                        }}
-                        contentStyle={{
-                          backgroundColor: "#fff",
-                          color: "rgba(19, 19, 19, 1)",
-                          fontWeight: 600,
-                          textAlign: "center",
-                        }}
-                      >
+            <table className="w-full border mt-6">
+              <tr className="border">
+                <th className="border bg-slate-100 py-3">Sản phẩm</th>
+                <th className="border bg-slate-100 py-3">Số lượng</th>
+                <th className="border bg-slate-100 py-3">Đơn giá</th>
+                <th className="border bg-slate-100 py-3">Thành tiền</th>
+              </tr>
+              {carts.map((p) => {
+                const product = productsBuy.find(
+                  (it) => it?.product._id === p?.productId
+                );
+                return (
+                  <>
+                    <tr>
+                      <td className="border p-4">
+                        <div className="flex" key={product?.product?.id}>
+                          {product?.product?.image && (
+                            <img
+                              className="w-[80px] h-20"
+                              src={product?.product?.image}
+                            />
+                          )}
+                          <span className="pl-3 text-lg font-medium leading-5 line-clamp-1">
+                            {product?.product?.name}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="border p-4"> {p?.quantity}</td>
+                      <td className="border p-4">
+                        {numberWithDots(product?.product?.unitPrice) + "đ "}
+                      </td>
+                      <td className="border p-4">
+                        {" "}
                         {numberWithDots(
                           p?.quantity * (product?.product?.unitPrice ?? 1)
                         ) + "đ "}
-                      </Descriptions.Item>
-                    </>
-                  );
-                })}
-              </Descriptions>
-            </div>
+                      </td>
+                    </tr>
+                  </>
+                );
+              })}
+            </table>
+
             <div className="flex gap-5 mt-5">
-              <span className="text-base">Ghi chú đơn hàng:</span>
+              <span className="text-base">
+                Ghi chú đơn hàng: <span className="text-red-700">*</span>
+              </span>
               <TextArea
+                className="flex-1"
                 showCount
                 rows={3}
                 maxLength={255}
@@ -186,7 +162,7 @@ export const ConfirmInfomationOrder = ({
             </div>
           </Col>
           <Col span={8}>
-            <div className="bg-white mt-24 mb-16px p-20px">
+            <div className="bg-white mt-10 mb-6 p-5 rounded">
               <h2 className="uppercase mb-5 text-base font-semibold">
                 Mã giảm giá
               </h2>
@@ -208,7 +184,7 @@ export const ConfirmInfomationOrder = ({
                 )}
               </div>
             </div>
-            <div className="bg-white mb-16px p-20px">
+            <div className="bg-white  p-5">
               <h2 className="uppercase mb-5 text-lg font-medium">
                 Phương thức thanh toán
               </h2>
@@ -219,7 +195,7 @@ export const ConfirmInfomationOrder = ({
                 <Radio checked disabled />
               </div>
             </div>
-            <div className="bg-white mb-16px p-20px">
+            <div className="bg-white p-5">
               <div className="px-16px py-[10px] flex items-center justify-between">
                 <span className="text-base leading-5 ">Tổng thanh toán </span>
                 <span className="font-semibold text-lg">
@@ -229,22 +205,23 @@ export const ConfirmInfomationOrder = ({
                 </span>
               </div>
             </div>
+            <div
+              className=" left-[240px] right-0 bottom-0
+           px-24px mt-5 py-8px flex justify-end"
+            >
+              <Button
+                type="primary"
+                loading={mutation.isLoading}
+                onClick={handleUserCreateOrder}
+                disabled={
+                  !address || !productsBuy || mutation.isLoading || !note
+                }
+              >
+                Đặt mua
+              </Button>
+            </div>
           </Col>
         </Row>
-
-        <div
-          className="fixed left-[240px] right-0 bottom-0
-         bg-white px-24px py-8px flex justify-end"
-        >
-          <Button
-            type="primary"
-            loading={mutation.isLoading}
-            onClick={handleUserCreateOrder}
-            disabled={!address || !productsBuy || mutation.isLoading}
-          >
-            Đặt mua
-          </Button>
-        </div>
       </div>
     </div>
   );

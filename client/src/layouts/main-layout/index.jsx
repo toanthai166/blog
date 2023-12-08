@@ -1,7 +1,12 @@
-import { Avatar, Button, Dropdown, Tabs } from "antd";
+import { Avatar, Button, Divider, Dropdown, Input, Space, Tabs } from "antd";
 import "../../styles/style.css";
-import { Logo } from "../../assets";
-import { UserOutlined } from "@ant-design/icons";
+import { CartIcon, Logo } from "../../assets";
+import {
+  SettingOutlined,
+  ShoppingCartOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
+import { debounce } from "lodash";
 import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "../../helpers/app-routes";
 import { useAuth } from "../../hooks/auth.hook";
@@ -18,7 +23,7 @@ const Layouts = ({ children }) => {
 
   useEffect(() => {
     const auth = localStorage.getItem("auth");
-    if (auth) setUser(JSON.parse(auth).user);
+    if (auth) setUser(JSON.parse(auth)?.data?.user);
   }, []);
 
   const onChange = (key) => {
@@ -26,15 +31,11 @@ const Layouts = ({ children }) => {
       case "1":
         navigate(AppRoutes.home);
         break;
-
-      case "3":
+      case "2":
         navigate(AppRoutes.product);
         break;
-      case "5":
+      case "3":
         navigate(AppRoutes.contact);
-        break;
-      case "6":
-        setOpen(true);
         break;
     }
   };
@@ -46,128 +47,133 @@ const Layouts = ({ children }) => {
     },
 
     {
+      key: "2",
+      label: "Sản phẩm",
+    },
+    {
       key: "3",
-      label: "My book",
-    },
-    {
-      key: "4",
-      label: "Giới thiệu",
-    },
-    {
-      key: "5",
       label: "Liên hệ",
-    },
-    {
-      key: "6",
-      label: "Giỏ hàng",
     },
   ];
 
   return (
-    <div className="bg-neutral-100">
-      <header className="bg-white 2xl:mx-[17.65%]">
-        <div className="flex justify-between p-5  ">
+    <>
+      <header className=" bg-gradient-to-r from-red-700 to-red-500 header shadow-[28px_40px_80px_0px_#18264D59]">
+        <div className="flex justify-between p-5  2xl:mx-[12.65%] ">
           <div className="flex gap-5 items-center">
-            <Logo className="w-14 h-14" />
-            <span>FLOUR & BUTTER</span>
+            <img
+              src="../../public/image/blog-am-thuc.png"
+              alt=""
+              className="w-16 h-16"
+            />
           </div>
-          <div className="flex items-center gap-5">
+
+          <div className="flex items-center gap-10">
             <Tabs
-              className="text-[#A62B00]"
               accessKey="0"
               defaultActiveKey="0"
               items={items}
               onChange={onChange}
             />
-            <div className="flex items-center gap-5">
-              <Avatar
-                className="-translate-y-2"
-                size="small"
-                icon={<UserOutlined />}
+            <span
+              className="cursor-pointer p-2 -translate-y-1"
+              onClick={() => setOpen(!open)}
+            >
+              <ShoppingCartOutlined
+                style={{ color: "#fff", fontSize: "24px" }}
               />
-              {!user ? (
-                <span
-                  className="-translate-y-2 cursor-pointer"
-                  onClick={() => navigate(AppRoutes.login)}
+            </span>
+
+            {!user ? (
+              <span
+                className="-translate-y-2 cursor-pointer"
+                onClick={() => navigate(AppRoutes.login)}
+              >
+                Login
+              </span>
+            ) : (
+              <>
+                <Dropdown
+                  className="-translate-y-1"
+                  menu={{
+                    items: [
+                      {
+                        label: (
+                          <Button
+                            onClick={() => navigate("profile?info=myOrder")}
+                            className="w-full"
+                            type="dashed"
+                          >
+                            Đơn hàng của tôi
+                          </Button>
+                        ),
+                        key: "0",
+                      },
+                      {
+                        label: (
+                          <Button
+                            className="w-full"
+                            type="dashed"
+                            onClick={() =>
+                              navigate("profile?info=address", {
+                                state: {
+                                  userId: user?.data?.user?.id,
+                                },
+                              })
+                            }
+                          >
+                            Địa chỉ của tôi
+                          </Button>
+                        ),
+                        key: "1",
+                      },
+                      {
+                        label: (
+                          <Button
+                            type="dashed"
+                            disabled={user.role === "user"}
+                            onClick={() => navigate(AppRoutes.admin)}
+                          >
+                            Đi tới trang quản trị
+                          </Button>
+                        ),
+                        key: "2",
+                      },
+                      {
+                        label: (
+                          <Button
+                            className="w-full"
+                            type="dashed"
+                            onClick={() => {
+                              navigate(AppRoutes.login);
+                              logout();
+                            }}
+                          >
+                            Đăng xuất
+                          </Button>
+                        ),
+                        key: "3",
+                      },
+                    ],
+                  }}
+                  trigger={["click"]}
                 >
-                  Login
-                </span>
-              ) : (
-                <>
-                  <Dropdown
-                    menu={{
-                      items: [
-                        {
-                          label: (
-                            <Button className="w-full" type="dashed">
-                              Đơn hàng của tôi
-                            </Button>
-                          ),
-                          key: "0",
-                        },
-                        {
-                          label: (
-                            <Button
-                              className="w-full"
-                              type="dashed"
-                              onClick={() =>
-                                navigate(AppRoutes.myAddress, {
-                                  state: {
-                                    userId: auth.user.id,
-                                  },
-                                })
-                              }
-                            >
-                              Địa chỉ của tôi
-                            </Button>
-                          ),
-                          key: "1",
-                        },
-                        {
-                          label: (
-                            <Button
-                              type="dashed"
-                              disabled={user.role === "user"}
-                              onClick={() => navigate(AppRoutes.admin)}
-                            >
-                              Đi tới trang quản trị
-                            </Button>
-                          ),
-                          key: "2",
-                        },
-                        {
-                          label: (
-                            <Button
-                              className="w-full"
-                              type="dashed"
-                              onClick={() => {
-                                navigate(AppRoutes.login);
-                                logout();
-                              }}
-                            >
-                              Đăng xuất
-                            </Button>
-                          ),
-                          key: "3",
-                        },
-                      ],
-                    }}
-                    trigger={["click"]}
-                  >
-                    <Button type="default">Tài khoản {user?.name}</Button>
-                  </Dropdown>
-                </>
-              )}
-            </div>
+                  <SettingOutlined
+                    style={{ color: "#fff", fontSize: "24px" }}
+                  />
+                </Dropdown>
+              </>
+            )}
           </div>
         </div>
       </header>
-      <section className="container mt-10 bg-white shadow-xl">
-        {children}
-      </section>
+      <section className="2xl:px-[12.65%] bg-slate-100 ">{children}</section>
       <Cart open={open} setIsOpenDrawer={setOpen}></Cart>
-      <footer className="grid grid-cols-9 grid-rows-1 gap-12 pb-20 mt-20">
-        <div className="col-span-2 col-start-2">4</div>
+      <footer className="grid grid-cols-9 grid-rows-1 gap-12 pb-20  2xl:px-[12.65%] bg-slate-100">
+        <div className="col-span-2 col-start-2">
+          <img src="../../public/image/logo.png" alt="" className="w-16 h-16" />
+          <div>abc</div>
+        </div>
         <div className="col-start-5 flex flex-col gap-5">
           <h2>Site</h2>
           <div className="flex flex-col gap-2">
@@ -199,7 +205,7 @@ const Layouts = ({ children }) => {
           </div>
         </div>
       </footer>
-    </div>
+    </>
   );
 };
 

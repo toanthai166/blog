@@ -11,7 +11,7 @@ import { AppRoutes } from "../../../helpers/app-routes";
 import { useState } from "react";
 import { DefaultPagination } from "../../../ultis/pagination";
 import {
-  useBlog,
+  useAdminBlog,
   useChangeIsActiveBlog,
   useDeleteBlog,
 } from "../../../hooks/blog.hook";
@@ -22,8 +22,9 @@ const BlogManagement = () => {
   const [filter, setFilter] = useState({
     limit: 100,
     page: 1,
+    title: "",
   });
-  const { blogs, isLoading } = useBlog({ ...filter });
+  const { blogs, isLoading } = useAdminBlog({ ...filter });
 
   const { handleDeleteBlog, mutation } = useDeleteBlog();
   const { handleChangeIsActiveBlog } = useChangeIsActiveBlog();
@@ -85,6 +86,7 @@ const BlogManagement = () => {
       title: "Action",
       key: "id",
       dataIndex: "id",
+      align: "center",
       render: (id) => {
         return (
           <div className="flex gap-2 justify-end">

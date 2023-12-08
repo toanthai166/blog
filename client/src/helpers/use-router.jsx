@@ -21,11 +21,12 @@ import ContactDetail from "../screens/admin/contact/detail";
 import Contact from "../screens/contact";
 import Product from "../screens/product";
 import ProductDetail from "../screens/product/detail";
-import MyAddress from "../screens/address";
+import MyAddress from "../screens/profile/component/address";
 import DiscountManagement from "../screens/admin/discount";
 import FormDiscount from "../screens/admin/discount/form";
 import Payment from "../screens/payment";
 import PostDetail from "../screens/home/post-detail";
+import Search from "../screens/home/search";
 
 export const useRouter = () => {
   return createBrowserRouter([
@@ -52,8 +53,8 @@ export const useRouter = () => {
           element: <Home />,
         },
         {
-          path: AppRoutes.faq,
-          element: <Faq />,
+          path: AppRoutes.search,
+          element: <Search />,
         },
 
         {
@@ -73,10 +74,10 @@ export const useRouter = () => {
           element: <ProductDetail />,
         },
         // address
-        {
-          path: AppRoutes.myAddress,
-          element: <MyAddress />,
-        },
+        // {
+        //   path: AppRoutes.myAddress,
+        //   element: <Profile />,
+        // },
         {
           path: AppRoutes.profile,
           element: <Profile />,

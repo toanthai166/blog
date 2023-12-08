@@ -10,6 +10,7 @@ export const useCart = (userId) => {
   const [cart, setCart] = useAtom(carts);
   const { isLoading, error } = useQuery({
     queryKey: ["carts"],
+    enabled: userId ? true : false,
     queryFn: useCallback(() => myCart(userId), [userId]),
     onSuccess: (res) => {
       setCart(res?.data?.results);

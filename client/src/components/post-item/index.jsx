@@ -5,7 +5,6 @@ import { AppRoutes } from "../../helpers/app-routes";
 import dayjs from "dayjs";
 
 const itItem = ({ it, className }) => {
-  console.log("it", it);
   return (
     <Link
       to={AppRoutes.postDetailId(it?.id)}

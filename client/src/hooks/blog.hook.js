@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useAtom } from "jotai";
-import { listBlog } from "../states/blog.state";
+import { blogItem, listBlog } from "../states/blog.state";
 import {
   changeIsActiveBlog,
   createBlog,
@@ -17,8 +17,20 @@ import { AppRoutes } from "../helpers/app-routes";
 export const useBlog = (filter) => {
   const [blogs, setBlogs] = useAtom(listBlog);
   const { isLoading, error } = useQuery({
-    queryKey: ["blogs"],
-    queryFn: () => getBlogs(filter),
+    queryKey: [`blogs/${filter.page}&&${filter.title}&&${filter.categoryId}`],
+    queryFn: useCallback(() => getBlogs(filter), [filter]),
+    onSuccess: (res) => {
+      setBlogs(res.data);
+    },
+  });
+  return { isLoading, error, blogs };
+};
+
+export const useAdminBlog = (filter) => {
+  const [blogs, setBlogs] = useAtom(listBlog);
+  const { isLoading, error } = useQuery({
+    queryKey: [`blogs`],
+    queryFn: useCallback(() => getBlogs(filter), [filter]),
     onSuccess: (res) => {
       setBlogs(res.data);
     },
@@ -27,13 +39,12 @@ export const useBlog = (filter) => {
 };
 
 export const useGetBlogById = (blogId) => {
-  const [blog, setBlog] = useAtom(listBlog);
+  const [blog, setBlog] = useAtom(blogItem);
   const { isLoading, error } = useQuery({
     queryKey: [`blog/${blogId}`],
     queryFn: () => getBlogById(blogId),
     enabled: blogId ? true : false,
     onSuccess: (res) => {
-      console.log("res :>> ", res);
       setBlog(res.data);
     },
   });

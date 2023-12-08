@@ -11,8 +11,8 @@ const Cart = ({ open, setIsOpenDrawer }) => {
   const navigate = useNavigate();
   const [quantityByProduct, setQuantityByProduct] = useState([]);
   const auth = localStorage.getItem("auth");
-  const user = JSON.parse(auth);
-  const { cart } = useCart(user?.user.id);
+  const user = JSON.parse(auth)?.data;
+  const { cart } = useCart(user?.user?.id);
   const [productOrder, setProductOrder] = useState([]);
 
   const { handleRemoveToCart } = useRemoveToCart();
@@ -104,10 +104,10 @@ const Cart = ({ open, setIsOpenDrawer }) => {
         },
       },
       {
-        title: "Sản phẩm",
+        title: <span className="text-lg">Sản phẩm</span>,
         key: "",
         dataIndex: "",
-        width: "25%",
+        width: "30%",
         render: (item) => {
           return (
             <div className="full h-[90px] flex  gap-3">
@@ -116,13 +116,13 @@ const Cart = ({ open, setIsOpenDrawer }) => {
                 src={item?.product?.image ?? ""}
                 alt="Ảnh sản phẩm"
               />
-              <span>{item?.product?.name}</span>
+              <span className="font-medium text-lg">{item?.product?.name}</span>
             </div>
           );
         },
       },
       {
-        title: "Số lượng",
+        title: <span className="text-lg">Số lượng</span>,
         key: "quantity",
         dataIndex: "quantity",
         align: "center",
@@ -164,15 +164,19 @@ const Cart = ({ open, setIsOpenDrawer }) => {
       },
 
       {
-        title: "Đơn giá",
+        title: <span className="text-lg">Đơn giá</span>,
         key: "unitPrice",
         dataIndex: "product",
         align: "right",
         width: "10%",
-        render: (product) => numberWithDots(product?.unitPrice) + "đ",
+        render: (product) => (
+          <span className="font-normal text-base">
+            {numberWithDots(product?.unitPrice) + " đ"}
+          </span>
+        ),
       },
       {
-        title: "Tùy chọn",
+        title: <span className="text-lg">Tùy chọn</span>,
         key: "total",
         dataIndex: "product",
         align: "center",
@@ -180,7 +184,7 @@ const Cart = ({ open, setIsOpenDrawer }) => {
         render: (product, item) => (
           <div className="flex justify-center items-center gap-x-12px">
             <span
-              className="hover:cursor-pointer text-error"
+              className="hover:cursor-pointer text-white border py-1 px-3 rounded-lg bg-red-500 "
               onClick={() => handleRemoveProduct(item?.product?._id)}
             >
               Xóa
@@ -221,14 +225,14 @@ const Cart = ({ open, setIsOpenDrawer }) => {
         open={open}
         footer={
           <div className="flex justify-end shadow-md p-3 gap-5 items-center rounded-md">
-            <span className="text-14px leading-20px">
+            <span className="text-base leading-5">
               Tổng thanh toán ({productsBuy.length ?? 0} sản phẩm):
             </span>
-            <span className="text-14px font-semibold leading-20px">
+            <span className="text-base font-semibold leading-5">
               {numberWithDots(totalPayment) + " đ"}
             </span>
             <Button
-              type="dashed"
+              type="primary"
               disabled={
                 !productsBuy || (productsBuy && productsBuy.length === 0)
               }

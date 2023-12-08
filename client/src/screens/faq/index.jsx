@@ -17,13 +17,13 @@ const Faq = () => {
   const items = faqs?.data?.results?.map((it, index) => ({
     key: index,
     label: <span className="text-[#A62B00]">{it.title}</span>,
-    children: <div>{it.description}</div>,
+    children: <div dangerouslySetInnerHTML={{ __html: it.description }}></div>,
   }));
 
   return (
     <>
       <Lable title=" FAQ's"></Lable>
-      <div className="my-[80px]">Những câu hỏi thường gặp</div>
+      <div className="my-[80px] p-6">Những câu hỏi thường gặp</div>
       <div className="w-full pb-40 px-10 faq">
         <Spin spinning={isLoading}>
           <Collapse

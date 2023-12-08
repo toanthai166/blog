@@ -21,7 +21,7 @@ export const useCategoriesIsActive = () => {
     queryKey: ["category?isActive=true"],
     queryFn: getCategoriesIsActive,
     onSuccess: (res) => {
-      setCategories(res.data);
+      setCategories(res.data.results);
     },
   });
   return { isLoading, error, categories };

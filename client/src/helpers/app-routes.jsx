@@ -1,5 +1,6 @@
 export const AppRoutes = {
   home: "/",
+  search: "/search",
   secret: "/secret",
   postDetail: "/post/detail/:id",
   postDetailId: (id) => `/post/detail/${id}`,

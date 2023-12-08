@@ -13,11 +13,13 @@ import {
 } from "../api/address.api";
 
 export const useAddress = (userId) => {
+  console.log("userId :>> ", userId);
   const [addresses, setAddresses] = useAtom(listAddress);
   const { isLoading, error } = useQuery({
     queryKey: ["addresses"],
     queryFn: useCallback(() => getAddresses(userId), [userId]),
     onSuccess: (res) => {
+      console.log("res?.data.results :>> ", res?.data.results);
       setAddresses(res?.data.results);
     },
   });

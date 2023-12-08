@@ -16,8 +16,6 @@ const Product = () => {
   const { products, isLoading } = useProduct(filter);
   const listproduct = products.results;
 
-  console.log(listproduct);
-
   return (
     <>
       <div className="bg-slate-100 pt-10">

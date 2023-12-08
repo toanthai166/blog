@@ -6,7 +6,7 @@ const contactController = require('../../controllers/contact.controller');
 
 const router = express.Router();
 
-router.route('/create').post(auth('feedback'), validate(contactValidation.createFeedback), contactController.createFeedback);
+router.route('/create').post(validate(contactValidation.createFeedback), contactController.createFeedback);
 router.route('/').get(validate(contactValidation.getFeedbacks), contactController.getFeedbacks);
 
 router

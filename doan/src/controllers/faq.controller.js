@@ -28,7 +28,10 @@ const getFAQs = catchAsync(async (req, res) => {
 
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await FAQService.queryFAQs(filter, options);
-  console.log(result);
+  result.results.forEach((item) => {
+    item.description = item.description.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+  });
+
   res.send(result);
 });
 const getFAQ = catchAsync(async (req, res) => {

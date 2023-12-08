@@ -45,6 +45,9 @@ const getBlogs = catchAsync(async (req, res) => {
     filter.title = titleRegex;
   }
   const result = await blogService.queryBlogs(filter, options);
+  result.results.forEach((item) => {
+    item.content = item.content.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+  });
   res.send(result);
 });
 

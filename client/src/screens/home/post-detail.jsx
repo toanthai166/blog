@@ -147,6 +147,7 @@ const PostDetail = () => {
                       {it?.content}
                     </span>
                   </div>
+                  <Divider></Divider>
                 </div>
               ))}
             </div>

@@ -40,7 +40,6 @@ const OrderManagement = () => {
   });
   const { orders, isLoading } = useOrder({ ...filter });
   const { handleUpdateOrder, mutation } = useUpdateOrder();
-  console.log("orders", orders);
 
   const listOrder = orders?.results
     ? orders?.results?.map((item, index) => ({
@@ -49,6 +48,7 @@ const OrderManagement = () => {
         index: ++index,
       }))
     : [];
+  console.log("listOrder :>> ", listOrder);
 
   const onChangePage = (newPage) => {
     setFilter({ ...filter, page: newPage });
@@ -241,12 +241,15 @@ const OrderManagement = () => {
         );
       default:
         return (
-          <p
-            className="text-primary hover:cursor-pointer"
-            onClick={() => navigate(AppRoutes.adminOrderDetailId(record.id))}
-          >
-            Xem chi tiết
-          </p>
+          <Tooltip title="Xem chi tiết">
+            <Tag
+              className="hover:cursor-pointer"
+              color="gold"
+              onClick={() => navigate(AppRoutes.adminOrderDetailId(record.id))}
+            >
+              <EyeOutlined />
+            </Tag>
+          </Tooltip>
         );
     }
   };
@@ -268,15 +271,16 @@ const OrderManagement = () => {
       title: "Sản phẩm",
       dataIndex: "product",
       key: "product",
+      width: "25%",
       render: (product) => {
         return product?.map((it, idx) => (
           <div key={idx} className="flex flex-col">
             <div className="flex">
               <img
-                className="w-[30px] h-[30px] rounded object-cover"
+                className="w-20 h-20 rounded object-cover"
                 src={it?.product?.image}
               />
-              <span className="pl-12px text-14px font-medium leading-20px line-clamp-1">
+              <span className="pl-12px text-base font-medium leading-5 line-clamp-1">
                 {it?.product?.name}
               </span>
             </div>
@@ -287,8 +291,8 @@ const OrderManagement = () => {
     },
     {
       title: "Số lượng",
-      dataIndex: "quantity",
-      key: "quantity",
+      dataIndex: "product",
+      key: "product",
       render: (product) => {
         return product?.map((it, idx) => (
           <div key={"quantity" + it?.id} className="flex flex-col">
@@ -330,7 +334,7 @@ const OrderManagement = () => {
     {
       title: "Action",
       key: "action",
-      width: 180,
+      width: "180px",
       dataIndex: "status",
       render: (status, _record) => renderActionsByStatus(status, _record),
     },
@@ -345,19 +349,18 @@ const OrderManagement = () => {
     },
     {
       title: "Sản phẩm",
-      key: "product",
       dataIndex: "product",
-      width: "30%",
-
+      key: "product",
+      width: "25%",
       render: (product) => {
         return product?.map((it, idx) => (
           <div key={idx} className="flex flex-col">
             <div className="flex">
               <img
-                className="w-[30px] h-[30px] rounded object-cover"
+                className="w-20 h-20 rounded object-cover"
                 src={it?.product?.image}
               />
-              <span className="pl-12px text-14px font-medium leading-20px line-clamp-1">
+              <span className="pl-12px text-base font-medium leading-5 line-clamp-1">
                 {it?.product?.name}
               </span>
             </div>
@@ -447,18 +450,18 @@ const OrderManagement = () => {
     },
     {
       title: "Sản phẩm",
-      key: "product",
       dataIndex: "product",
-      width: "30%",
+      key: "product",
+      width: "25%",
       render: (product) => {
         return product?.map((it, idx) => (
           <div key={idx} className="flex flex-col">
             <div className="flex">
               <img
-                className="w-[30px] h-[30px] rounded object-cover"
+                className="w-20 h-20 rounded object-cover"
                 src={it?.product?.image}
               />
-              <span className="pl-12px text-14px font-medium leading-20px line-clamp-1">
+              <span className="pl-12px text-base font-medium leading-5 line-clamp-1">
                 {it?.product?.name}
               </span>
             </div>
@@ -470,7 +473,7 @@ const OrderManagement = () => {
     {
       title: "Số lượng",
       key: "quantity",
-      dataIndex: "quantity",
+      dataIndex: "product",
       align: "right",
       width: "10%",
       render: (product) => {
@@ -567,15 +570,18 @@ const OrderManagement = () => {
           { title: "Đơn hàng", to: null },
         ]}
       />
-      <Tabs items={tabs} activeKey={tabActive} onChange={handleChangeTab} />
+      <div className="item-banner px-5">
+        <Tabs items={tabs} activeKey={tabActive} onChange={handleChangeTab} />
+      </div>
 
-      <div className="bg-white mx-5 mt-5">
+      <div className="bg-white mx-5 mt-5 ">
         <h2 className="text-lg font-semibold p-5">
           {orders?.totalResults} đơn hàng tất cả
         </h2>
         <Table
           size="small"
           bordered
+          className="p-5"
           columns={columns}
           dataSource={listOrder}
           pagination={{

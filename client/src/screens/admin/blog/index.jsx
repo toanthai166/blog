@@ -15,7 +15,7 @@ import {
   useChangeIsActiveBlog,
   useDeleteBlog,
 } from "../../../hooks/blog.hook";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const BlogManagement = () => {
   const navigate = useNavigate();
@@ -56,10 +56,10 @@ const BlogManagement = () => {
       title: "Tiêu đề",
       dataIndex: "title",
       key: "title",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <span className="text-base font-medium">{text}</span>,
     },
     {
-      title: "id danh mục",
+      title: "Tên danh mục",
       dataIndex: "category",
       key: "category",
       render: (category) => <a>{category?.name}</a>,
@@ -148,12 +148,13 @@ const BlogManagement = () => {
           </Button>
         }
       />
-      <div className="bg-white mx-5 mt-5">
+      <div className="bg-white mx-5 mt-5 rounded-lg">
         <h2 className="text-lg font-semibold p-5">
           {blogs?.totalResults} bài viết tất cả
         </h2>
         <Table
           size="small"
+          className="p-5"
           bordered
           columns={columns}
           dataSource={listBlog}

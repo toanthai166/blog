@@ -27,11 +27,11 @@ export const useCategoriesIsActive = () => {
   return { isLoading, error, categories };
 };
 
-export const useCategories = () => {
+export const useCategories = (filter) => {
   const [categories, setCategories] = useAtom(listCategory);
   const { isLoading, error } = useQuery({
-    queryKey: ["category"],
-    queryFn: getCategories,
+    queryKey: [`category/${filter?.page}&&${filter?.limit}`],
+    queryFn: useCallback(() => getCategories(filter), [filter]),
     onSuccess: (res) => {
       setCategories(res.data);
     },
@@ -40,16 +40,16 @@ export const useCategories = () => {
 };
 // changeIsActiveCategory
 
-export const useChangeIsActiveCategory = (id) => {
+export const useChangeIsActiveCategory = (filter) => {
   const mutation = useMutation(changeIsActiveCategory, {
-    mutationKey: [`category/${id}/active`],
+    mutationKey: [`category/${filter.limit}/active`],
   });
   const client = useQueryClient();
   const handleChangeIsActiveCate = (data) => {
     console.log(data);
     mutation.mutate(data, {
       onSuccess: () => {
-        client.invalidateQueries("category");
+        client.invalidateQueries(`category/${filter?.page}&&${filter?.limit}`);
         notification.success({
           message: "Sửa trạng thái danh mục thành công",
         });
@@ -62,7 +62,7 @@ export const useChangeIsActiveCategory = (id) => {
   };
 };
 
-export const useDeleteCate = () => {
+export const useDeleteCate = (filter) => {
   const mutation = useMutation(deleteCate, {
     mutationKey: "category",
   });
@@ -71,7 +71,9 @@ export const useDeleteCate = () => {
     (categoryId) => {
       mutation.mutate(categoryId, {
         onSuccess: () => {
-          client.invalidateQueries("category");
+          client.invalidateQueries(
+            `category/${filter?.page}&&${filter?.limit}`
+          );
           notification.success({
             message: "Xóa danh mục thành công",
           });

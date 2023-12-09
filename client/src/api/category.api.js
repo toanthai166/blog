@@ -8,8 +8,10 @@ export const getCategoriesIsActive = async (data) => {
   const res = await request.get("/category?isActive=true", data);
   return res;
 };
-export const getCategories = async () => {
-  const res = await request.get("/category");
+export const getCategories = async (filter) => {
+  const res = await request.get(
+    `/category?page=${filter.page}&limit=${filter.limit}`
+  );
   return res;
 };
 export const changeIsActiveCategory = async (data) => {

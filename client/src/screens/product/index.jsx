@@ -43,7 +43,7 @@ const Product = () => {
                     {it?.name}
                   </span>
                 </Link>
-                <span className="text-lg font-normal text-center text-[#A62B00]">
+                <span className="text-lg font-medium text-center text-[#A62B00]">
                   Giá: {numberWithDots(it?.unitPrice) + " đ"}
                 </span>
               </div>

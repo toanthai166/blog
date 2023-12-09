@@ -39,7 +39,6 @@ const ProductManagement = () => {
         index: ++index,
       }))
     : [];
-  console.log(listProduct);
 
   const onChangePage = (newPage) => {
     setFilter({ ...filter, page: newPage });
@@ -55,14 +54,18 @@ const ProductManagement = () => {
       title: "Tên cuốn sách",
       dataIndex: "name",
       key: "name",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <a className="text-base font-medium">{text}</a>,
     },
     {
       title: "Giá",
       dataIndex: "unitPrice",
       key: "unitPrice",
       align: "end",
-      render: (price) => <span>{numberWithDots(price) + " đ"}</span>,
+      render: (price) => (
+        <span className="text-base font-normal">
+          {numberWithDots(price) + " đ"}
+        </span>
+      ),
     },
     {
       title: "Trạng thái",
@@ -86,9 +89,10 @@ const ProductManagement = () => {
       title: "Action",
       key: "id",
       dataIndex: "id",
+      align: "center",
       render: (id) => {
         return (
-          <div className="flex gap-2 justify-end">
+          <div className="flex gap-2 justify-center ">
             <Tooltip title="Sửa">
               <Tag
                 className="hover:cursor-pointer"
@@ -151,7 +155,7 @@ const ProductManagement = () => {
       />
       <div className="bg-white mx-5 mt-5">
         <h2 className="text-lg font-semibold p-5">
-          {listProduct?.totalResults} sản phẩm tất cả
+          {products?.totalResults} sản phẩm tất cả
         </h2>
         <Table
           size="small"

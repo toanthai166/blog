@@ -2,6 +2,8 @@ import { Button, Popconfirm, Switch, Table, Tag, Tooltip } from "antd";
 import { SubHeader } from "../../../components/sub-header/SubHeader";
 import { AppRoutes } from "../../../helpers/app-routes";
 import { useNavigate } from "react-router-dom";
+import { DefaultPagination } from "../../../ultis/pagination";
+
 import {
   DeleteOutlined,
   EditOutlined,
@@ -13,11 +15,19 @@ import {
   useChangeIsActiveCategory,
   useDeleteCate,
 } from "../../../hooks/category.hook";
+import { useState } from "react";
 
 const CategoryManagement = () => {
   const navigate = useNavigate();
+  const [filter, setFilter] = useState({
+    limit: 10,
+    page: 1,
+  });
+  const onChangePage = (newPage) => {
+    setFilter({ ...filter, page: newPage });
+  };
 
-  const { categories } = useCategories();
+  const { categories } = useCategories({ ...filter });
   const listCategories = categories?.results
     ? categories?.results?.map((item, index) => ({
         ...item,
@@ -26,8 +36,8 @@ const CategoryManagement = () => {
       }))
     : [];
 
-  const { handleChangeIsActiveCate } = useChangeIsActiveCategory();
-  const { handleDeleteCate, mutation } = useDeleteCate();
+  const { handleChangeIsActiveCate } = useChangeIsActiveCategory({ ...filter });
+  const { handleDeleteCate, mutation } = useDeleteCate({ ...filter });
 
   const handleChangeStatus = async (row) => {
     const { id, isActive } = row;
@@ -45,7 +55,7 @@ const CategoryManagement = () => {
       title: "Tên danh mục",
       dataIndex: "name",
       key: "name",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <a className="text-base font-medium">{text}</a>,
     },
     {
       title: "Trạng thái",
@@ -83,12 +93,12 @@ const CategoryManagement = () => {
             </Tooltip>
             <span className="translate-y-0.5 text-grayscale-border">|</span>
             <Popconfirm
-              title="Xóa bài viết"
+              title="Xóa danh mục"
               okButtonProps={{ disabled: mutation.isLoading }}
               onConfirm={() => {
                 handleDeleteCate(id);
               }}
-              description="Bạn có chắc chắn xóa bài viết này?"
+              description="Bạn có chắc chắn xóa danh mục này?"
               icon={<QuestionCircleOutlined style={{ color: "red" }} />}
             >
               <Tooltip title="Xóa">
@@ -131,18 +141,21 @@ const CategoryManagement = () => {
         }
       />
       <div className="bg-white mx-5 mt-5">
-        <h2 className="text-lg font-semibold p-5">{} danh mục tất cả</h2>
+        <h2 className="text-lg font-semibold p-5">
+          {categories.totalResults} danh mục tất cả
+        </h2>
         <Table
           size="small"
+          className="p-6"
           bordered
           columns={columns}
           dataSource={listCategories}
-          // pagination={{
-          //   ...DefaultPagination,
-          //   onChange: onChangePage,
-          //   current: Number(filter?.page),
-          //   total: 10,
-          // }}
+          pagination={{
+            ...DefaultPagination,
+            onChange: onChangePage,
+            current: Number(filter?.page),
+            total: categories?.totalResults,
+          }}
           scroll={{ y: "calc(100vh - 320px)" }}
         />
       </div>

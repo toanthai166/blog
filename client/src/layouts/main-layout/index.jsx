@@ -7,7 +7,7 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import { debounce } from "lodash";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AppRoutes } from "../../helpers/app-routes";
 import { useAuth } from "../../hooks/auth.hook";
 import { useEffect, useState } from "react";
@@ -167,42 +167,49 @@ const Layouts = ({ children }) => {
           </div>
         </div>
       </header>
-      <section className="2xl:px-[12.65%] bg-slate-100 ">{children}</section>
+      <section className="2xl:px-[12.65%] bg-slate-100 pb-10">
+        {children}
+      </section>
       <Cart open={open} setIsOpenDrawer={setOpen}></Cart>
-      <footer className="grid grid-cols-9 grid-rows-1 gap-12 pb-20  2xl:px-[12.65%] bg-slate-100">
-        <div className="col-span-2 col-start-2">
-          <img src="../../public/image/logo.png" alt="" className="w-16 h-16" />
-          <div>abc</div>
-        </div>
-        <div className="col-start-5 flex flex-col gap-5">
-          <h2>Site</h2>
-          <div className="flex flex-col gap-2">
-            <span className="cursor-pointer">My Recipes </span>
-            <span className="cursor-pointer">My Book</span>
-            <span className="cursor-pointer"> About</span>
-            <span className="cursor-pointer"> Contact</span>
+      <footer className="bg-[#2c3e50]">
+        <div className="grid grid-cols-9 gap-12 p-20 text-white  2xl:px-[12.65%]">
+          <div className="col-span-3 space-y-10 col-start-2">
+            <img
+              src="../../public/image/blog-am-thuc.png"
+              alt=""
+              className="w-40 h-40 mx-auto"
+            />
+            <div className="text-start font-normal text-base">
+              Blog ẩm thực chuyên chia sẻ những món ăn ngon, mẹo vặt ăn uống ,
+              chế độ dinh dưỡng … Đến với Blog Ẩm thực bạn có thể có được chế độ
+              ăn uống phù hợp vừa đảm bảo sức khỏe vừa phù hợp với kinh tế.
+            </div>
           </div>
-        </div>
+          <div className="col-start-5 flex flex-col gap-5"></div>
 
-        <div className="col-start-6 flex flex-col gap-5">
-          <h2>Contact</h2>
-          <div className="flex flex-col gap-2">
-            <span className="cursor-pointer">info@mysite.com </span>
-            <span className="cursor-pointer">123-456-7890</span>
+          <div className="col-start-7 col-span-3 flex flex-col gap-5">
+            <h2 className="text-lg font-semibold">WEBSITE THAM KHẢO</h2>
+            <div className="flex flex-col gap-2">
+              <Link target="_blank" to={"https://blogsongkhoe.tv/"}>
+                Blog Sống Khỏe
+              </Link>
+              <Link target="_blank" to={"https://blogdulich.tv/"}>
+                Blog Du Lịch
+              </Link>
+              <Link target="_blank" to={"https://blogdep.tv/"}>
+                Blog Đẹp
+              </Link>
+              <Link target="_blank" to={"https://blognoithat.tv/"}>
+                Blog Nội Thất
+              </Link>
+              <Link target="_blank" to={"https://bloggiaitri.tv/"}>
+                Blog Giải Trí
+              </Link>
+            </div>
           </div>
         </div>
-        <div className="col-start-7 flex flex-col gap-5">
-          <h2>Legal</h2>
-          <div className="flex flex-col gap-2">
-            <span
-              className="cursor-pointer"
-              onClick={() => navigate(AppRoutes.faq)}
-            >
-              FAQ
-            </span>
-            <span className="cursor-pointer">Shipping & Returns</span>
-            <span className="cursor-pointer">Private Policy</span>
-          </div>
+        <div className="bg-[#222] w-full py-5 text-center text-white font-semibold text-base">
+          COPYRIGHT © 2023
         </div>
       </footer>
     </>

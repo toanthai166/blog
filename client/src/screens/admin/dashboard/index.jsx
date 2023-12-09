@@ -17,8 +17,6 @@ function getItem(label, key, icon, children) {
   };
 }
 const items = [
-  getItem("Trang chủ", "10"),
-
   getItem("Quản lý bài viết", "1"),
   getItem("Quản lý danh mục", "2"),
   getItem("Quản lý tài khoản", "3"),
@@ -88,8 +86,14 @@ const AdminDashboard = ({ children }) => {
       }}
     >
       <Sider collapsible collapsed={false}>
+        <img
+          src="../../public/image/blog-am-thuc.png"
+          alt=""
+          className="w-10 h-10 mx-auto mt-5"
+        />
         <Menu
           theme="dark"
+          className="py-6"
           defaultSelectedKeys={[activeMenu]}
           activeKey={activeMenu}
           mode="inline"
@@ -100,13 +104,13 @@ const AdminDashboard = ({ children }) => {
       <Layout>
         <Header
           style={{
-            padding: 0,
-            background: colorBgContainer,
+            padding: "10px 24px",
+            background: "#ccc",
           }}
         >
           <div className="flex justify-end p-4">
             <Button
-              type="dashed"
+              type="primary"
               onClick={() => {
                 navigate(AppRoutes.login);
                 logout();
@@ -118,7 +122,7 @@ const AdminDashboard = ({ children }) => {
         </Header>
         <Content
           style={{
-            margin: "0 16px",
+            margin: "0 0",
           }}
         >
           {children}

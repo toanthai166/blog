@@ -310,6 +310,7 @@ const MyOrder = ({ id }) => {
       title: "Đơn giá",
       dataIndex: "product",
       key: "product",
+      width: "10%",
       render: (product) => {
         return product?.map((it, idx) => (
           <div className="flex flex-col" key={"unitPrice" + it?.id}>
@@ -322,9 +323,11 @@ const MyOrder = ({ id }) => {
       },
     },
     {
-      title: "Tổng tiền",
+      title: "Tổng cộng",
       dataIndex: "total",
       key: "total",
+      width: "8%",
+
       render: (total) => (
         <span className="font-semibold">{numberWithDots(total) + "đ"}</span>
       ),
@@ -333,6 +336,8 @@ const MyOrder = ({ id }) => {
       title: "Thời gian đặt hàng",
       dataIndex: "createAt",
       key: "createAt",
+      width: "8%",
+
       render: (createAt) => <span>{dayjs(createAt).format("DD/MM/YYYY")}</span>,
     },
     {
@@ -417,7 +422,7 @@ const MyOrder = ({ id }) => {
       key: "total",
       dataIndex: "total",
       align: "right",
-      width: "15%",
+      width: "10%",
       render: (total) => (
         <span className="font-semibold">{numberWithDots(total) + "đ"}</span>
       ),
@@ -572,9 +577,6 @@ const MyOrder = ({ id }) => {
           />
 
           <div className="bg-white mx-5 mt-5">
-            {/* <h2 className="text-lg font-semibold p-5">
-              {orders?.totalResults} đơn hàng tất cả
-            </h2> */}
             <Table
               size="small"
               bordered

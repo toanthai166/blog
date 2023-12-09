@@ -13,6 +13,7 @@ const feedbackRoute = require('./contact.route');
 const addressRoute = require('./address.route');
 const orderRoute = require('./order.route');
 const cartRoute = require('./cart.route');
+const listFavoriteRoute = require('./listFavorite.route');
 const discountRoute = require('./discount.route');
 const config = require('../../config/config');
 
@@ -52,10 +53,10 @@ const defaultRoutes = [
     route: imageRoute,
   },
 
-  {
-    path: '/favorite',
-    route: favoriteRoute,
-  },
+  // {
+  //   path: '/favorite',
+  //   route: favoriteRoute,
+  // },
   {
     path: '/address',
     route: addressRoute,
@@ -75,6 +76,10 @@ const defaultRoutes = [
   {
     path: '/discount',
     route: discountRoute,
+  },
+  {
+    path: '/favorites',
+    route: listFavoriteRoute,
   },
 ];
 

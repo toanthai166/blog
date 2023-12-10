@@ -2,6 +2,7 @@ import { Button, Col, Form, Input, Row } from "antd";
 import Lable from "../../components/lable";
 import TextArea from "antd/es/input/TextArea";
 import { useCreateContact } from "../../hooks/contact.hook";
+import { Link } from "react-router-dom";
 
 const Contact = () => {
   const [form] = Form.useForm();
@@ -17,7 +18,34 @@ const Contact = () => {
       <div className="bg-slate-100 pt-10">
         <Lable title="Liên hệ" />
       </div>
-      <div className="mt-20 pb-40 w-full">
+      <div className="flex items-center justify-center gap-28 mt-10">
+        <div className="bg-[#219653] w-[62px] h-[62px] rounded-full flex flex-col gap-5">
+          <img
+            src="../public/image/phone.png"
+            alt=""
+            className="mx-auto my-4"
+          />
+          <span className="text-lg font-medium ">Hotline</span>
+          <Link to={"tel:0382203388"} className="">
+            0382203388
+          </Link>
+        </div>
+        <div className="w-[62px] h-[62px] rounded-full flex flex-col gap-5">
+          <img src="../public/image/mess.png" alt="" />
+          <span className="text-lg font-medium ">Message</span>
+          <Link to={"/"} className="">
+            0382203388
+          </Link>
+        </div>{" "}
+        <div className=" w-[62px] h-[62px] rounded-full flex flex-col gap-5">
+          <img src="../public/image/zalo.png" alt="" />
+          <span className="text-lg font-medium ">Zalo</span>
+          <Link to={"https://zalo.me/0382203388"} className="">
+            0382203388
+          </Link>
+        </div>{" "}
+      </div>
+      <div className="mt-32 pb-40 w-full">
         <Form form={form} onFinish={onFinish}>
           <Row>
             <Col span={20} className="mx-auto">

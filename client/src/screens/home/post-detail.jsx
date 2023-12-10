@@ -9,12 +9,10 @@ import { useComment, useCreateComment } from "../../hooks/comment.hook";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 import dayjs from "dayjs";
-import { SidebarItem } from ".";
-import { iconFollow } from "../../components/follow";
-import FollowItem from "../../components/follow/FollowItem";
 import "dayjs/locale/vi";
 import { AppRoutes } from "../../helpers/app-routes";
-import { Navigation, Scrollbar, A11y, Autoplay } from "swiper/modules";
+import { ClockCircleOutlined } from "@ant-design/icons";
+
 import BodyRight from "./body-right";
 import { ModalCustomize } from "../../components/modal-customize/modal-customize";
 
@@ -75,6 +73,19 @@ const PostDetail = () => {
             >
               {blog.title}
             </h2>
+            <div className="flex gap-5">
+              <div className="flex justify-start items-center  bottom-0 text-slate-500 text-xs  gap-1 mb-3">
+                <div>
+                  <ClockCircleOutlined style={{ color: "#ccc" }} />
+                </div>
+                <span className=" text-base  font-normal">
+                  {dayjs(blog.createdAt).format("DD/MM/YYYY")}{" "}
+                </span>
+              </div>
+              <span className="text-base font-normal ">
+                Đăng bởi <span className="font-semibold">Ẩm Thực Việt Nam</span>
+              </span>
+            </div>
             <img
               className="w-full max-w-[800px] object-cover rounded-lg"
               src={blog.image ?? ""}
@@ -192,7 +203,11 @@ const PostDetail = () => {
         open={open}
       >
         <div className="flex flex-col items-center justify-center gap-10">
-          <img src="../../public/image/logo.png" alt="" className="w-16 h-16" />
+          <img
+            src="../../public/image/blog-am-thuc.png"
+            alt=""
+            className="w-20 h-20 mt-5"
+          />
           <Button type="default" onClick={() => navigate(AppRoutes.login)}>
             Đến trang đăng nhập
           </Button>

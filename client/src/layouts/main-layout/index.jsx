@@ -58,7 +58,7 @@ const Layouts = ({ children }) => {
 
   return (
     <>
-      <header className=" bg-gradient-to-r from-red-700 to-red-500 header shadow-[28px_40px_80px_0px_#18264D59]">
+      <header className=" bg-gradient-to-r from-red-700 to-red-500 header shadow-[28px_40px_80px_0px_#18264D59] fixed justify-between w-full z-50">
         <div className="flex justify-between p-5  2xl:mx-[12.65%] ">
           <div className="flex gap-5 items-center">
             <img
@@ -167,9 +167,9 @@ const Layouts = ({ children }) => {
           </div>
         </div>
       </header>
-      <section className="2xl:px-[12.65%] bg-slate-100 pb-10">
+      <div className="2xl:px-[12.65%] bg-slate-100 pb-10 pt-44 z-30">
         {children}
-      </section>
+      </div>
       <Cart open={open} setIsOpenDrawer={setOpen}></Cart>
       <footer className="bg-[#2c3e50]">
         <div className="grid grid-cols-9 gap-12 p-20 text-white  2xl:px-[12.65%]">

@@ -33,10 +33,14 @@ import {
   useRemoveToListBlog,
 } from "../../hooks/listFavorite.hook";
 import { useCategoriesIsActive } from "../../hooks/category.hook";
+import { ModalCustomize } from "../../components/modal-customize/modal-customize";
 
 const Home = () => {
   const navigate = useNavigate();
   const [isFaq, setIsFaq] = useState(false);
+  const [open, setOpen] = useState(false);
+  const auth = JSON.parse(localStorage.getItem("auth"))?.data?.user;
+
   const [filter, setFilter] = useState({
     limit: 5,
     title: undefined,
@@ -101,10 +105,18 @@ const Home = () => {
   }));
 
   const handleAddToFavoriteBlog = (id) => {
-    hanldeAddToListBlog({ blogId: id });
+    if (auth == undefined) {
+      setOpen(true);
+    } else {
+      hanldeAddToListBlog({ blogId: id });
+    }
   };
   const handleRemoveToFavoriteBlog = (id) => {
-    handleRemoveToListBlog({ blogId: id });
+    if (auth == undefined) {
+      setOpen(true);
+    } else {
+      handleRemoveToListBlog({ blogId: id });
+    }
   };
 
   const handleFilter = useCallback(
@@ -173,7 +185,7 @@ const Home = () => {
                             />
                           </a>
                           <div className="banner-content flex flex-col gap-5 absolute bottom-0 bg-[rgba(0,0,0,0.3)] text-white w-full px-10 py-3 h-full items-center justify-center">
-                            <span className=" bg-yellow-200 p-0 rounded max-w-[80px] text-slate-900 text-sm font-medium  w-full text-center mb-2">
+                            <span className=" bg-red-500 p-0 rounded max-w-[80px] text-slate-900 text-sm font-medium  w-full text-center mb-2">
                               {post.category.name}
                             </span>
                             <Link
@@ -299,7 +311,7 @@ const Home = () => {
                           />
                         </a>
                         <div className="banner-content flex flex-col gap-5 absolute bottom-0 bg-[rgba(0,0,0,0.3)] text-white w-full px-10 py-3 h-full items-center justify-center">
-                          <span className=" bg-yellow-200 p-0 rounded max-w-[80px] text-slate-900 text-sm font-medium  w-full text-center mb-2">
+                          <span className=" bg-red-700 p-1 rounded max-w-[200px]  text-base font-medium text-white  w-full text-center mb-2">
                             {post.category.name}
                           </span>
                           <Link
@@ -358,7 +370,7 @@ const Home = () => {
                           </span>
                         </div>
                         <div
-                          className="w-full h-[120px] line-clamp-5 text-base font-normal"
+                          className="w-full h-[70px] line-clamp-3 text-base font-normal"
                           dangerouslySetInnerHTML={{ __html: it.content }}
                         ></div>
                         {it.isFavorite ? (
@@ -411,6 +423,29 @@ const Home = () => {
 
         <FloatButton.BackTop />
       </div>
+      <ModalCustomize
+        title="Đăng nhập để tiếp tục"
+        footer=""
+        onCancel={() => setOpen(false)}
+        open={open}
+      >
+        <div className="flex flex-col items-center justify-center gap-10">
+          <img
+            src="../../public/image/blog-am-thuc.png"
+            alt=""
+            className="w-20 h-20 mt-5"
+          />
+          <Button type="default" onClick={() => navigate(AppRoutes.login)}>
+            Đến trang đăng nhập
+          </Button>
+          <div>
+            Bạn chưa có tài khoản?
+            <Button type="link" onClick={() => navigate(AppRoutes.register)}>
+              Đăng kí
+            </Button>
+          </div>
+        </div>
+      </ModalCustomize>
     </Spin>
   );
 };

@@ -5,6 +5,7 @@ import { useAtom } from "jotai";
 import { authAtom } from "../states/auth.state";
 
 import { RESET } from "jotai/utils";
+import { notification } from "antd";
 
 export const useAuth = () => {
   const [auth, setAuth] = useAtom(authAtom);
@@ -53,6 +54,13 @@ export const useRegister = () => {
         {
           onError: (err) => {
             console.log(err);
+          },
+        },
+        {
+          onSuccess: () => {
+            notification.success({
+              message: "Đăng kí tài khoản thành công",
+            });
           },
         }
       );

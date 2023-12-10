@@ -44,9 +44,10 @@ const BodyRight = () => {
         <iframe
           width="auto"
           height="300"
-          src="https://www.youtube.com/embed/2oDlGDaIiig"
-          title="Kiến Thức Hay - Tập 1: 50 món ăn  Việt Nam ?"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          frameBorder="0"
+          src="https://www.youtube.com/embed/2oDlGDaIiig?autoplay=1&loop=1"
+          // title="Kiến Thức Hay - Tập 1: 50 món ăn  Việt Nam ?"
+          // allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowfullscreen
         ></iframe>
       </SidebarItem>{" "}

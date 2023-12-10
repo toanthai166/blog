@@ -7,6 +7,7 @@ import { useAuth } from "../../hooks/auth.hook.js";
 import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "../../helpers/app-routes";
 import { REGEX_EMAIL } from "../../helpers/regex.js";
+import { Apple, FacebookIcon, GoogleIcon } from "../../assets/index.js";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -43,14 +44,20 @@ const Login = () => {
   return (
     <AuthLayout>
       <div className="flex justify-between mx-20 mt-10">
-        {/* <LogoIcon /> */}
-        <div>logo</div>
+        <Button type="link" onClick={() => navigate(AppRoutes.home)}>
+          <img
+            src="../../public/image/blog-am-thuc.png"
+            alt=""
+            className="w-20 h-20 "
+          />
+        </Button>
 
         <div className="flex gap-5">
           <div className="cursor-pointer text-14px mr-16px text-dim-gray">
             Bạn chưa có tài khoản?
           </div>
           <Button
+            type="primary"
             onClick={() => navigate(AppRoutes.register)}
             size="small"
             className="w-[87px] !h-[30px] !text-[12px] !font-medium leading-[16px]"
@@ -61,10 +68,9 @@ const Login = () => {
       </div>
 
       <div className="flex flex-col my-auto justify-center items-center mt-[150px]">
-        <div className="text-28px font-semibold text-yankees-blue">
+        <div className="text-3xl font-semibold text-yankees-blue mb-10">
           Đăng nhập
         </div>
-        <div className="mt-8px text-yankees-blue">Dành cho Khách hàng</div>
         <Form
           name="login"
           style={{ width: 580 }}
@@ -107,7 +113,7 @@ const Login = () => {
               },
             ]}
           >
-            <Input />
+            <Input placeholder="Nhập email" />
           </Form.Item>
 
           <div className="mt-[24px] mb-[8px] flex flex-row items-center justify-between">
@@ -125,7 +131,7 @@ const Login = () => {
             name="password"
             rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
           >
-            <Input.Password />
+            <Input.Password placeholder="Nhập mật khẩu" />
           </Form.Item>
 
           <Form.Item
@@ -138,7 +144,8 @@ const Login = () => {
 
           <Form.Item className="mt-[32px]">
             <Button
-              type="default"
+              type="primary"
+              className=""
               htmlType="submit"
               disabled={isLoading}
               loading={isLoading}
@@ -157,9 +164,9 @@ const Login = () => {
             <div className="basis-1/3 w-full h-[1px] bg-[#EEEEEE]"></div>
           </div>
           <div className="flex justify-center items-center">
-            {/* <GoggleIcon className="hover:cursor-pointer" />
-                  <FacebookIcon className="mx-[12px] hover:cursor-pointer" />
-                  <Apple className="hover:cursor-pointer" /> */}
+            <GoogleIcon className="hover:cursor-pointer" />
+            <FacebookIcon className="mx-[12px] hover:cursor-pointer" />
+            <Apple className="hover:cursor-pointer" />
           </div>
         </Form>
       </div>

@@ -40,7 +40,7 @@ export const useAddToCart = () => {
         },
       });
     },
-    [mutation]
+    [client, mutation]
   );
   return { mutation, hanldeAddToCart };
 };

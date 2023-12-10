@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import MyAddress from "./component/address";
 import MyOrder from "./component/myOrder";
+import FavoriteBlog from "./component/favorite-blog";
 
 const Profile = () => {
   const [searchParams] = useSearchParams();
@@ -19,6 +20,9 @@ const Profile = () => {
       case "address":
         setTabs("address");
         break;
+      case "favorite":
+        setTabs("favorite");
+        break;
     }
   }, [searchParams]);
 
@@ -26,6 +30,7 @@ const Profile = () => {
     <div>
       {tabs === "myOrder" && <MyOrder id={userId} />}
       {tabs === "address" && <MyAddress id={userId} />}
+      {tabs === "favorite" && <FavoriteBlog id={userId} />}
     </div>
   );
 };

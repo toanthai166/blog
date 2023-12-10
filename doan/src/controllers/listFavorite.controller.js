@@ -19,6 +19,7 @@ const addToListFavorite = catchAsync(async (req, res) => {
   if (posts === null) {
     const listFavorite = [];
     listFavorite.push(foundProduct);
+    await Blog.updateOne({ _id: req.body.blogId }, { $set: { isFavorite: true } });
     await listFavoriteService.addToListFavorite({ ...newItem, items: listFavorite });
     res.status(httpStatus.CREATED).send({ ...newItem, items: listFavorite });
   } else {
@@ -35,7 +36,7 @@ const removeToLitFavorite = catchAsync(async (req, res) => {
   const newData = list.items.filter((item) => {
     return String(item._id) !== req.body.blogId;
   });
-  console.log('newData :>> ', newData.length);
+  await Blog.updateOne({ _id: req.body.blogId }, { $set: { isFavorite: false } });
   const cartItem = await listFavoriteService.updateListFavorite(list.id, { items: newData });
   res.send(cartItem);
 });

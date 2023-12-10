@@ -85,12 +85,12 @@ const Layouts = ({ children }) => {
             </span>
 
             {!user ? (
-              <span
-                className="-translate-y-2 cursor-pointer"
+              <button
+                className="-translate-y-2 border bg-white px-10 py-2 rounded-lg"
                 onClick={() => navigate(AppRoutes.login)}
               >
-                Login
-              </span>
+                <span className=" font-medium text-xl">Đăng nhập</span>
+              </button>
             ) : (
               <>
                 <Dropdown

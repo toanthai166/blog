@@ -5,6 +5,8 @@ import { useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useRegister } from "../../hooks/auth.hook.js";
+import { Apple, FacebookIcon, GoogleIcon } from "../../assets/index.js";
+import { AppRoutes } from "../../helpers/app-routes.jsx";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -32,15 +34,20 @@ const Register = () => {
   return (
     <AuthLayout>
       <div className="flex justify-between mx-20 mt-10">
-        {/* <LogoIcon /> */}
-        <div>logo</div>
+        <Button type="link" onClick={() => navigate(AppRoutes.home)}>
+          <img
+            src="../../public/image/blog-am-thuc.png"
+            alt=""
+            className="w-20 h-20 "
+          />
+        </Button>
 
         <div className="flex gap-5">
           <div className="cursor-pointer text-14px mr-16px text-dim-gray">
             Bạn có tài khoản?
           </div>
           <Button
-            //   onClick={onClickRegister}
+            onClick={() => navigate(AppRoutes.login)}
             size="small"
             className="w-[87px] !h-[30px] !text-[12px] !font-medium leading-[16px]"
           >
@@ -50,7 +57,9 @@ const Register = () => {
       </div>
 
       <div className="flex flex-col my-auto justify-center items-center mt-[150px]">
-        <div className="text-28px font-semibold text-yankees-blue">Đăng kí</div>
+        <div className="text-3xl mb-10 font-semibold text-yankees-blue">
+          Đăng kí
+        </div>
         <div className="mt-8px text-yankees-blue"></div>
         <Form
           name="login"
@@ -62,27 +71,27 @@ const Register = () => {
         >
           <div className="mt-32px" />
           <div className="mb-[8px] font-medium text-14px text-yankees-blue">
-            Fullname
+            Họ và tên
           </div>
           <Form.Item
             name="fullname"
-            rules={[{ required: true, message: "dday la truong bat buoc" }]}
+            rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
           >
-            <Input />
+            <Input placeholder="Nhập họ và tên" />
           </Form.Item>
           <div className="mb-[8px] font-medium text-14px text-yankees-blue">
             Email
           </div>
           <Form.Item
             name="email"
-            rules={[{ required: true, message: "dday la truong bat buoc" }]}
+            rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
           >
-            <Input />
+            <Input placeholder="Nhập email" />
           </Form.Item>
 
           <div className="mt-[24px] mb-[8px] flex flex-row items-center justify-between">
             <div className="font-medium text-14px text-yankees-blue">
-              Password
+              Mật khẩu
             </div>
             <div
               className="text-14px text-yankees-blue underline cursor-pointer"
@@ -93,14 +102,14 @@ const Register = () => {
           </div>
           <Form.Item
             name="password"
-            rules={[{ required: true, message: "dday la truong bat buoc" }]}
+            rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
           >
-            <Input.Password />
+            <Input.Password placeholder="Nhập mật khẩu" />
           </Form.Item>
 
           <Form.Item className="mt-[32px]">
             <Button
-              type="default"
+              type="primary"
               htmlType="submit"
               disabled={isLoading}
               loading={isLoading}
@@ -119,9 +128,9 @@ const Register = () => {
             <div className="basis-1/3 w-full h-[1px] bg-[#EEEEEE]"></div>
           </div>
           <div className="flex justify-center items-center">
-            {/* <GoggleIcon className="hover:cursor-pointer" />
-                  <FacebookIcon className="mx-[12px] hover:cursor-pointer" />
-                  <Apple className="hover:cursor-pointer" /> */}
+            <GoogleIcon className="hover:cursor-pointer" />
+            <FacebookIcon className="mx-[12px] hover:cursor-pointer" />
+            <Apple className="hover:cursor-pointer" />
           </div>
         </Form>
       </div>

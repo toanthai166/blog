@@ -8,7 +8,6 @@ const addToListFavorite = async (body) => {
 };
 
 const updateListFavorite = async (id, updateBody) => {
-  console.log('updateBody :>> ', updateBody);
   const list = await ListFavorite.findById(id);
   if (!list) {
     throw new ApiError(httpStatus.NOT_FOUND, 'list not found');

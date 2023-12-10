@@ -16,8 +16,12 @@ export const getBlogs = async (filter) => {
   const res = await request.get(
     `/blog?page=${filter.page}&limit=${filter.limit}${
       filter.isActive ? `&isActive=true` : ""
-    }${filter.categoryId ? `&categoryId=${filter.categoryId}` : ""}${
-      filter.title != "" ? `&title=${filter.title}` : ""
+    }${
+      filter.categoryId != undefined ? `&categoryId=${filter.categoryId}` : ""
+    }${
+      filter.title != undefined && filter.title != ""
+        ? `&title=${filter.title}`
+        : ""
     }`
   );
   return res;

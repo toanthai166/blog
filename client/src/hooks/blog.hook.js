@@ -17,7 +17,10 @@ import { AppRoutes } from "../helpers/app-routes";
 export const useBlog = (filter) => {
   const [blogs, setBlogs] = useAtom(listBlog);
   const { isLoading, error } = useQuery({
-    queryKey: [`blogs/${filter.page}&&${filter.title}&&${filter.categoryId}`],
+    queryKey: [
+      `blogs/${filter.page}&&${filter.title}&&${filter.categoryId}&&${filter.title}`,
+      "blogs",
+    ],
     queryFn: useCallback(() => getBlogs(filter), [filter]),
     onSuccess: (res) => {
       setBlogs(res.data);

@@ -2,7 +2,7 @@ import { Avatar, Col, Menu } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
-import { AccountInfo, Address } from "../../assets";
+import { AccountInfo, Address, WishList } from "../../assets";
 
 const menus = [
   {
@@ -14,6 +14,11 @@ const menus = [
     url: "address",
     icon: <Address />,
     title: <span className="font-normal text-base">Địa chỉ</span>,
+  },
+  {
+    url: "favorite",
+    icon: <WishList />,
+    title: <span className="font-normal text-base">Danh dách yêu thích</span>,
   },
 ];
 
@@ -74,8 +79,8 @@ const TabLeftProfile = () => {
                   <div
                     className={`flex h-12 items-center  hover:bg-r-[#f5b102] gap-3 px-5 py-3 `}
                   >
-                    <span className=" translate-y-1"> {item.icon}</span>
-                    <div className=" text-grayscale-black">{item.title}</div>
+                    <span className=""> {item.icon}</span>
+                    <div className="text-base font-semibold">{item.title}</div>
                   </div>
                 ),
               };

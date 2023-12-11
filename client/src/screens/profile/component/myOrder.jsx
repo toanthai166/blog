@@ -295,7 +295,7 @@ const MyOrder = ({ id }) => {
     },
     {
       title: "Số lượng",
-      dataIndex: "quantity",
+      dataIndex: "product",
       key: "quantity",
       render: (product) => {
         return product?.map((it, idx) => (
@@ -336,7 +336,7 @@ const MyOrder = ({ id }) => {
       title: "Thời gian đặt hàng",
       dataIndex: "createAt",
       key: "createAt",
-      width: "8%",
+      width: "10%",
 
       render: (createAt) => <span>{dayjs(createAt).format("DD/MM/YYYY")}</span>,
     },

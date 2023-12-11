@@ -101,7 +101,7 @@ const FavoriteBlog = ({ id }) => {
             <div className="flex gap-2">
               <label
                 htmlFor="checked-all"
-                className="text-sm font-semibold hover:cursor-pointer"
+                className="text-sm translate-y-3 font-semibold hover:cursor-pointer"
               >
                 Tất cả
               </label>

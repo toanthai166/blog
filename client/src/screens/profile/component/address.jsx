@@ -207,9 +207,7 @@ const MyAddress = ({ id }) => {
                     </div>
                     {address?.isDefault === true ? (
                       <Button className="h-5">
-                        <span className="px-1 py-1 -translate-y-2.5 font-normal">
-                          Mặc định
-                        </span>
+                        <span className="px-1 py-1  font-normal">Mặc định</span>
                       </Button>
                     ) : (
                       ""
@@ -244,7 +242,7 @@ const MyAddress = ({ id }) => {
                     </Popconfirm>
                   </div>
                   <Button className="h-5" disabled={address?.isDefault}>
-                    <span className="px-1 py-1 -translate-y-2.5 font-normal">
+                    <span className="px-1 py-1  font-normal">
                       Thiết lập mặc định
                     </span>
                   </Button>

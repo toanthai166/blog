@@ -107,10 +107,11 @@ const Register = () => {
             <Input.Password placeholder="Nhập mật khẩu" />
           </Form.Item>
 
-          <Form.Item className="mt-[32px]">
+          <Form.Item className="mt-20">
             <Button
               type="primary"
               htmlType="submit"
+              className="mt-10"
               disabled={isLoading}
               loading={isLoading}
               block

@@ -258,11 +258,11 @@ const Home = () => {
         <Row>
           <BodyRight />
           <Col span={17} data-aos="fade-right" className="p-6 rounded-md">
-            <div className="bg-white  rounded w-full">
+            <div className="bg-white mb-5  rounded w-full">
               <Form
                 size="middle"
                 onFinish={handleFilter}
-                className=" p-5 information-form-vehicle"
+                className="p-5 information-form-vehicle"
               >
                 <Row className="space-x-5">
                   <Col span={10}>

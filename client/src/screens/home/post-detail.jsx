@@ -50,7 +50,7 @@ const PostDetail = () => {
   return (
     <Spin spinning={isLoading || loadingGetComment}>
       <Breadcrumb
-        className="text-xl pt-10 font-medium px-6"
+        className="text-2xl pt-10 font-medium px-6 italic "
         items={[
           {
             title: <Link to={AppRoutes.home}>Trang chủ</Link>,
@@ -139,22 +139,40 @@ const PostDetail = () => {
                   data-aos="fade-up"
                   data-aos-duration="1500"
                 >
-                  <div className="flex gap-5">
-                    <Avatar
-                      style={{ backgroundColor: "#b4755e" }}
-                      icon={<UserOutlined />}
-                    />
-                    <div className="flex flex-col">
-                      <span className="font-semibold text-lg ">
-                        {it?.user?.name}
-                      </span>
-                      <span className="opacity-90">
-                        {dayjs(it?.createdAt).fromNow()}
-                      </span>
+                  <div className="flex justify-between">
+                    <div className="flex gap-5">
+                      <Avatar
+                        style={{ backgroundColor: "#b4755e" }}
+                        icon={<UserOutlined />}
+                      />
+                      <div className="flex flex-col">
+                        <span className="font-semibold text-lg ">
+                          {it?.user?.name}
+                        </span>
+                        <span className="opacity-90">
+                          {dayjs(it?.createdAt).fromNow()}
+                        </span>
+                      </div>
+                    </div>
+                    <div>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+                        />
+                      </svg>
                     </div>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="px-14 font-normal text-base">
+                  <div className="flex justify-between ml-10">
+                    <span className=" font-normal bg-slate-100 px-5 py-2 rounded-3xl text-base">
                       {it?.content}
                     </span>
                   </div>

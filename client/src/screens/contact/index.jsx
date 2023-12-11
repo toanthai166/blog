@@ -47,7 +47,7 @@ const Contact = () => {
       </div>
       <div className="mt-32 pb-40 w-full">
         <Form form={form} onFinish={onFinish}>
-          <Row>
+          <Row className="space-y-5">
             <Col span={20} className="mx-auto">
               <h3 className="font-semibold text-2xl left-6">
                 Thông tin liên hệ
@@ -114,8 +114,9 @@ const Contact = () => {
                 disabled={mutation.isLoading}
                 type="primary"
                 htmlType="submit"
+                className="mt-10"
               >
-                Gửi liên hệ
+                <span className="font-medium text-lg">Gửi yêu cầu</span>
               </Button>
             </Col>
           </Row>

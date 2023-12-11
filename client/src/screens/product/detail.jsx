@@ -53,7 +53,7 @@ const ProductDetail = () => {
   return (
     <Spin spinning={isLoading}>
       <Breadcrumb
-        className="text-2xl p-6 pt-10"
+        className="text-2xl p-6 pt-10 italic font-medium"
         items={[
           {
             title: <Link to={AppRoutes.home}>Trang chủ</Link>,
@@ -94,9 +94,37 @@ const ProductDetail = () => {
                     alt=""
                     className="hover:scale-110 duration-500 transition-all"
                   />
-                  <span>Khởi Sự Ăn Chay (Tái Bản 2023)</span>
-                  <span className="font-medium text-base leading-9">
-                    156.000
+                  <span className="text-base font-medium h-[70px]">
+                    Khởi Sự Ăn Chay (Tái Bản 2023)
+                  </span>
+                  <span className="font-medium text-base leading-9 text-red-600">
+                    156.000 đ
+                  </span>
+                </div>
+                <div className="flex flex-col gap-4 p-4 rounded-lg bg-white overflow-hidden">
+                  <img
+                    src="https://salt.tikicdn.com/cache/750x750/ts/product/2a/8e/70/60450642ae2204fdbb38437a18227ac8.jpg.webp"
+                    alt=""
+                    className="hover:scale-110 duration-500 transition-all"
+                  />
+                  <span className="text-base font-medium">
+                    30 Công Thức Nấu Ăn Của Yanny - Món Ăn Đường Phố
+                  </span>
+                  <span className="font-medium text-base leading-9 text-red-600">
+                    56.000 đ
+                  </span>
+                </div>
+                <div className="flex flex-col gap-4 p-4 rounded-lg bg-white overflow-hidden">
+                  <img
+                    src="https://salt.tikicdn.com/cache/750x750/ts/product/12/b3/49/21aecd05f04735d77f41e9504e5187b8.jpg.webp"
+                    alt=""
+                    className="hover:scale-110 duration-500 transition-all"
+                  />
+                  <span className="text-base font-medium h-[70px]">
+                    Sách Nấu Ăn Gia Đình
+                  </span>
+                  <span className="font-medium text-base leading-9 text-red-600">
+                    46.000 đ
                   </span>
                 </div>
               </div>
@@ -199,6 +227,20 @@ const ProductDetail = () => {
                 <div className="grid grid-cols-2">
                   <span className="opacity-70">Số trang</span>
                   <span className="font-normal">272</span>
+                </div>
+                <Divider></Divider>
+              </div>
+              <div>
+                <div className="grid grid-cols-2">
+                  <span className="opacity-70">Kích thước</span>
+                  <span className="font-normal">14.5 x 20.5 cm</span>
+                </div>
+                <Divider></Divider>
+              </div>
+              <div>
+                <div className="grid grid-cols-2">
+                  <span className="opacity-70">Tác giả</span>
+                  <span className="font-normal">Quỳnh Chi</span>
                 </div>
                 <Divider></Divider>
               </div>

@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, InputNumber, Row } from "antd";
+import { Button, Col, Form, Input, InputNumber, Row, Select } from "antd";
 import { SubHeader } from "../../../components/sub-header/SubHeader";
 import { AppRoutes } from "../../../helpers/app-routes";
 import { useNavigate, useParams } from "react-router-dom";
@@ -12,6 +12,7 @@ import {
   useGetProductById,
   useUpdateProduct,
 } from "../../../hooks/product.hook";
+import dayjs from "dayjs";
 
 const FormProduct = ({ isDetail, isEdit }) => {
   const { id } = useParams();
@@ -30,6 +31,11 @@ const FormProduct = ({ isDetail, isEdit }) => {
         image: product.image,
         quantity: product.quantity,
         author: product.author,
+        issuingCompany: product.issuingCompany,
+        publicationDate: product.publicationDate,
+        coverType: product.coverType,
+        numberOfPages: product.numberOfPages,
+        size: product.size,
       });
     }
   }, [form, product]);
@@ -43,6 +49,11 @@ const FormProduct = ({ isDetail, isEdit }) => {
         name: values.name,
         quantity: Number(values.quantity),
         description: dataEditor ? dataEditor : product.description,
+        issuingCompany: values.issuingCompany,
+        publicationDate: values.publicationDate,
+        coverType: values.coverType,
+        numberOfPages: values.numberOfPages,
+        size: values.size,
       });
     } else {
       handleCreateProduct({
@@ -52,6 +63,11 @@ const FormProduct = ({ isDetail, isEdit }) => {
         quantity: Number(values.quantity),
         unitPrice: Number(values.unitPrice),
         author: values.author,
+        issuingCompany: values.issuingCompany,
+        publicationDate: values.publicationDate,
+        coverType: values.coverType,
+        numberOfPages: values.numberOfPages,
+        size: values.size,
       });
     }
   };
@@ -60,6 +76,16 @@ const FormProduct = ({ isDetail, isEdit }) => {
     const data = editor.getData();
     setDataEditor(data);
   }, 800);
+  const nowDate = dayjs().year();
+  const yearData = [];
+  for (let i = 0; i < 50; i++) {
+    yearData.push(nowDate - i);
+  }
+
+  const yearOptions = yearData?.map((year) => ({
+    label: year,
+    value: year,
+  }));
 
   return (
     <>
@@ -91,11 +117,7 @@ const FormProduct = ({ isDetail, isEdit }) => {
             onFinish={onFinish}
           >
             <Form.Item
-              label={
-                <span>
-                  Đường dẫn ảnh:<span className="text-red"> *</span>
-                </span>
-              }
+              label={<span>Đường dẫn ảnh:</span>}
               name="image"
               rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
               normalize={(e) => e.trimStart()}
@@ -103,11 +125,7 @@ const FormProduct = ({ isDetail, isEdit }) => {
               <Input placeholder="Nhập đường dẫn" maxLength={255}></Input>
             </Form.Item>
             <Form.Item
-              label={
-                <span>
-                  Tên sản phẩm<span className="text-red"> *</span>
-                </span>
-              }
+              label={<span>Tên sản phẩm</span>}
               name="name"
               rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
               normalize={(e) => e.trimStart()}
@@ -121,16 +139,52 @@ const FormProduct = ({ isDetail, isEdit }) => {
               <InputNumber placeholder="Nhập giá sản phẩm" />
             </Form.Item>
             <Form.Item
-              label={
-                <span>
-                  Nhà xuất bản<span className="text-red"> *</span>
-                </span>
-              }
+              label={<span>Tác giả:</span>}
               name="author"
               rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
               normalize={(e) => e.trimStart()}
             >
+              <Input placeholder="Nhập tên tác giả" maxLength={255} />
+            </Form.Item>
+            <Form.Item
+              label={<span>Công ti phát hành</span>}
+              name="issuingCompany"
+              rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
+              normalize={(e) => e.trimStart()}
+            >
+              <Input placeholder="Nhập tên công ty phát hành" maxLength={255} />
+            </Form.Item>
+            <Form.Item
+              label={<span>Năm xuất bản</span>}
+              name="publicationDate"
+              rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
+            >
+              {/* <Select options={yearOptions} placeholder="Chọn năm xuất bản" /> */}
+              <Input placeholder="Nhập năm xuất bản" />
+            </Form.Item>
+            <Form.Item
+              label={<span>Loại bìa</span>}
+              name="coverType"
+              rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
+              normalize={(e) => e.trimStart()}
+            >
+              <Input placeholder="Nhập loại bìa" maxLength={255} />
+            </Form.Item>
+            <Form.Item
+              label={<span>Số trang</span>}
+              name="numberOfPages"
+              rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
+              normalize={(e) => e.trimStart()}
+            >
               <Input placeholder="Nhập tên nhà xuất bản" maxLength={255} />
+            </Form.Item>
+            <Form.Item
+              label={<span>Kích thước</span>}
+              name="size"
+              rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
+              normalize={(e) => e.trimStart()}
+            >
+              <Input placeholder="Nhập kích thước" maxLength={255} />
             </Form.Item>
 
             <Form.Item label={<span>Mô tả sản phẩm</span>}>

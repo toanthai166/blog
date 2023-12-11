@@ -30,6 +30,32 @@ const productSchema = mongoose.Schema(
       type: Boolean,
       default: true,
     },
+
+    issuingCompany: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    publicationDate: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    coverType: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    numberOfPages: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    size: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     author: {
       type: String,
       require: true,

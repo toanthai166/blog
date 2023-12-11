@@ -15,6 +15,20 @@
   height: 44px;
   border: 1px solid #b4755e;
 }
+:where(.css-dev-only-do-not-override-12r0slu).ant-form-item {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.88);
+  font-size: 14px;
+  line-height: 1.5714285714285714;
+  list-style: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  margin-bottom: 1px;
+  vertical-align: top;
+}
 .ant-input-password {
   border: 1px solid #b4755e;
 }
@@ -86,13 +100,12 @@
   bottom: 0;
 }
 
-.product-detail
-  :where(.css-dev-only-do-not-override-1eeekto).ant-divider-horizontal {
+:where(.css-dev-only-do-not-override-12r0slu).ant-divider-horizontal {
   display: flex;
   clear: both;
   width: 100%;
   min-width: 100%;
-  margin: 3px 0;
+  margin: 12px 0;
 }
 /* .overflow-y-scroll {
   overflow-y: hidden;

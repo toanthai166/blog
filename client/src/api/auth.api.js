@@ -17,3 +17,7 @@ export const register = async ({ email, name, password }) => {
   });
   return data;
 };
+export const logout = async (data) => {
+  const res = await request.post("/auth/logout", data);
+  return res;
+};

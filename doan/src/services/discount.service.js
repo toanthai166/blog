@@ -19,7 +19,6 @@ const queryDiscounts = async (filter, options) => {
  */
 
 const getDiscountById = async (id) => {
-  console.log('id', id);
   return Discount.findById(id);
 };
 

@@ -4,6 +4,7 @@ const Order = require('../models/order.model');
 const Address = require('../models/address.model');
 const Product = require('../models/product.model');
 const User = require('../models/user.model');
+const Discount = require('../models/discount.model');
 
 const createOrder = async (body) => {
   const addressId = body.addressId;
@@ -11,7 +12,9 @@ const createOrder = async (body) => {
   const items = body.items;
   const userId = body.userId;
   const addresses = await Address.findOne({ userId });
+  const discount = await Discount.findById(body.discountId);
   const address = addresses.addresses.find((it) => it.id == addressId);
+
   if (!address) {
     throw new Error('address not found');
   }
@@ -33,10 +36,16 @@ const createOrder = async (body) => {
 
   const itemDetailsPromises = items.map(getProductDetails);
   Promise.all(itemDetailsPromises)
-    .then((itemDetails) => {
+    .then(async (itemDetails) => {
       body.user = user.toObject();
-      console.log('address', address);
-      return Order.create({ ...body, product: itemDetails, addresses: address, user: user });
+      if (discount) {
+        await Discount.updateOne({ _id: discount.id }, { $set: { used: discount.used + 1 } });
+        const discountUpdate = await Discount.findById(body.discountId);
+        if (discountUpdate.used >= discountUpdate.limit) {
+          const abc = await Discount.updateOne({ _id: discount.id }, { $set: { isActive: false } });
+          return Order.create({ ...body, product: itemDetails, addresses: address, user: user, discount: abc });
+        }
+      }
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -72,6 +81,12 @@ const getOrderById = async (id) => {
  */
 const updateOrderById = async (id, updateBody) => {
   const order = await getOrderById(id);
+  if (updateBody.status == 'shipping') {
+    order.product.map(async (it) => {
+      const product = await Product.findById(it.product._id);
+      await Product.updateOne({ _id: product._id }, { $set: { quantity: product.quantity - it.quantity } });
+    });
+  }
   if (!order) {
     throw new ApiError(httpStatus.NOT_FOUND, 'order not found');
   }

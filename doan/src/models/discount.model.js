@@ -23,6 +23,10 @@ const discountSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    used: {
+      type: Number,
+      default: 0,
+    },
     unit: {
       type: String,
       enum: ['VND', 'PERCENTAGE'],

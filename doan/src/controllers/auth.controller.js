@@ -37,7 +37,6 @@ const login = catchAsync(async (req, res) => {
 const logout = catchAsync(async (req, res) => {
   const blogs = await Blog.find({});
   blogs.forEach(async (item) => {
-    console.log('item :>> ', item);
     await mongoose.connection;
     // Cập nhật trạng thái trong cơ sở dữ liệu
     await Blog.updateOne({ _id: item.id }, { $set: { isFavorite: false } });

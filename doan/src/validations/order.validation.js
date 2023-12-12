@@ -14,6 +14,7 @@ const createOrder = {
     total: Joi.number().required(),
     note: Joi.string(),
     addressId: Joi.string().required(),
+    discountId: Joi.string(),
   }),
 };
 

@@ -4,7 +4,7 @@ import { useCallback } from "react";
 import { notification } from "antd";
 import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "../helpers/app-routes";
-import { listProduct } from "../states/product.state";
+import { listProduct, productItem } from "../states/product.state";
 import {
   changeIsActiveProduct,
   createProduct,
@@ -27,7 +27,7 @@ export const useProduct = (filter) => {
 };
 
 export const useGetProductById = (id) => {
-  const [product, setProduct] = useAtom(listProduct);
+  const [product, setProduct] = useAtom(productItem);
   const { isLoading, error } = useQuery({
     queryKey: [`product/${id}`],
     queryFn: () => getproducById(id),

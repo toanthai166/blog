@@ -1,6 +1,6 @@
 import { useMutation } from "react-query";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { login, register } from "../api/auth.api";
+import { login, logout, register } from "../api/auth.api";
 import { useAtom } from "jotai";
 import { authAtom } from "../states/auth.state";
 
@@ -68,4 +68,35 @@ export const useRegister = () => {
     [mutation]
   );
   return { mutation, handleRegister };
+};
+
+export const useLogout = () => {
+  const mutation = useMutation(logout, {
+    mutationKey: "logout",
+  });
+  // useMemo(() => {
+  //   setAuth(mutation.data ?? {});
+  // }, [mutation.data]);
+  const handleLogout = useCallback(
+    (data) => {
+      console.log("data :>> ", data);
+      mutation.mutate(
+        data,
+        {
+          onError: (err) => {
+            console.log(err);
+          },
+        },
+        {
+          onSuccess: () => {
+            notification.success({
+              message: "Đăng xuất thành công",
+            });
+          },
+        }
+      );
+    },
+    [mutation]
+  );
+  return { mutation, handleLogout };
 };

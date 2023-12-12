@@ -18,13 +18,18 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const auth = JSON.parse(localStorage.getItem("auth"))?.data?.user;
+  const [filter, setFilter] = useState({
+    limit: 100,
+    page: 1,
+    isActive: true,
+  });
 
   const { hanldeAddToCart } = useAddToCart();
 
   const { product, isLoading } = useGetProductById(id);
-  // const { products } = useProduct({ limit: 10, page: 1 });
-  console.log("product :>> ", product);
-  // console.log("products :>> ", products);
+  const { products } = useProduct(filter);
+  const listproduct = products?.results?.filter((it) => it.id !== product._id);
+  console.log("listproduct :>> ", listproduct);
 
   const hanldeAddProductToCart = () => {
     if (auth == undefined) {
@@ -87,46 +92,28 @@ const ProductDetail = () => {
               <span className="text-base font-semibold left-6">
                 Sản phẩm tương tự
               </span>
-              <div className="grid grid-cols-3">
-                <div className="flex flex-col gap-4 p-4 rounded-lg bg-white overflow-hidden">
-                  <img
-                    src="https://salt.tikicdn.com/cache/280x280/ts/product/de/40/a9/d514c7393a3772d243b9e5ed83a7961b.jpg.webp"
-                    alt=""
-                    className="hover:scale-110 duration-500 transition-all"
-                  />
-                  <span className="text-base font-medium h-[70px]">
-                    Khởi Sự Ăn Chay (Tái Bản 2023)
-                  </span>
-                  <span className="font-medium text-base leading-9 text-red-600">
-                    156.000 đ
-                  </span>
-                </div>
-                <div className="flex flex-col gap-4 p-4 rounded-lg bg-white overflow-hidden">
-                  <img
-                    src="https://salt.tikicdn.com/cache/750x750/ts/product/2a/8e/70/60450642ae2204fdbb38437a18227ac8.jpg.webp"
-                    alt=""
-                    className="hover:scale-110 duration-500 transition-all"
-                  />
-                  <span className="text-base font-medium">
-                    30 Công Thức Nấu Ăn Của Yanny - Món Ăn Đường Phố
-                  </span>
-                  <span className="font-medium text-base leading-9 text-red-600">
-                    56.000 đ
-                  </span>
-                </div>
-                <div className="flex flex-col gap-4 p-4 rounded-lg bg-white overflow-hidden">
-                  <img
-                    src="https://salt.tikicdn.com/cache/750x750/ts/product/12/b3/49/21aecd05f04735d77f41e9504e5187b8.jpg.webp"
-                    alt=""
-                    className="hover:scale-110 duration-500 transition-all"
-                  />
-                  <span className="text-base font-medium h-[70px]">
-                    Sách Nấu Ăn Gia Đình
-                  </span>
-                  <span className="font-medium text-base leading-9 text-red-600">
-                    46.000 đ
-                  </span>
-                </div>
+              <div className="grid grid-cols-3 gap-5">
+                {listproduct?.map((it) => (
+                  <div
+                    key={it.id}
+                    className="flex flex-col gap-4 p-4 rounded-lg bg-white overflow-hidden"
+                  >
+                    <img
+                      src={it?.image}
+                      alt=""
+                      className="hover:scale-110 duration-500 transition-all"
+                    />
+                    <Link
+                      to={AppRoutes.productDetailId(it.id)}
+                      className="text-base font-medium h-[70px]"
+                    >
+                      {it?.name}
+                    </Link>
+                    <span className="font-medium text-base leading-9 text-red-600">
+                      {numberWithDots(it?.unitPrice ?? 0) + " đ"}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
           </Col>
@@ -202,52 +189,45 @@ const ProductDetail = () => {
               </span>
               <div>
                 <div className="grid grid-cols-2">
-                  <span className="opacity-70">Công ty phát hành</span>
-                  <span className="font-normal">
-                    Công Ty TNHH Văn Hóa Và Truyền Thông Skybooks Việt Nam
-                  </span>
+                  <span className="opacity-70">Nhà xuất bản</span>
+                  <span className="font-normal">{product?.issuingCompany}</span>
                 </div>
                 <Divider></Divider>
               </div>
               <div>
                 <div className="grid grid-cols-2">
                   <span className="opacity-70">Ngày xuất bản</span>
-                  <span className="font-normal">2023-06-22 15:56:45</span>
+                  <span className="font-normal">
+                    {product?.publicationDate}
+                  </span>
                 </div>
                 <Divider></Divider>
               </div>
               <div>
                 <div className="grid grid-cols-2">
                   <span className="opacity-70">Loại bìa</span>
-                  <span className="font-normal">Bìa mềm</span>
+                  <span className="font-normal">{product?.coverType}</span>
                 </div>
                 <Divider></Divider>
               </div>
               <div>
                 <div className="grid grid-cols-2">
                   <span className="opacity-70">Số trang</span>
-                  <span className="font-normal">272</span>
+                  <span className="font-normal">{product?.numberOfPages}</span>
                 </div>
                 <Divider></Divider>
               </div>
               <div>
                 <div className="grid grid-cols-2">
                   <span className="opacity-70">Kích thước</span>
-                  <span className="font-normal">14.5 x 20.5 cm</span>
+                  <span className="font-normal">{product?.size} cm</span>
                 </div>
                 <Divider></Divider>
               </div>
               <div>
                 <div className="grid grid-cols-2">
                   <span className="opacity-70">Tác giả</span>
-                  <span className="font-normal">Quỳnh Chi</span>
-                </div>
-                <Divider></Divider>
-              </div>
-              <div>
-                <div className="grid grid-cols-2">
-                  <span className="opacity-70">Nhà xuất bản</span>
-                  <span className="font-normal">Nhà Xuất Bản Thế Giới</span>
+                  <span className="font-normal">{product?.author}</span>
                 </div>
                 <Divider></Divider>
               </div>

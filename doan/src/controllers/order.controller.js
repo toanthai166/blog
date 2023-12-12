@@ -21,7 +21,6 @@ const getOrders = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['userId', 'status']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await orderService.queryOrders(filter, options);
-  console.log(result);
 
   res.send(result);
 });

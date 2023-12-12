@@ -61,7 +61,7 @@ const FormCreateBlog = ({ isDetail, isEdit }) => {
     setDataEditor(data);
   }, 800);
 
-  const categoryOptions = categories?.map((it) => ({
+  const categoryOptions = categories?.results?.map((it) => ({
     label: it.name,
     value: it.id,
   }));

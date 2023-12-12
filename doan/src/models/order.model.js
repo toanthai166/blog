@@ -39,6 +39,9 @@ const orderSchema = mongoose.Schema(
     user: {
       type: Object,
     },
+    discount: {
+      type: Object,
+    },
   },
   {
     timestamps: true,

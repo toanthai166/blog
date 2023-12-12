@@ -4,6 +4,8 @@ const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { blogService } = require('../services');
 const Category = require('../models/category.model');
+const Discount = require('../models/discount.model');
+const { mongoose } = require('../config/config');
 
 const createBlog = catchAsync(async (req, res) => {
   const newBlog = {
@@ -47,6 +49,14 @@ const getBlogs = catchAsync(async (req, res) => {
   const result = await blogService.queryBlogs(filter, options);
   result.results.forEach((item) => {
     item.content = item.content.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+  });
+  const discounts = await Discount.find({});
+  discounts.forEach(async (item) => {
+    await mongoose.connection;
+    const currentDate = new Date();
+    if (new Date(item.endDate) <= currentDate) {
+      await Discount.updateOne({ _id: item.id }, { $set: { isActive: false } });
+    }
   });
   res.send(result);
 });

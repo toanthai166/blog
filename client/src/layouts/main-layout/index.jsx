@@ -9,7 +9,7 @@ import {
 import { debounce } from "lodash";
 import { Link, useNavigate } from "react-router-dom";
 import { AppRoutes } from "../../helpers/app-routes";
-import { useAuth } from "../../hooks/auth.hook";
+import { useAuth, useLogout } from "../../hooks/auth.hook";
 import { useEffect, useState } from "react";
 import Cart from "../../screens/cart";
 
@@ -18,6 +18,7 @@ const Layouts = ({ children }) => {
   const [open, setOpen] = useState(false);
 
   const { logout, auth } = useAuth();
+  const { handleLogout } = useLogout();
 
   const navigate = useNavigate();
 
@@ -38,6 +39,12 @@ const Layouts = ({ children }) => {
         navigate(AppRoutes.contact);
         break;
     }
+  };
+  console.log("user :>> ", user);
+  const logOut = () => {
+    handleLogout({ refreshToken: auth?.data?.tokens?.refresh.token });
+    logout();
+    navigate(AppRoutes.login);
   };
 
   const items = [
@@ -144,10 +151,7 @@ const Layouts = ({ children }) => {
                           <Button
                             className="w-full"
                             type="dashed"
-                            onClick={() => {
-                              navigate(AppRoutes.login);
-                              logout();
-                            }}
+                            onClick={logOut}
                           >
                             Đăng xuất
                           </Button>

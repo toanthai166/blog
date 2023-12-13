@@ -19,7 +19,6 @@ export const useBlog = (filter) => {
   const { isLoading, error } = useQuery({
     queryKey: [
       `blogs/${filter.page}&&${filter.title}&&${filter.categoryId}&&${filter.title}`,
-      "blogs",
     ],
     queryFn: useCallback(() => getBlogs(filter), [filter]),
     onSuccess: (res) => {

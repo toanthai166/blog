@@ -5,7 +5,7 @@ import { AppRoutes } from "../../helpers/app-routes";
 import { numberWithDots } from "../../ultis/pagination";
 import { useCallback, useState } from "react";
 import { CartIcon } from "../../assets";
-import { useAddToCart, useCart } from "../../hooks/cart.hook";
+import { useAddToCart } from "../../hooks/cart.hook";
 import Cart from "../cart";
 import { ModalCustomize } from "../../components/modal-customize/modal-customize";
 const minQuantity = 1;
@@ -29,8 +29,7 @@ const ProductDetail = () => {
   const { product, isLoading } = useGetProductById(id);
   const { products } = useProduct(filter);
   const listproduct = products?.results?.filter((it) => it.id !== product._id);
-  console.log("listproduct :>> ", listproduct);
-
+  console.log("product :>> ", product);
   const hanldeAddProductToCart = () => {
     if (auth == undefined) {
       setOpen(true);
@@ -165,11 +164,17 @@ const ProductDetail = () => {
                     max={product?.quantity}
                   />
                   <span className="text-grayscale-gray text-base leading-5 inline pl-[12px]">
-                    {numberWithDots(product?.quantity) ?? 0} sản phẩm có sẵn
+                    {numberWithDots(
+                      product?.quantity > 0 ? product?.quantity : 0 + " "
+                    )}
+                    sản phẩm có sẵn
                   </span>
                 </div>
                 <div className="flex items-center gap-x-4 mt-4">
-                  <Button className="border border-solid border-primary basis-5/12 w-full">
+                  <Button
+                    disabled={product.quantity <= 0}
+                    className="border border-solid border-primary basis-5/12 w-full"
+                  >
                     <div
                       className="flex items-center gap-x-[8px] justify-center"
                       onClick={hanldeAddProductToCart}

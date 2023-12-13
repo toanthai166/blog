@@ -50,6 +50,34 @@ export const useAddToListFavorite = () => {
   );
   return { mutation, hanldeAddToListBlog };
 };
+export const useAddToListFavorites = (filter) => {
+  const mutation = useMutation(addToListFavorite, {
+    mutationKey: "favorite/create",
+  });
+  const client = useQueryClient();
+  const hanldeAddToListBlogs = useCallback(
+    (data) => {
+      mutation.mutate(data, {
+        onSuccess: () => {
+          client.invalidateQueries(
+            `blogs/${filter.page}&&${filter.title}&&${filter.categoryId}&&${filter.title}`
+          );
+
+          notification.success({
+            message: "Thêm bài viết vào danh sách yêu thích thành công",
+          });
+        },
+        onError: () => {
+          notification.error({
+            message: "Thêm vào danh sách yêu thích thất bại",
+          });
+        },
+      });
+    },
+    [client, mutation]
+  );
+  return { mutation, hanldeAddToListBlogs };
+};
 
 export const useRemoveToListBlog = () => {
   const mutation = useMutation(removeToListFavorite, {
@@ -72,5 +100,31 @@ export const useRemoveToListBlog = () => {
   return {
     mutation,
     handleRemoveToListBlog,
+  };
+};
+
+export const useRemoveToListBlogs = (filter) => {
+  const mutation = useMutation(removeToListFavorite, {
+    mutationKey: [`cart/remove`],
+  });
+  const client = useQueryClient();
+  const handleRemoveToListBlogs = useCallback(
+    (data) => {
+      mutation.mutate(data, {
+        onSuccess: () => {
+          client.invalidateQueries(
+            `blogs/${filter.page}&&${filter.title}&&${filter.categoryId}&&${filter.title}`
+          );
+          notification.success({
+            message: "Xóa khỏi danh sách yêu thích thành công",
+          });
+        },
+      });
+    },
+    [client, filter?.categoryId, filter?.page, filter?.title, mutation]
+  );
+  return {
+    mutation,
+    handleRemoveToListBlogs,
   };
 };

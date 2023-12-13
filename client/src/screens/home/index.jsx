@@ -27,10 +27,9 @@ import dayjs from "dayjs";
 import { FORMAT_TIME } from "../admin/discount";
 import BodyRight from "./body-right";
 import { useFAQ } from "../../hooks/faq.hook";
-import { debounce } from "lodash";
 import {
-  useAddToListFavorite,
-  useRemoveToListBlog,
+  useAddToListFavorites,
+  useRemoveToListBlogs,
 } from "../../hooks/listFavorite.hook";
 import { useCategoriesIsActive } from "../../hooks/category.hook";
 import { ModalCustomize } from "../../components/modal-customize/modal-customize";
@@ -48,9 +47,9 @@ const Home = () => {
     isActive: true,
     categoryId: undefined,
   });
-  const { hanldeAddToListBlog, mutation } = useAddToListFavorite();
-  const { handleRemoveToListBlog, mutation: mutationDelete } =
-    useRemoveToListBlog();
+  const { hanldeAddToListBlogs, mutation } = useAddToListFavorites(filter);
+  const { handleRemoveToListBlogs, mutation: mutationDelete } =
+    useRemoveToListBlogs(filter);
 
   const { categories } = useCategoriesIsActive();
 
@@ -108,14 +107,14 @@ const Home = () => {
     if (auth == undefined) {
       setOpen(true);
     } else {
-      hanldeAddToListBlog({ blogId: id });
+      hanldeAddToListBlogs({ blogId: id });
     }
   };
   const handleRemoveToFavoriteBlog = (id) => {
     if (auth == undefined) {
       setOpen(true);
     } else {
-      handleRemoveToListBlog({ blogId: id });
+      handleRemoveToListBlogs({ blogId: id });
     }
   };
 

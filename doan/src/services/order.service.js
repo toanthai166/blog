@@ -8,7 +8,6 @@ const Discount = require('../models/discount.model');
 
 const createOrder = async (body) => {
   const addressId = body.addressId;
-  console.log('addressId', addressId);
   const items = body.items;
   const userId = body.userId;
   const addresses = await Address.findOne({ userId });
@@ -27,6 +26,7 @@ const createOrder = async (body) => {
     if (!product) {
       throw new Error('Product not found');
     }
+    await Product.updateOne({ _id: product._id }, { $set: { quantity: product.quantity - item.quantity } });
 
     return {
       product: product,
@@ -45,6 +45,8 @@ const createOrder = async (body) => {
           const abc = await Discount.updateOne({ _id: discount.id }, { $set: { isActive: false } });
           return Order.create({ ...body, product: itemDetails, addresses: address, user: user, discount: abc });
         }
+      } else {
+        return Order.create({ ...body, product: itemDetails, addresses: address, user: user });
       }
     })
     .catch((error) => {
@@ -81,12 +83,12 @@ const getOrderById = async (id) => {
  */
 const updateOrderById = async (id, updateBody) => {
   const order = await getOrderById(id);
-  if (updateBody.status == 'shipping') {
-    order.product.map(async (it) => {
-      const product = await Product.findById(it.product._id);
-      await Product.updateOne({ _id: product._id }, { $set: { quantity: product.quantity - it.quantity } });
-    });
-  }
+  // if (updateBody.status == 'shipping') {
+  //   order.product.map(async (it) => {
+  //     const product = await Product.findById(it.product._id);
+  //     await Product.updateOne({ _id: product._id }, { $set: { quantity: product.quantity - it.quantity } });
+  //   });
+  // }
   if (!order) {
     throw new ApiError(httpStatus.NOT_FOUND, 'order not found');
   }

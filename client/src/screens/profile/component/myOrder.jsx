@@ -143,7 +143,6 @@ const MyOrder = ({ id }) => {
           message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái hoàn thành`,
         });
       } catch (error) {
-        // Xử lý lỗi nếu có
         console.error("Lỗi khi cập nhật đơn hàng:", error);
         notification.error({
           message: "Có lỗi xảy ra khi cập nhật đơn hàng",

@@ -70,7 +70,7 @@ export const useUpdateOrder = (id) => {
   const handleUpdateOrder = (data) => {
     mutation.mutate(data, {
       onSuccess: () => {
-        navigate(AppRoutes.orderManagement);
+        // navigate(AppRoutes.orderManagement);
       },
     });
   };

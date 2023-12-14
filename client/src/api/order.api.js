@@ -20,5 +20,6 @@ export const getOrders = async (filter) => {
 export const getOrderById = async (id) => {
   if (!id) return null;
   const res = await request.get(`/order/${id}`);
+  console.log("res :>> ", res);
   return res;
 };

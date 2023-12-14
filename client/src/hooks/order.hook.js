@@ -19,7 +19,6 @@ export const useOrder = (filter) => {
     queryKey: [`orders?status=${filter.status}`],
     queryFn: () => getOrders(filter),
     onSuccess: (res) => {
-      console.log(res.data);
       setOrders(res.data);
     },
   });
@@ -27,12 +26,12 @@ export const useOrder = (filter) => {
 };
 
 export const useGetOrderById = (id) => {
-  const [order, setBlog] = useAtom(listOrder);
+  const [order, setOrder] = useAtom(listOrder);
   const { isLoading, error } = useQuery({
     queryKey: [`order/${id}`],
     queryFn: () => getOrderById(id),
     onSuccess: (res) => {
-      setBlog(res.data);
+      setOrder(res?.data);
     },
   });
   return { isLoading, error, order };
@@ -62,8 +61,6 @@ export const useCreateOrder = () => {
 };
 
 export const useUpdateOrder = (id) => {
-  const navigate = useNavigate();
-
   const mutation = useMutation(updateOrder, {
     mutationKey: [`order/${id}`],
   });

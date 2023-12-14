@@ -1,4 +1,4 @@
-import { Button, Spin } from "antd";
+import { Button, Rate, Spin } from "antd";
 import Lable from "../../components/lable";
 
 import { useState } from "react";
@@ -43,7 +43,10 @@ const Product = () => {
                     {it?.name}
                   </span>
                 </Link>
-                <span className="text-lg font-medium text-center text-[#A62B00]">
+                <span>
+                  <Rate allowHalf disabled value={it?.rating} />
+                </span>
+                <span className="text-lg font-medium text-start text-[#A62B00]">
                   Giá: {numberWithDots(it?.unitPrice) + " đ"}
                 </span>
               </div>

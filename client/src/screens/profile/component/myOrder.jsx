@@ -186,9 +186,7 @@ const MyOrder = ({ id }) => {
               <Tag
                 className="hover:cursor-pointer"
                 color="gold"
-                onClick={() =>
-                  navigate(AppRoutes.adminOrderDetailId(record.id))
-                }
+                onClick={() => navigate(AppRoutes.orderDetailId(record.id))}
               >
                 <EyeOutlined />
               </Tag>
@@ -210,9 +208,7 @@ const MyOrder = ({ id }) => {
               <Tag
                 className="hover:cursor-pointer"
                 color="gold"
-                onClick={() =>
-                  navigate(AppRoutes.adminOrderDetailId(record.id))
-                }
+                onClick={() => navigate(AppRoutes.orderDetailId(record.id))}
               >
                 <EyeOutlined />
               </Tag>
@@ -237,37 +233,34 @@ const MyOrder = ({ id }) => {
               <Tag
                 className="hover:cursor-pointer"
                 color="gold"
-                onClick={() =>
-                  navigate(AppRoutes.adminOrderDetailId(record.id))
-                }
+                onClick={() => navigate(AppRoutes.orderDetailId(record.id))}
               >
                 <EyeOutlined />
               </Tag>
             </Tooltip>
           </div>
         );
+      case "complete":
       default:
         return (
-          <p
-            className="text-primary hover:cursor-pointer"
-            onClick={() => navigate(AppRoutes.adminOrderDetailId(record.id))}
-          >
-            Xem chi tiết
-          </p>
+          <Tooltip title="Xem chi tiết">
+            <Tag
+              className="hover:cursor-pointer"
+              color="gold"
+              onClick={() => navigate(AppRoutes.orderDetailId(record.id))}
+            >
+              <EyeOutlined />
+            </Tag>
+          </Tooltip>
         );
     }
   };
   const defaultColumns = [
     {
-      title: "STT",
-      dataIndex: "index",
-      key: "index",
-      render: (text) => <a>{text}</a>,
-    },
-    {
       title: "Mã đơn hàng",
       dataIndex: "code",
       key: "code",
+      width: "10%",
       render: (code) => <span>{code}</span>,
     },
     {
@@ -296,6 +289,7 @@ const MyOrder = ({ id }) => {
       title: "Số lượng",
       dataIndex: "product",
       key: "quantity",
+      width: "10%",
       render: (product) => {
         return product?.map((it, idx) => (
           <div key={"quantity" + it?.id} className="flex flex-col">
@@ -348,12 +342,6 @@ const MyOrder = ({ id }) => {
     },
   ];
   const orderCompletedColumn = () => [
-    {
-      title: "STT",
-      dataIndex: "index",
-      key: "index",
-      render: (text) => <a>{text}</a>,
-    },
     {
       title: "Mã đơn hàng",
       key: "code",
@@ -449,19 +437,22 @@ const MyOrder = ({ id }) => {
       key: "action",
       align: "right",
       width: "10%",
-      render: (status, _record) => {
-        console.log(status);
-        renderActionsByStatus(status, _record);
+      render: (status, record) => {
+        return (
+          <Tooltip title="Xem chi tiết">
+            <Tag
+              className="hover:cursor-pointer"
+              color="gold"
+              onClick={() => navigate(AppRoutes.orderDetailId(record.id))}
+            >
+              <EyeOutlined />
+            </Tag>
+          </Tooltip>
+        );
       },
     },
   ];
   const orderCancelColumn = () => [
-    {
-      title: "STT",
-      dataIndex: "index",
-      key: "index",
-      render: (text) => <a>{text}</a>,
-    },
     {
       title: "Mã đơn hàng",
       key: "code",
@@ -557,7 +548,19 @@ const MyOrder = ({ id }) => {
       key: "action",
       align: "right",
       width: "10%",
-      render: (status, _record) => renderActionsByStatus(status, _record),
+      render: (status, record) => {
+        return (
+          <Tooltip title="Xem chi tiết">
+            <Tag
+              className="hover:cursor-pointer"
+              color="gold"
+              onClick={() => navigate(AppRoutes.orderDetailId(record.id))}
+            >
+              <EyeOutlined />
+            </Tag>
+          </Tooltip>
+        );
+      },
     },
   ];
   const [columns, setColumns] = useState(defaultColumns);

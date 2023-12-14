@@ -251,6 +251,26 @@ const Home = () => {
         </div>
       </Spin>
     );
+
+  const handleNavigate = (it) => {
+    const post = JSON.parse(localStorage.getItem("post"));
+    if (post != null) {
+      post.push(it);
+      post.filter((item) => item.id != it.id);
+      console.log("post :>> ", JSON.stringify(post));
+
+      // const ac = post.includes(it.id);
+      // console.log("ac :>> ", ac);
+      localStorage.setItem("post", JSON.stringify(post));
+    } else {
+      const postLocal = [];
+      postLocal.push(it);
+      localStorage.setItem("post", JSON.stringify(postLocal));
+    }
+    // }
+    AppRoutes.postDetailId(it?.id);
+    console.log("it :>> ", it);
+  };
   return (
     <Spin spinning={isLoading}>
       <div>
@@ -356,7 +376,8 @@ const Home = () => {
                       <div className=" flex flex-col gap-1">
                         <Link
                           to={AppRoutes.postDetailId(it?.id)}
-                          className="text-2xl text-[#a62b00] font-semibold line-clamp-1 "
+                          // onClick={() => handleNavigate(it)}
+                          className="text-2xl text-[#a62b00] font-semibold line-clamp-1 cursor-pointer"
                         >
                           {it.title}
                         </Link>

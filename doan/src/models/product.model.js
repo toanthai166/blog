@@ -64,6 +64,14 @@ const productSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    rating: {
+      type: Number,
+      default: 0,
+    },
+    totalReview: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,

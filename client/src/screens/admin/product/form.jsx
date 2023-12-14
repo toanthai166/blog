@@ -20,8 +20,8 @@ const FormProduct = ({ isDetail, isEdit }) => {
   const [form] = Form.useForm();
   const [dataEditor, setDataEditor] = useState("");
   const { product } = useGetProductById(id);
-  const { handleUpdateProduct } = useUpdateProduct();
-  const { handleCreateProduct } = useCreateProduct();
+  const { handleUpdateProduct, mutation } = useUpdateProduct();
+  const { handleCreateProduct, mutation: mutationCreate } = useCreateProduct();
 
   useEffect(() => {
     if (product) {
@@ -117,7 +117,9 @@ const FormProduct = ({ isDetail, isEdit }) => {
             onFinish={onFinish}
           >
             <Form.Item
-              label={<span>Đường dẫn ảnh:</span>}
+              label={
+                <span className="text-base font-semibold">Đường dẫn ảnh:</span>
+              }
               name="image"
               rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
               normalize={(e) => e.trimStart()}
@@ -125,21 +127,31 @@ const FormProduct = ({ isDetail, isEdit }) => {
               <Input placeholder="Nhập đường dẫn" maxLength={255}></Input>
             </Form.Item>
             <Form.Item
-              label={<span>Tên sản phẩm</span>}
+              label={
+                <span className="text-base font-semibold">Tên sản phẩm</span>
+              }
               name="name"
               rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
               normalize={(e) => e.trimStart()}
             >
               <Input placeholder="Nhập tên sản phẩm" maxLength={255}></Input>
             </Form.Item>
-            <Form.Item label={<span>Số lượng</span>} name="quantity">
+            <Form.Item
+              label={<span className="text-base font-semibold">Số lượng</span>}
+              name="quantity"
+            >
               <InputNumber placeholder="Nhập số lượng sản phẩm" />
             </Form.Item>
-            <Form.Item label={<span>Giá sản phẩm</span>} name="unitPrice">
+            <Form.Item
+              label={
+                <span className="text-base font-semibold">Giá sản phẩm</span>
+              }
+              name="unitPrice"
+            >
               <InputNumber placeholder="Nhập giá sản phẩm" />
             </Form.Item>
             <Form.Item
-              label={<span>Tác giả:</span>}
+              label={<span className="text-base font-semibold">Tác giả:</span>}
               name="author"
               rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
               normalize={(e) => e.trimStart()}
@@ -147,7 +159,9 @@ const FormProduct = ({ isDetail, isEdit }) => {
               <Input placeholder="Nhập tên tác giả" maxLength={255} />
             </Form.Item>
             <Form.Item
-              label={<span>Công ti phát hành</span>}
+              label={
+                <span className="text-base font-semibold">Nhà xuất bản:</span>
+              }
               name="issuingCompany"
               rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
               normalize={(e) => e.trimStart()}
@@ -155,15 +169,16 @@ const FormProduct = ({ isDetail, isEdit }) => {
               <Input placeholder="Nhập tên công ty phát hành" maxLength={255} />
             </Form.Item>
             <Form.Item
-              label={<span>Năm xuất bản</span>}
+              label={
+                <span className="text-base font-semibold">Năm xuất bản</span>
+              }
               name="publicationDate"
               rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
             >
-              {/* <Select options={yearOptions} placeholder="Chọn năm xuất bản" /> */}
               <Input placeholder="Nhập năm xuất bản" />
             </Form.Item>
             <Form.Item
-              label={<span>Loại bìa</span>}
+              label={<span className="text-base font-semibold">Loại bìa</span>}
               name="coverType"
               rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
               normalize={(e) => e.trimStart()}
@@ -171,7 +186,7 @@ const FormProduct = ({ isDetail, isEdit }) => {
               <Input placeholder="Nhập loại bìa" maxLength={255} />
             </Form.Item>
             <Form.Item
-              label={<span>Số trang</span>}
+              label={<span className="text-base font-semibold">Số trang</span>}
               name="numberOfPages"
               rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
               normalize={(e) => e.trimStart()}
@@ -179,7 +194,9 @@ const FormProduct = ({ isDetail, isEdit }) => {
               <Input placeholder="Nhập tên nhà xuất bản" maxLength={255} />
             </Form.Item>
             <Form.Item
-              label={<span>Kích thước</span>}
+              label={
+                <span className="text-base font-semibold">Kích thước</span>
+              }
               name="size"
               rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
               normalize={(e) => e.trimStart()}
@@ -187,7 +204,11 @@ const FormProduct = ({ isDetail, isEdit }) => {
               <Input placeholder="Nhập kích thước" maxLength={255} />
             </Form.Item>
 
-            <Form.Item label={<span>Mô tả sản phẩm</span>}>
+            <Form.Item
+              label={
+                <span className="text-base font-semibold">Mô tả sản phẩm</span>
+              }
+            >
               <CKEditor
                 disabled={isDetail}
                 editor={ClassicEditor}
@@ -211,8 +232,8 @@ const FormProduct = ({ isDetail, isEdit }) => {
                     className="w-20"
                     type="dashed"
                     htmlType="submit"
-                    // loading={loadingCreateNews}
-                    // disabled={loadingCreateNews}
+                    loading={mutation.isLoading || mutationCreate.isLoading}
+                    disabled={mutation.isLoading || mutationCreate.isLoading}
                   >
                     Lưu
                   </Button>

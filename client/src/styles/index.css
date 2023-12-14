@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+.banner {
+  background-image: url(../../public/image/banner.jpg);
+}
+a:hover {
+  color: #9c3a17;
+  text-decoration: dashed;
+}
+
 .post-detail {
   width: 100%;
   max-width: 600px;
@@ -162,4 +170,8 @@
 
 .post-details .swiper-slide {
   width: 30% !important;
+}
+
+.ant-form-item-control-input {
+  margin: 10px 0;
 }

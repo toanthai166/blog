@@ -23,8 +23,8 @@ const FormCreateBlog = ({ isDetail, isEdit }) => {
   const [dataEditor, setDataEditor] = useState("");
   const { blog } = useGetBlogById(id);
   const { categories } = useCategoriesIsActive();
-  const { handleUpdateBlog } = useUpdateBlog();
-  const { handleCreateBlog } = useCreateBlog();
+  const { handleUpdateBlog, mutation } = useUpdateBlog();
+  const { handleCreateBlog, mutation: mutationCreate } = useCreateBlog();
   const { handleUploadFile, image: imageUpload } = useUploadImage();
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const FormCreateBlog = ({ isDetail, isEdit }) => {
     setDataEditor(data);
   }, 800);
 
-  const categoryOptions = categories?.results?.map((it) => ({
+  const categoryOptions = categories?.map((it) => ({
     label: it.name,
     value: it.id,
   }));
@@ -118,11 +118,7 @@ const FormCreateBlog = ({ isDetail, isEdit }) => {
             onFinish={onFinish}
           >
             <Form.Item
-              label={
-                <span>
-                  Đường dẫn ảnh:<span className="text-red"> *</span>
-                </span>
-              }
+              label={<span className="text-base font-semibold">Ảnh:</span>}
               name="image"
             >
               <Upload
@@ -139,11 +135,7 @@ const FormCreateBlog = ({ isDetail, isEdit }) => {
               alt=""
             />
             <Form.Item
-              label={
-                <span>
-                  Tiêu đề<span className="text-red"> *</span>
-                </span>
-              }
+              label={<span className="text-base font-semibold">Tiêu đề</span>}
               name="title"
               rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
               normalize={(e) => e.trimStart()}
@@ -152,16 +144,16 @@ const FormCreateBlog = ({ isDetail, isEdit }) => {
             </Form.Item>
             <Form.Item
               label={
-                <span>
-                  Chọn danh mục<span className="text-red"> *</span>
-                </span>
+                <span className="text-base font-semibold">Chọn danh mục</span>
               }
               name="categoryId"
               rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
             >
               <Select placeholder="Chọn danh mục" options={categoryOptions} />
             </Form.Item>
-            <Form.Item label={<span>Mô tả</span>}>
+            <Form.Item
+              label={<span className="text-base font-semibold">Mô tả</span>}
+            >
               <CKEditor
                 disabled={isDetail}
                 editor={ClassicEditor}
@@ -186,8 +178,8 @@ const FormCreateBlog = ({ isDetail, isEdit }) => {
                     className="w-20"
                     type="dashed"
                     htmlType="submit"
-                    // loading={loadingCreateNews}
-                    // disabled={loadingCreateNews}
+                    loading={mutation.isLoading || mutationCreate.isLoading}
+                    disabled={mutation.isLoading || mutationCreate.isLoading}
                   >
                     Lưu
                   </Button>

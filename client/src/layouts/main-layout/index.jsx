@@ -65,8 +65,8 @@ const Layouts = ({ children }) => {
 
   return (
     <>
-      <header className=" bg-gradient-to-r from-red-700 to-red-500 header shadow-[28px_40px_80px_0px_#18264D59] fixed justify-between w-full z-50">
-        <div className="flex justify-between p-5  2xl:mx-[12.65%] ">
+      <header className="bg-gradient-to-r from-red-700 to-red-500 header shadow-[28px_40px_80px_0px_#18264D59] fixed justify-between w-full z-50">
+        <div className="flex justify-between p-5  2xl:mx-[12.65%]">
           <div className="flex gap-5 items-center">
             <img
               src="../../public/image/blog-am-thuc.png"
@@ -249,7 +249,7 @@ const Layouts = ({ children }) => {
                 <span>vutoanthai166@gmail.com</span>
               </div>
               <div className="flex gap-5 items-center">
-                <Address className="w-8 h-8"></Address>
+                <Address className="w-6 h-6"></Address>
                 <Link to={"/"}>40 SN, Đức Thắng, Q.Bắc Từ Liêm, Hà Nội</Link>
               </div>
             </div>

@@ -1,8 +1,9 @@
 import { Avatar, Col, Menu } from "antd";
 import { useCallback, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
 import { AccountInfo, Address, WishList } from "../../assets";
+import { AppRoutes } from "../../helpers/app-routes";
 
 const menus = [
   {
@@ -23,6 +24,7 @@ const menus = [
 ];
 
 const TabLeftProfile = () => {
+  const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("auth"))?.data?.user;
 
   const [activeKey, setActiveKey] = useState("");
@@ -37,12 +39,13 @@ const TabLeftProfile = () => {
   const handleChangeTab = useCallback(
     (e) => {
       setActiveKey(e.key);
-      setSearchParams((params) => {
-        params.set("info", e.key);
-        return params;
-      });
+      navigate(AppRoutes.profile + "?info=" + e.key);
+      // setSearchParams((params) => {
+      //   params.set("info", e.key);
+      //   return params;
+      // });
     },
-    [setSearchParams]
+    [navigate]
   );
   return (
     <Col span={6}>

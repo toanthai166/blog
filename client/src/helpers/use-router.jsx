@@ -27,6 +27,7 @@ import FormDiscount from "../screens/admin/discount/form";
 import Payment from "../screens/payment";
 import PostDetail from "../screens/home/post-detail";
 import Search from "../screens/home/search";
+import OrderDetail from "../screens/profile/component/order-detail";
 
 export const useRouter = () => {
   return createBrowserRouter([
@@ -81,6 +82,10 @@ export const useRouter = () => {
         {
           path: AppRoutes.profile,
           element: <Profile />,
+        },
+        {
+          path: AppRoutes.orderDetail,
+          element: <OrderDetail />,
         },
         {
           path: AppRoutes.contact,

@@ -8,6 +8,9 @@ export { ReactComponent as WishList } from "./wishlist.svg";
 export { ReactComponent as GoogleIcon } from "./google.svg";
 export { ReactComponent as FacebookIcon } from "./facebook.svg";
 export { ReactComponent as Apple } from "./apple.svg";
+export { ReactComponent as ReceiptIcon } from "./receipt.svg";
+export { ReactComponent as InfoCircle } from "./info-circle.svg";
+export { ReactComponent as ErrorIcon } from "./error.svg";
 
 export const Icon = {
   heart: "",

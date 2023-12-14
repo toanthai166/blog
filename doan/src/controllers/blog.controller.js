@@ -54,7 +54,7 @@ const getBlogs = catchAsync(async (req, res) => {
   discounts.forEach(async (item) => {
     await mongoose.connection;
     const currentDate = new Date();
-    if (new Date(item.endDate) <= currentDate) {
+    if (new Date(item.endDate) < currentDate) {
       await Discount.updateOne({ _id: item.id }, { $set: { isActive: false } });
     }
   });

@@ -15,7 +15,7 @@ import {
   useChangeIsActiveBlog,
   useDeleteBlog,
 } from "../../../hooks/blog.hook";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const BlogManagement = () => {
   const navigate = useNavigate();
@@ -56,6 +56,7 @@ const BlogManagement = () => {
       title: "Tiêu đề",
       dataIndex: "title",
       key: "title",
+      width: "40%",
       render: (text) => <span className="text-base font-medium">{text}</span>,
     },
     {
@@ -67,6 +68,7 @@ const BlogManagement = () => {
     {
       title: "Trạng thái",
       key: "isActive",
+      width: "10%",
       render: (it) => {
         return (
           <Popconfirm
@@ -89,7 +91,7 @@ const BlogManagement = () => {
       align: "center",
       render: (id) => {
         return (
-          <div className="flex gap-2 justify-end">
+          <div className="flex gap-2 justify-center">
             <Tooltip title="Sửa">
               <Tag
                 className="hover:cursor-pointer"

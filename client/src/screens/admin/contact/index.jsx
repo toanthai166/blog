@@ -67,7 +67,7 @@ const ContactManagement = () => {
       dataIndex: "id",
       render: (id) => {
         return (
-          <div className="flex gap-2 justify-end">
+          <div className="flex gap-2 justify-center">
             <Tooltip title="Xem chi tiết">
               <Tag
                 className="hover:cursor-pointer"

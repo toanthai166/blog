@@ -1,9 +1,9 @@
 import { useCallback, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGetOrderById, useUpdateOrder } from "../../../hooks/order.hook";
-import { Button, Descriptions, Table, notification } from "antd";
+import { Button, Descriptions, Image, Table, notification } from "antd";
 import { DefaultPagination, numberWithDots } from "../../../ultis/pagination";
-
+import { IoIosArrowBack } from "react-icons/io";
 import dayjs from "dayjs";
 import { FORMAT_TIME } from ".";
 import { useQueryClient } from "react-query";
@@ -13,77 +13,67 @@ import {
 } from "../../../ultis/function";
 
 const DetailOrder = () => {
+  const navigate = useNavigate();
   const { id = "" } = useParams();
   const { order } = useGetOrderById(id);
   const { handleUpdateOrder } = useUpdateOrder();
 
-  console.log(order);
-
-  const columns = [
+  const column = [
     {
-      title: `STT`,
-      dataIndex: "index",
-      align: "center",
-      width: "5%",
-      render: (_, __, index) => index + 1,
+      title: "Sản phẩm",
+      key: "product",
+      dataIndex: "product",
+      width: "30%",
+      render: (_, it) => {
+        return (
+          <div className="flex">
+            <div className="w-[70px] h-[70px]">
+              <Image
+                className="w-[70px] h-[70px] rounded object-cover"
+                src={it?.product?.image}
+              />
+            </div>
+            <span className="pl-3 text-base font-medium leading-5">
+              {it?.product?.name}
+            </span>
+          </div>
+        );
+      },
     },
     {
-      title: "Tên sản phẩm",
-      key: "name",
-      dataIndex: "name",
-    },
-    {
-      title: `Số lượng`,
-      dataIndex: "quantity",
-      align: "center",
+      title: "Số lượng",
+      key: "product",
+      dataIndex: "product",
+      align: "right",
       width: "10%",
+      render: (_, it) => {
+        return <span>{"x" + it?.quantity}</span>;
+      },
     },
     {
-      title: `Đơn giá`,
+      title: "Đơn giá",
+      key: "unitPrice",
       dataIndex: "unitPrice",
-      align: "center",
-      width: "10%",
-      render: (v) => numberWithDots(v),
+      align: "right",
+      width: "15%",
+      render: (_, it) => {
+        return <span>{numberWithDots(it?.product?.unitPrice) + " đ"}</span>;
+      },
     },
     {
-      title: `Giá`,
+      title: "Tổng cộng",
+      key: "total",
       dataIndex: "total",
       align: "right",
-      render: (v) => numberWithDots(v),
+      width: "15%",
+      render: (_, r) => (
+        <span className="font-semibold">
+          {numberWithDots(r?.quantity * r?.product?.unitPrice) + " đ"}
+        </span>
+      ),
     },
   ];
-  const [showCancelOrder, setShowCancelOrder] = useState(false);
-  // const [cancelOrderMutation, { loading: canceling }] =
-  //   useAdminCancelOrderMutation({
-  //     onError(error) {
-  //       showNotification(
-  //         "error",
-  //         "Hủy đơn hàng thất bại",
-  //         showGraphQLErrorMessage(error, true)
-  //       );
-  //     },
-  //     onCompleted() {
-  //       showNotification("success", `Hủy đơn hàng thành công ${order?.code}`);
-  //       setShowCancelOrder(false);
-  //       navigate(-1);
-  //     },
-  //   });
-  // const handleCancelOrder = useCallback(
-  //   (values) => {
-  //     if (!order) return;
-  //     const input = {
-  //       orderId: order.id,
-  //       ...values,
-  //     };
-  //     cancelOrderMutation({ variables: { input } });
-  //   },
-  //   [order, cancelOrderMutation]
-  // );
 
-  // const loading = useMemo(
-  //   () => orderLoading || updating,
-  //   [orderLoading, updating]
-  // );
   const client = useQueryClient();
 
   const handleChangeStatusToShipping = useCallback(
@@ -92,11 +82,11 @@ const DetailOrder = () => {
         handleUpdateOrder({
           id: record?.id,
           status: "shipping",
-        });
-
-        client.invalidateQueries(`orders?status=wait_for_confirm`);
-        notification.success({
-          message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái đang giao`,
+        }).then(() => {
+          client.invalidateQueries(`orders?status=wait_for_confirm`);
+          notification.success({
+            message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái đang giao`,
+          });
         });
       } catch (error) {
         // Xử lý lỗi nếu có
@@ -114,11 +104,11 @@ const DetailOrder = () => {
         handleUpdateOrder({
           id: record?.id,
           status: "delivered",
-        });
-
-        client.invalidateQueries(`orders?status=wait_for_confirm`);
-        notification.success({
-          message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái đã giao`,
+        }).then(() => {
+          client.invalidateQueries(`orders?status=wait_for_confirm`);
+          notification.success({
+            message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái đã giao`,
+          });
         });
       } catch (error) {
         // Xử lý lỗi nếu có
@@ -136,11 +126,11 @@ const DetailOrder = () => {
         handleUpdateOrder({
           id: record?.id,
           status: "complete",
-        });
-
-        client.invalidateQueries(`orders?status=wait_for_confirm`);
-        notification.success({
-          message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái hoàn thành`,
+        }).then(() => {
+          client.invalidateQueries(`orders?status=wait_for_confirm`);
+          notification.success({
+            message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái hoàn thành`,
+          });
         });
       } catch (error) {
         // Xử lý lỗi nếu có
@@ -158,13 +148,10 @@ const DetailOrder = () => {
       case "wait_for-confirm":
         return (
           <div className="flex items-center justify-center gap-x-20px">
-            <Button size="small" onClick={() => setShowCancelOrder(true)}>
-              Hủy đơn hàng
-            </Button>
             <Button
               size="small"
               type="primary"
-              onClick={handleChangeStatusToShipping}
+              onClick={() => handleChangeStatusToShipping(order)}
             >
               Xác nhận đơn hàng
             </Button>
@@ -176,7 +163,7 @@ const DetailOrder = () => {
           <Button
             size="small"
             type="primary"
-            onClick={handleChangeStatusToShiped}
+            onClick={() => handleChangeStatusToShiped(order)}
           >
             Đã giao hàng
           </Button>
@@ -187,7 +174,7 @@ const DetailOrder = () => {
           <Button
             size="small"
             type="primary"
-            onClick={handleChangeStatusToCompleted}
+            onClick={() => handleChangeStatusToCompleted(order)}
           >
             Hoàn thành đơn hàng
           </Button>
@@ -196,15 +183,26 @@ const DetailOrder = () => {
       default:
         return null;
     }
-  }, []);
+  }, [
+    handleChangeStatusToCompleted,
+    handleChangeStatusToShiped,
+    handleChangeStatusToShipping,
+    order,
+  ]);
 
   if (!order) return null;
   return (
-    <div>
-      <>
-        <div className="flex justify-between items-center">
-          {actionsByOrderStatus()}
+    <div className="p-5">
+      <div className="text-xl font-semibold mb-10 flex justify-between">
+        <div>
+          <Button type="link" onClick={() => navigate(-1)}>
+            <IoIosArrowBack />
+          </Button>{" "}
+          <span> Thông tin chi tiết đơn hàng</span>
         </div>
+        {actionsByOrderStatus()}
+      </div>
+      <div className="text-lg">
         <h2 className="mb-[12px]">Thông tin khách hàng</h2>
         <Descriptions column={1} labelStyle={{ width: "150px" }}>
           <Descriptions.Item label="Mã đơn hàng">
@@ -260,8 +258,8 @@ const DetailOrder = () => {
             <Table
               size="small"
               bordered
-              columns={columns}
-              // dataSource={listOrder}
+              columns={column}
+              dataSource={order?.product}
               pagination={{
                 ...DefaultPagination,
                 total: order?.totalResults,
@@ -285,7 +283,7 @@ const DetailOrder = () => {
             loading={canceling}
           />
         )} */}
-      </>
+      </div>
     </div>
   );
 };

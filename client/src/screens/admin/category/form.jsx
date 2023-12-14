@@ -26,12 +26,12 @@ const FormCategory = ({ isDetail, isEdit }) => {
 
   const onFinish = async (values) => {
     if (isEdit) {
-      await handleUpdateCate({
+      handleUpdateCate({
         id: id,
         name: values.name,
       });
     } else {
-      await handleCreateCategory({
+      handleCreateCategory({
         name: values.name,
       });
     }
@@ -53,8 +53,8 @@ const FormCategory = ({ isDetail, isEdit }) => {
           },
         ]}
       />
-      <div className="bg-white mx-5 mt-5">
-        <div className="form-news">
+      <div className="bg-white rounded-lg mx-5 mt-5">
+        <div className="form-news p-5 ">
           <Form
             form={form}
             labelCol={{ span: 5 }}
@@ -68,9 +68,7 @@ const FormCategory = ({ isDetail, isEdit }) => {
           >
             <Form.Item
               label={
-                <span>
-                  Tên danh mục<span className="text-red"> *</span>
-                </span>
+                <span className="text-base font-semibold">Tên danh mục</span>
               }
               name="name"
               rules={[{ required: true, message: "Đây là trường bắt buộc" }]}

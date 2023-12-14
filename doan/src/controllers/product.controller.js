@@ -31,8 +31,21 @@ const getProduct = catchAsync(async (req, res) => {
   if (!product) {
     throw new ApiError(httpStatus.NOT_FOUND, 'product not found');
   }
-  const { _id, name, image, author, unitPrice, quantity, issuingCompany, publicationDate, coverType, numberOfPages, size } =
-    product;
+  const {
+    _id,
+    name,
+    image,
+    author,
+    unitPrice,
+    quantity,
+    issuingCompany,
+    publicationDate,
+    coverType,
+    numberOfPages,
+    size,
+    rating,
+    totalReview,
+  } = product;
   const newProduct = {
     author,
     quantity,
@@ -46,6 +59,8 @@ const getProduct = catchAsync(async (req, res) => {
     numberOfPages,
     size,
     description: description,
+    rating,
+    totalReview,
   };
   res.send(newProduct);
 });

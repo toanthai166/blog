@@ -48,7 +48,6 @@ const OrderManagement = () => {
         index: ++index,
       }))
     : [];
-  console.log("listOrder :>> ", listOrder);
 
   const onChangePage = (newPage) => {
     setFilter({ ...filter, page: newPage });
@@ -80,6 +79,7 @@ const OrderManagement = () => {
 
   const handleChangeStatusToShipping = useCallback(
     async (record) => {
+      console.log("record :>> ", record);
       try {
         handleUpdateOrder({
           id: record?.id,
@@ -128,11 +128,11 @@ const OrderManagement = () => {
         handleUpdateOrder({
           id: record?.id,
           status: "complete",
-        });
-
-        client.invalidateQueries(`orders?status=wait_for_confirm`);
-        notification.success({
-          message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái hoàn thành`,
+        }).then(() => {
+          client.invalidateQueries(`orders?status=wait_for_confirm`);
+          notification.success({
+            message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái hoàn thành`,
+          });
         });
       } catch (error) {
         // Xử lý lỗi nếu có
@@ -434,10 +434,17 @@ const OrderManagement = () => {
       key: "action",
       align: "right",
       width: "10%",
-      render: (status, _record) => {
-        console.log(status);
-        renderActionsByStatus(status, _record);
-      },
+      render: (status, record) => (
+        <Tooltip title="Xem chi tiết">
+          <Tag
+            className="hover:cursor-pointer"
+            color="gold"
+            onClick={() => navigate(AppRoutes.adminOrderDetailId(record.id))}
+          >
+            <EyeOutlined />
+          </Tag>
+        </Tooltip>
+      ),
     },
   ];
   const orderCancelColumn = () => [
@@ -535,7 +542,17 @@ const OrderManagement = () => {
       key: "action",
       align: "right",
       width: "10%",
-      render: (status, _record) => renderActionsByStatus(status, _record),
+      render: (status, record) => (
+        <Tooltip title="Xem chi tiết">
+          <Tag
+            className="hover:cursor-pointer"
+            color="gold"
+            onClick={() => navigate(AppRoutes.adminOrderDetailId(record.id))}
+          >
+            <EyeOutlined />
+          </Tag>
+        </Tooltip>
+      ),
     },
   ];
   const [columns, setColumns] = useState(defaultColumns);

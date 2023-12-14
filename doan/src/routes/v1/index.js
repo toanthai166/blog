@@ -13,6 +13,7 @@ const feedbackRoute = require('./contact.route');
 const addressRoute = require('./address.route');
 const orderRoute = require('./order.route');
 const cartRoute = require('./cart.route');
+const reviewRouter = require('./review.route');
 const listFavoriteRoute = require('./listFavorite.route');
 const discountRoute = require('./discount.route');
 const config = require('../../config/config');
@@ -47,6 +48,10 @@ const defaultRoutes = [
   {
     path: '/product',
     route: productRoute,
+  },
+  {
+    path: '/reviews',
+    route: reviewRouter,
   },
   {
     path: '/upload-image',

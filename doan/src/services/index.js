@@ -14,3 +14,4 @@ module.exports.orderService = require('./order.service');
 module.exports.cartService = require('./cart.service');
 module.exports.discountService = require('./discount.service');
 module.exports.listFavoriteService = require('./listFavorite.service');
+module.exports.reviewService = require('./review.service');

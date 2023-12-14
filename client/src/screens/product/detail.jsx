@@ -1,6 +1,15 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGetProductById, useProduct } from "../../hooks/product.hook";
-import { Breadcrumb, Button, Col, Divider, InputNumber, Row, Spin } from "antd";
+import {
+  Breadcrumb,
+  Button,
+  Col,
+  Divider,
+  InputNumber,
+  Rate,
+  Row,
+  Spin,
+} from "antd";
 import { AppRoutes } from "../../helpers/app-routes";
 import { numberWithDots } from "../../ultis/pagination";
 import { useCallback, useState } from "react";
@@ -108,7 +117,11 @@ const ProductDetail = () => {
                     >
                       {it?.name}
                     </Link>
+                    <span>
+                      <Rate allowHalf disabled value={it?.rating} />
+                    </span>
                     <span className="font-medium text-base leading-9 text-red-600">
+                      <span className="text-black"> Giá:</span>{" "}
                       {numberWithDots(it?.unitPrice ?? 0) + " đ"}
                     </span>
                   </div>
@@ -119,9 +132,15 @@ const ProductDetail = () => {
           <Col span={12} className="flex flex-col gap-5 ">
             <div className="flex flex-col  justify-start  p-5 bg-white rounded-lg">
               <div className="flex flex-col gap-1">
-                <h2 className="line-clamp-2 text-xl font-medium text-[#db7550] py-[4px] mb-10  leading-[22px]">
+                <h2 className="line-clamp-2 text-xl font-medium text-[#db7550] py-[4px]  leading-[22px]">
                   {product?.name}
                 </h2>
+                <span className="flex gap-5 mb-10 mt-2">
+                  <Rate allowHalf disabled value={product?.rating} />
+                  <span className="text-base font-normal translate-y-1">
+                    ( {product?.totalReview} lượt đánh giá)
+                  </span>
+                </span>
                 <div className="bg-ghost-white">
                   <h4 className="text-primary font-normal text-base">
                     <span>Giá: </span>

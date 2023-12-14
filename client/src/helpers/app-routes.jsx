@@ -6,6 +6,9 @@ export const AppRoutes = {
   postDetailId: (id) => `/post/detail/${id}`,
   profile: "/profile",
 
+  orderDetail: "/order/detail/:id",
+  orderDetailId: (id) => `/order/detail/${id}`,
+
   myAddress: "/address",
   addressDetail: "/address/detail/:id",
   addressDetailId: (id) => `/address/detail/${id}`,

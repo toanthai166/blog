@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, InputNumber, Row, Select } from "antd";
+import { Button, Col, Form, Input, InputNumber, Row } from "antd";
 import { SubHeader } from "../../../components/sub-header/SubHeader";
 import { AppRoutes } from "../../../helpers/app-routes";
 import { useNavigate, useParams } from "react-router-dom";
@@ -12,7 +12,6 @@ import {
   useGetProductById,
   useUpdateProduct,
 } from "../../../hooks/product.hook";
-import dayjs from "dayjs";
 
 const FormProduct = ({ isDetail, isEdit }) => {
   const { id } = useParams();
@@ -76,16 +75,6 @@ const FormProduct = ({ isDetail, isEdit }) => {
     const data = editor.getData();
     setDataEditor(data);
   }, 800);
-  const nowDate = dayjs().year();
-  const yearData = [];
-  for (let i = 0; i < 50; i++) {
-    yearData.push(nowDate - i);
-  }
-
-  const yearOptions = yearData?.map((year) => ({
-    label: year,
-    value: year,
-  }));
 
   return (
     <>

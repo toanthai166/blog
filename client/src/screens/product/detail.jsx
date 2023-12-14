@@ -17,6 +17,7 @@ import { CartIcon } from "../../assets";
 import { useAddToCart } from "../../hooks/cart.hook";
 import Cart from "../cart";
 import { ModalCustomize } from "../../components/modal-customize/modal-customize";
+import { ProductReview } from "./component/review";
 const minQuantity = 1;
 
 const ProductDetail = () => {
@@ -27,7 +28,7 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const auth = JSON.parse(localStorage.getItem("auth"))?.data?.user;
-  const [filter, setFilter] = useState({
+  const [filter] = useState({
     limit: 100,
     page: 1,
     isActive: true,
@@ -127,6 +128,9 @@ const ProductDetail = () => {
                   </div>
                 ))}
               </div>
+            </div>
+            <div>
+              <ProductReview />
             </div>
           </Col>
           <Col span={12} className="flex flex-col gap-5 ">

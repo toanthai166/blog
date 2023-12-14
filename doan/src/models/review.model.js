@@ -28,6 +28,12 @@ const ReviewSchema = mongoose.Schema(
     timestamps: true,
   }
 );
+ReviewSchema.set('toJSON', {
+  transform: function (doc, ret) {
+    ret.createdAt = doc.createdAt;
+    ret.updatedAt = doc.updatedAt;
+  },
+});
 
 // add plugin that converts mongoose to json
 ReviewSchema.plugin(toJSON);

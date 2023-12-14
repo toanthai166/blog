@@ -175,3 +175,10 @@ a:hover {
 .ant-form-item-control-input {
   margin: 10px 0;
 }
+header .ant-tabs-tab-btn {
+  color: white !important;
+}
+:where(.css-dev-only-do-not-override-2xq5w3).ant-tabs-top
+  > .ant-tabs-nav::before {
+  display: none !important;
+}

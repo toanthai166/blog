@@ -1,7 +1,7 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useBlog, useGetBlogById } from "../../hooks/blog.hook";
 import { Avatar, Breadcrumb, Button, Col, Divider, Row, Spin } from "antd";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { UserOutlined } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";

@@ -3,9 +3,10 @@ import Sider from "antd/es/layout/Sider";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 import { useEffect, useState } from "react";
 import "../../../styles/index.css";
-
+import { CiDiscount1 } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "../../../helpers/app-routes";
+import { FaUserFriends } from "react-icons/fa";
 import { useAuth } from "../../../hooks/auth.hook";
 
 function getItem(label, key, icon, children) {
@@ -53,7 +54,7 @@ const items = [
       />
     </svg>
   ),
-  getItem("Quản lý tài khoản", "3"),
+  getItem("Quản lý tài khoản", "3", <FaUserFriends className="w-6 h-6" />),
   getItem(
     "Quản lý sách",
     "4",
@@ -149,7 +150,7 @@ const items = [
       />
     </svg>
   ),
-  getItem("Quản lý mã giảm giá", "9"),
+  getItem("Quản lý mã giảm giá", "9", <CiDiscount1 className="w-6 h-6" />),
 ];
 
 const AdminDashboard = ({ children }) => {

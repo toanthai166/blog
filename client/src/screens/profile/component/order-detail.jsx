@@ -11,6 +11,7 @@ import { ReviewOrder } from "./review-order";
 import { MasterTable } from "../../../components/master-table/master-table";
 import ProfileLayout from "./profile-layout";
 import { useGetOrderById } from "../../../hooks/order.hook";
+import { useCreateReview } from "../../../hooks/review.hook";
 
 const convertStatusOrder = (status) => {
   switch (status) {
@@ -93,68 +94,8 @@ const OrderDetail = () => {
     }
   }, [order]);
 
-  const [openCancel, setOpenCancel] = useState(false);
   const [openReview, setOpenReview] = useState(false);
-
-  const handleCancelOrder = useCallback(() => {
-    setOpenCancel(true);
-  }, []);
-
-  const renderActions = useCallback(() => {
-    switch (order?.status) {
-      case "cancel":
-        return (
-          <div className="flex items-center gap-x-12px">
-            {/* <Button type="primary" onClick={handleReCreateOrder}>
-              Mua lại
-            </Button> */}
-          </div>
-        );
-      case "wait-for-confirm":
-        return (
-          <div className="flex items-center gap-x-12px">
-            <Button type="primary" onClick={handleCancelOrder}>
-              Hủy đơn hàng
-            </Button>
-          </div>
-        );
-      // case "shipping":
-      //   return (
-      //     <div className="flex items-center gap-x-12px ">
-      //       <Button
-      //         type="primary"
-      //         onClick={() => handleChangeStatus(OrderStatusEnum.COMPLETE)}
-      //       >
-      //         Đã nhận hàng
-      //       </Button>
-      //     </div>
-      //   );
-      // case "delivered":
-      //   return (
-      //     <div className="flex items-center gap-x-12px">
-      //       <Button
-      //         type="primary"
-      //         onClick={() => handleChangeStatus(OrderStatusEnum.COMPLETE)}
-      //       >
-      //         Hoàn thành
-      //       </Button>
-      //     </div>
-      //   );
-      case "complete":
-        return (
-          order?.userCanReview && (
-            <div className="flex items-center gap-x-12px">
-              <Button type="primary" onClick={() => setOpenReview(true)}>
-                Đánh giá
-              </Button>
-            </div>
-          )
-        );
-
-      default:
-        break;
-    }
-  }, [handleCancelOrder, order?.status, order?.userCanReview]);
+  const { handleCreateReview } = useCreateReview();
 
   const renderMessageByStatus = useCallback(() => {
     switch (order?.status) {
@@ -212,6 +153,7 @@ const OrderDetail = () => {
         break;
     }
   }, [order?.status]);
+  console.log("order.product[0].product.id :>> ", order.product[0]);
 
   if (!order) return null;
   return (
@@ -221,7 +163,15 @@ const OrderDetail = () => {
           <span className="text-xl font-semibold">
             <span className="cursor-pointer"></span> Thông tin chi tiết đơn hàng
           </span>
-          <span> {renderActions()}</span>
+          <span>
+            {order?.status == "complete" && (
+              <div className="flex items-center gap-x-12px">
+                <Button type="primary" onClick={() => setOpenReview(true)}>
+                  Đánh giá
+                </Button>
+              </div>
+            )}
+          </span>
         </div>
 
         <div>{renderMessageByStatus()}</div>
@@ -255,7 +205,7 @@ const OrderDetail = () => {
                     defaultExpandAllRows: true,
                     showExpandColumn: true,
                     columnWidth: "3%",
-                    expandedRowRender: (order) => {
+                    expandedRowRender: () => {
                       return (
                         <div className="my-3">
                           <span className="text-grayscale-gray text-base leading-5">
@@ -315,6 +265,13 @@ const OrderDetail = () => {
           products={order?.product}
           onFinish={(values) => {
             console.log(values);
+            handleCreateReview({
+              productId: order.product[0].product._id,
+              rating: values.products[0].rating,
+              comment: values.products[0].comment,
+            }).then(() => {
+              setOpenReview(false);
+            });
           }}
         />
       )}

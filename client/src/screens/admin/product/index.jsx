@@ -159,6 +159,7 @@ const ProductManagement = () => {
         </h2>
         <Table
           size="small"
+          className="p-5"
           bordered
           columns={columns}
           dataSource={listProduct}

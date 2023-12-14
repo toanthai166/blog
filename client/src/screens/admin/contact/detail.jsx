@@ -4,6 +4,8 @@ import {
   useGetContactById,
   useUpdateContact,
 } from "../../../hooks/contact.hook";
+import { UserOutlined } from "@ant-design/icons";
+
 import { useParams } from "react-router-dom";
 import { SubHeader } from "../../../components/sub-header/SubHeader";
 import { AppRoutes } from "../../../helpers/app-routes";
@@ -27,12 +29,9 @@ const convertServiceFeedbackStatus = (status) => {
 const ContactDetail = () => {
   const [form] = Form.useForm();
   const { id = "" } = useParams();
-  console.log(id);
   const { contact } = useGetContactById(id);
   const { handleUpdateContact, mutation } = useUpdateContact();
-  console.log(contact);
   const onCompleted = () => {
-    console.log(1);
     form.validateFields().then(() => {
       const values = form.getFieldsValue();
       handleUpdateContact({ id: id, ...values });
@@ -50,13 +49,16 @@ const ContactDetail = () => {
           },
         ]}
       />
-      <div className="mt-20px border border-solid border-grayscale-light bg-white">
+      <div className="mt-10 mx-5 border border-solid border-grayscale-light bg-white">
         <Row>
           <Col span={4}>
-            <div className="text-center p-16px">
-              <Avatar src="" />
-              <p className="mt-16px">{contact?.fullname}</p>
-              <p className="mt-8px">{contact?.email}</p>
+            <div className="text-center p-4">
+              <Avatar
+                style={{ backgroundColor: "#b4755e" }}
+                icon={<UserOutlined />}
+              />
+              <p className="mt-4 text-lg font-medium">{contact?.fullname}</p>
+              <p className="mt-2 text-base">{contact?.email}</p>
             </div>
           </Col>
           <Col
@@ -65,16 +67,16 @@ const ContactDetail = () => {
           >
             <div className="">
               <div className="border-b border-t-0 border-l-0 border-r-0 border-solid border-grayscale-light">
-                <p className="py-12px pl-16px text-grayscale-gray">
+                <p className="py-3 pl-4 text-grayscale-gray text-base">
                   Thời gian phản ánh:{" "}
                   {dayjs(contact.createdAt).format(FORMAT_TIME)}
                 </p>
               </div>
-              <div className="min-h-full pl-16px">
-                <p className="pt-12px pb-8px text-grayscale-gray">
+              <div className="min-h-full pl-4">
+                <p className="pt-3 pb-2 text-grayscale-gray text-base ">
                   Nội dung phản ánh:
                 </p>
-                <p>{contact.content}</p>
+                <p className="font-semibold">{contact.content}</p>
               </div>
             </div>
           </Col>
@@ -82,7 +84,7 @@ const ContactDetail = () => {
       </div>
 
       {contact.status !== "done" ? (
-        <div className="bg-white mt-20px p-20px">
+        <div className="bg-white mt-5 p-5 mx-5">
           <Form
             size="small"
             className="w-full"
@@ -148,23 +150,23 @@ const ContactDetail = () => {
           </div>
         </div>
       ) : (
-        <div className="mt-20px border border-solid border-grayscale-light bg-white">
+        <div className="mt-5 border border-solid border-grayscale-light bg-white mx-5">
           <Col
             span={24}
             className={`border-l border-t-0 border-b-0 border-r-0 border-solid border-grayscale-light`}
           >
             <div className="">
               <div className="border-b border-t-0 border-l-0 border-r-0 border-solid border-grayscale-light">
-                <p className="py-12px pl-16px text-grayscale-gray">
+                <p className="py-3 pl-4 text-grayscale-gray text-base">
                   Thời gian phản hồi:{" "}
                   {dayjs(contact.updateAt).format(FORMAT_TIME)}
                 </p>
               </div>
-              <div className="min-h-full pl-16px">
-                <p className="pt-12px pb-8px text-grayscale-gray">
+              <div className="min-h-full pl-4">
+                <p className="pt-3 pb-2 text-grayscale-gray text-base ">
                   Nội dung phản hồi:
                 </p>
-                <p>{contact.answer}</p>
+                <p className="font-semibold">{contact.answer}</p>
               </div>
             </div>
           </Col>

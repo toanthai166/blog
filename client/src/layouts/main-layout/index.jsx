@@ -1,12 +1,7 @@
-import { Avatar, Button, Divider, Dropdown, Input, Space, Tabs } from "antd";
+import { Button, Dropdown, Tabs } from "antd";
 import "../../styles/style.css";
-import { Address, CartIcon, Logo } from "../../assets";
-import {
-  SettingOutlined,
-  ShoppingCartOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
-import { debounce } from "lodash";
+import { Address } from "../../assets";
+import { SettingOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { AppRoutes } from "../../helpers/app-routes";
 import { useAuth, useLogout } from "../../hooks/auth.hook";
@@ -139,7 +134,7 @@ const Layouts = ({ children }) => {
                           <Button
                             type="dashed"
                             disabled={user.role === "user"}
-                            onClick={() => navigate(AppRoutes.admin)}
+                            onClick={() => navigate(AppRoutes.blog)}
                           >
                             Đi tới trang quản trị
                           </Button>

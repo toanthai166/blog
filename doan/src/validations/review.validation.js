@@ -11,6 +11,7 @@ const createReview = {
 const getReviews = {
   query: Joi.object().keys({
     productId: Joi.string(),
+    rating: Joi.number(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
   }),

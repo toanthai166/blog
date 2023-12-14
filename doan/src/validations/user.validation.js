@@ -26,6 +26,18 @@ const getUser = {
   }),
 };
 
+const changeIsActiveUser = {
+  params: Joi.object().keys({
+    userId: Joi.string().custom(objectId),
+  }),
+  body: Joi.object()
+    .keys({
+      userId: Joi.string().custom(objectId),
+      isActive: Joi.boolean(),
+    })
+    .min(1),
+};
+
 const updateUser = {
   params: Joi.object().keys({
     userId: Joi.required().custom(objectId),
@@ -50,6 +62,7 @@ const deleteUser = {
 module.exports = {
   createUser,
   getUsers,
+  changeIsActiveUser,
   getUser,
   updateUser,
   deleteUser,

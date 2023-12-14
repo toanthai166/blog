@@ -16,6 +16,18 @@ const getUsers = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const changeIsActiveUser = catchAsync(async (req, res) => {
+  if (!req.body.userId) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'user not found');
+  }
+  console.log('req.body :>> ', req.body);
+  const newBlog = {
+    ...req.body,
+  };
+  const user = await userService.updateUserById(req.body.userId, newBlog);
+  res.send(user);
+});
+
 const getUser = catchAsync(async (req, res) => {
   const user = await userService.getUserById(req.params.userId);
   if (!user) {
@@ -38,6 +50,7 @@ module.exports = {
   createUser,
   getUsers,
   getUser,
+  changeIsActiveUser,
   updateUser,
   deleteUser,
 };

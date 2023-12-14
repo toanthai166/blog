@@ -1,16 +1,9 @@
 import { useEffect } from "react";
 import { ModalCustomize } from "../../../components/modal-customize";
 
-import { Form, Input, Rate, Spin } from "antd";
+import { Form, Input, Rate } from "antd";
 
-export const ReviewOrder = ({
-  partner,
-  setOpen,
-  loading,
-  onFinish,
-  products,
-  ...props
-}) => {
+export const ReviewOrder = ({ setOpen, onFinish, products, ...props }) => {
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -29,10 +22,9 @@ export const ReviewOrder = ({
       okButtonProps={{
         form: "review-customer",
         htmlType: "submit",
-        disabled: loading,
       }}
     >
-      <Spin spinning={loading}>
+      <>
         <Form
           form={form}
           size="small"
@@ -46,32 +38,35 @@ export const ReviewOrder = ({
               <div>
                 {fields.map(({ key, name, ...restField }) => {
                   const it = products?.[key];
+                  console.log(it);
                   if (!it) return null;
                   return (
                     <div key={key}>
-                      <div className="flex border border-solid border-[#eee] p-[8px] mb-12px">
+                      <div className="flex border border-solid border-[#eee] p-[8px] mb-3">
                         <div className="w-[48px] h-[48px]">
                           <img
                             className="w-[48px] h-[48px] rounded"
-                            src={it?.avatar?.fullThumbUrl}
+                            src={it?.product?.image}
                           />
                         </div>
-                        <span className="pl-12px text-14px font-medium leading-20px line-clamp-1">
-                          {it.name}
+                        <span className="pl-3 text-base font-medium leading-5 line-clamp-1">
+                          {it?.product?.name}
                         </span>
                       </div>
-                      <h2>Chất lượng sản phẩm</h2>
+                      <h2 className="text-base font-semibold">
+                        Chất lượng sản phẩm
+                      </h2>
                       <Form.Item
                         {...restField}
-                        className="mt-12px hidden"
+                        className="mt-3 hidden"
                         name={[name, "productId"]}
                       >
-                        <Input />
+                        <Input placeholder="ok" />
                       </Form.Item>
                       <Form.Item
                         {...restField}
-                        className="mt-12px"
-                        name={[name, "star"]}
+                        className="mt-3"
+                        name={[name, "rating"]}
                         rules={[
                           {
                             validator(rule, value) {
@@ -84,11 +79,11 @@ export const ReviewOrder = ({
                           },
                         ]}
                       >
-                        <Rate className="text-[0px]" style={{ height: 30 }} />
+                        <Rate />
                       </Form.Item>
                       <Form.Item
                         {...restField}
-                        className="my-12px pb-20px"
+                        className="my-3 pb-5"
                         name={[name, "comment"]}
                         rules={[
                           {
@@ -110,56 +105,8 @@ export const ReviewOrder = ({
               </div>
             )}
           </Form.List>
-
-          <div className="flex border border-solid border-[#eee] p-[8px] mb-12px">
-            <div className="w-[48px] h-[48px]">
-              <img
-                className="w-[48px] h-[48px] rounded"
-                src={partner?.avatar?.fullThumbUrl}
-              />
-            </div>
-            <span className="pl-12px text-14px font-medium leading-20px line-clamp-1">
-              {partner.fullname}
-            </span>
-          </div>
-          <h2>Gian hàng</h2>
-          <Form.Item
-            className="mt-12px"
-            name={"starPartner"}
-            rules={[
-              {
-                validator(rule, value) {
-                  if (!value)
-                    return Promise.reject(
-                      new Error("Vui lòng đánh giá độ thân thiện.")
-                    );
-                  return Promise.resolve();
-                },
-              },
-            ]}
-          >
-            <Rate className="text-[0px]" style={{ height: 30 }} />
-          </Form.Item>
-          <Form.Item
-            className="my-12px pb-20px"
-            label=""
-            name="commentPartner"
-            rules={[
-              {
-                required: true,
-                message: "Đây là trường bắt buộc",
-              },
-            ]}
-            normalize={(e) => e.trimStart()}
-          >
-            <Input.TextArea
-              placeholder="Nhập đánh giá về Gian hàng"
-              maxLength={1000}
-              showCount
-            />
-          </Form.Item>
         </Form>
-      </Spin>
+      </>
     </ModalCustomize>
   );
 };

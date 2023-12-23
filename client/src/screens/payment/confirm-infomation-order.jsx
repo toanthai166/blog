@@ -26,7 +26,6 @@ export const ConfirmInfomationOrder = ({
   onReChooseVoucher,
   carts = [],
 }) => {
-  console.log("address", address);
   const [note, setNote] = useState("");
   const { handleCreateOrder, mutation } = useCreateOrder();
   const totalPayments = useMemo(() => {
@@ -40,20 +39,32 @@ export const ConfirmInfomationOrder = ({
       total -= value;
     }
 
-    const payment = Math.floor(total);
+    const payment = Math.floor(totalPayment - total);
     return payment;
   }, [discount, totalPayment]);
 
+  console.log("totalPayments :>> ", totalPayments);
   const handleUserCreateOrder = useCallback(() => {
-    handleCreateOrder({
-      items: carts,
-      total: totalPayments ? totalPayments : totalPayment,
-      addressId: address.id,
-      note: note,
-    });
+    if (discount) {
+      handleCreateOrder({
+        items: carts,
+        total: totalPayments ? totalPayments : totalPayment,
+        addressId: address.id,
+        discountId: discount.id,
+        note: note,
+      });
+    } else {
+      handleCreateOrder({
+        items: carts,
+        total: totalPayments ? totalPayments : totalPayment,
+        addressId: address.id,
+        note: note,
+      });
+    }
   }, [
     address?.id,
     carts,
+    discount,
     handleCreateOrder,
     note,
     totalPayment,
@@ -134,13 +145,12 @@ export const ConfirmInfomationOrder = ({
                       </td>
                       <td className="border p-4"> {p?.quantity}</td>
                       <td className="border p-4">
-                        {numberWithDots(product?.product?.unitPrice) + "đ "}
+                        {numberWithDots(product?.product?.unitPrice) + " đ "}
                       </td>
                       <td className="border p-4">
-                        {" "}
                         {numberWithDots(
                           p?.quantity * (product?.product?.unitPrice ?? 1)
-                        ) + "đ "}
+                        ) + " đ "}
                       </td>
                     </tr>
                   </>

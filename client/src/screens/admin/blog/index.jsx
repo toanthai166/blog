@@ -72,7 +72,7 @@ const BlogManagement = () => {
       render: (it) => {
         return (
           <Popconfirm
-            title={`Bạn có chắc muốn cập nhật trạng thái khảo sát ?`}
+            title={`Bạn có chắc muốn cập nhật trạng thái bài viết?`}
             okText="Đồng ý"
             cancelText="Huỷ bỏ"
             placement="topLeft"

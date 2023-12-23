@@ -1,4 +1,4 @@
-import { Button, Dropdown, Tabs } from "antd";
+import { Badge, Button, Dropdown, Tabs } from "antd";
 import "../../styles/style.css";
 import { Address } from "../../assets";
 import { SettingOutlined, ShoppingCartOutlined } from "@ant-design/icons";
@@ -7,6 +7,7 @@ import { AppRoutes } from "../../helpers/app-routes";
 import { useAuth, useLogout } from "../../hooks/auth.hook";
 import { useEffect, useState } from "react";
 import Cart from "../../screens/cart";
+import { useCart } from "../../hooks/cart.hook";
 
 const Layouts = ({ children }) => {
   const [user, setUser] = useState();
@@ -35,7 +36,10 @@ const Layouts = ({ children }) => {
         break;
     }
   };
-  console.log("user :>> ", user);
+  const { cart } = useCart(user?.user?.id);
+  const count = cart[0]?.products?.length;
+
+  console.log("cart :>> ", cart);
   const logOut = () => {
     handleLogout({ refreshToken: auth?.data?.tokens?.refresh.token });
     logout();
@@ -77,14 +81,16 @@ const Layouts = ({ children }) => {
               items={items}
               onChange={onChange}
             />
-            <span
-              className="cursor-pointer p-2 -translate-y-1"
-              onClick={() => setOpen(!open)}
-            >
-              <ShoppingCartOutlined
-                style={{ color: "#fff", fontSize: "24px" }}
-              />
-            </span>
+            <Badge count={count} color="#faad14">
+              <span
+                className="cursor-pointer p-2 -translate-y-1"
+                onClick={() => setOpen(!open)}
+              >
+                <ShoppingCartOutlined
+                  style={{ color: "#fff", fontSize: "24px" }}
+                />
+              </span>
+            </Badge>
 
             {!user ? (
               <button
@@ -106,28 +112,10 @@ const Layouts = ({ children }) => {
                             className="w-full"
                             type="dashed"
                           >
-                            Đơn hàng của tôi
+                            Tài khoản
                           </Button>
                         ),
                         key: "0",
-                      },
-                      {
-                        label: (
-                          <Button
-                            className="w-full"
-                            type="dashed"
-                            onClick={() =>
-                              navigate("profile?info=address", {
-                                state: {
-                                  userId: user?.data?.user?.id,
-                                },
-                              })
-                            }
-                          >
-                            Địa chỉ của tôi
-                          </Button>
-                        ),
-                        key: "1",
                       },
                       {
                         label: (
@@ -245,7 +233,14 @@ const Layouts = ({ children }) => {
               </div>
               <div className="flex gap-5 items-center">
                 <Address className="w-6 h-6"></Address>
-                <Link to={"/"}>40 SN, Đức Thắng, Q.Bắc Từ Liêm, Hà Nội</Link>
+                <Link
+                  target="_blank"
+                  to={
+                    "https://www.google.com/maps/place/Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+h%E1%BB%8Dc+M%E1%BB%8F+-+%C4%90%E1%BB%8Ba+ch%E1%BA%A5t/@21.0720753,105.7713487,17z/data=!3m1!4b1!4m6!3m5!1s0x3134552defbed8e9:0x1584f79c805eb017!8m2!3d21.0720703!4d105.773929!16s%2Fm%2F0tkhxpt?hl=vi-VN&entry=ttu"
+                  }
+                >
+                  18 Phố Viên, Đức Thắng, Q.Bắc Từ Liêm, Hà Nội
+                </Link>
               </div>
             </div>
           </div>

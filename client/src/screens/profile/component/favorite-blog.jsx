@@ -98,7 +98,7 @@ const FavoriteBlog = ({ id }) => {
         <Col className="flex-grow space-y-3 mb-[60px]">
           <div className="bg-white py-3 px-5 flex justify-between items-center">
             <h2 className="font-semibold text-[16px]">Danh sách yêu thích</h2>
-            <div className="flex gap-2">
+            {/* <div className="flex gap-2">
               <label
                 htmlFor="checked-all"
                 className="text-sm translate-y-3 font-semibold hover:cursor-pointer"
@@ -112,7 +112,7 @@ const FavoriteBlog = ({ id }) => {
                 type="checkbox"
                 onChange={(e) => handleListIdFavoriteProduct(e)}
               />
-            </div>
+            </div> */}
           </div>
           <div className="  bg-white p-5 ">
             <Table

@@ -1,7 +1,7 @@
 import { Button, Col, Image, Row } from "antd";
 import { numberWithDots } from "../../../ultis/pagination";
-import { useParams } from "react-router-dom";
-import { useCallback, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import { FORMAT_TIME } from "../../admin/order";
 import { RowItem } from "../../../components/row-item";
@@ -10,12 +10,13 @@ import { ResponseMessage } from "../../../components/response-message";
 import { ReviewOrder } from "./review-order";
 import { MasterTable } from "../../../components/master-table/master-table";
 import ProfileLayout from "./profile-layout";
+import { FaAngleLeft } from "react-icons/fa6";
 import { useGetOrderById } from "../../../hooks/order.hook";
 import { useCreateReview } from "../../../hooks/review.hook";
 
 const convertStatusOrder = (status) => {
   switch (status) {
-    case "wait-for-confirm":
+    case "wait_for_confirm":
       return "Chờ xác nhận";
     case "shipping":
       return "Đang giao";
@@ -85,6 +86,7 @@ const column = [
 ];
 
 const OrderDetail = () => {
+  const navigate = useNavigate();
   const { id = "" } = useParams();
   const { order } = useGetOrderById(id);
   const [note, setNote] = useState();
@@ -93,6 +95,28 @@ const OrderDetail = () => {
       setNote(order?.note);
     }
   }, [order]);
+  const totalCost = order?.product?.reduce((acc, curr) => {
+    const product = curr.product;
+    const quantity = curr.quantity;
+    const cost = product.unitPrice * quantity;
+    return acc + cost;
+  }, 0);
+
+  const discounts = useMemo(() => {
+    const { unit, value = 0 } = order?.discount || {};
+    console.log("unit :>> ", unit);
+    const isPercent = unit === "PERCENTAGE";
+    let total = 0;
+
+    if (isPercent) {
+      total = (totalCost * value) / 100;
+    } else {
+      total -= value;
+    }
+
+    const payment = Math.floor(total);
+    return payment;
+  }, [order?.discount, totalCost]);
 
   const [openReview, setOpenReview] = useState(false);
   const { handleCreateReview } = useCreateReview();
@@ -109,7 +133,7 @@ const OrderDetail = () => {
             Đơn hàng đã bị hủy
           </ResponseMessage>
         );
-      case "wait-for-confirm":
+      case "wait_for_confirm":
         return (
           <ResponseMessage
             info
@@ -153,16 +177,21 @@ const OrderDetail = () => {
         break;
     }
   }, [order?.status]);
-  console.log("order.product[0].product.id :>> ", order.product[0]);
 
   if (!order) return null;
   return (
     <ProfileLayout>
       <div className="flex flex-col gap-5">
         <div className=" flex justify-between mt-5">
-          <span className="text-xl font-semibold">
-            <span className="cursor-pointer"></span> Thông tin chi tiết đơn hàng
-          </span>
+          <div className="flex gap-1">
+            <Button type="text" onClick={() => navigate(-1)}>
+              <FaAngleLeft className="w-4 h-4" />
+            </Button>
+            <span className="text-xl font-semibold ">
+              <span className="cursor-pointer"></span> Thông tin chi tiết đơn
+              hàng
+            </span>
+          </div>
           <span>
             {order?.status == "complete" && (
               <div className="flex items-center gap-x-12px">
@@ -222,7 +251,7 @@ const OrderDetail = () => {
 
                 <div className="flex justify-end mr-5">
                   <h3 className="text-lg">
-                    Khuyến mại: {numberWithDots(order?.discount) + " đ"}
+                    Khuyến mại: {numberWithDots(discounts) + " đ"}
                   </h3>
                 </div>
                 <div className="flex justify-end mr-5">
@@ -264,11 +293,10 @@ const OrderDetail = () => {
           setOpen={setOpenReview}
           products={order?.product}
           onFinish={(values) => {
-            console.log(values);
             handleCreateReview({
-              productId: order.product[0].product._id,
-              rating: values.products[0].rating,
-              comment: values.products[0].comment,
+              productId: order.product[0]?.product._id,
+              rating: values.products[0]?.rating,
+              comment: values.products[0]?.comment,
             }).then(() => {
               setOpenReview(false);
             });

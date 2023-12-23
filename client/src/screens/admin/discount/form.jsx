@@ -108,7 +108,7 @@ const FormDiscount = ({ isDetail, isEdit }) => {
         name="form-promotion"
         id="form-promotion"
         layout="vertical"
-        className="max-w-[868px] bg-white mx-auto mt-20px p-20px mb-[80px]"
+        className="max-w-[868px] bg-white mx-auto mt-20px p-5 mt-10 rounded-lg shadow-md mb-[80px]"
         initialValues={{
           unit: "PERCENTAGE",
           startDate: dayjs(),
@@ -304,7 +304,7 @@ const FormDiscount = ({ isDetail, isEdit }) => {
         </Row>
       </Form>
       {(editing || (!isDetail && !isEdit)) && (
-        <div className="flex justify-end items-center fixed left-0 right-0 bottom-0 pr-[24px] py-8px bg-white">
+        <div className="flex justify-end items-center gap-5 fixed left-0 right-0 bottom-0 pr-[24px] py-8px bg-white">
           <Button
             className="mr-16px"
             type="default"

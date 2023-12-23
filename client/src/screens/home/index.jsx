@@ -52,6 +52,7 @@ const Home = () => {
     useRemoveToListBlogs(filter);
 
   const { categories } = useCategoriesIsActive();
+  console.log("categories :>> ", categories);
 
   const categoriesTypeOptions = useMemo(
     () =>
@@ -69,7 +70,7 @@ const Home = () => {
   });
 
   const { blogs, isLoading } = useBlog({ ...filter });
-  const listBlog = blogs.results;
+  const listBlog = blogs?.results;
 
   const changePagination = (newPage) => {
     setFilter({ ...filter, page: newPage });
@@ -292,6 +293,7 @@ const Home = () => {
                   <Col span={6}>
                     <Form.Item name="categoryId">
                       <Select
+                        className="h-11"
                         options={categoriesTypeOptions}
                         placeholder="Chọn danh mục"
                       />
@@ -299,7 +301,7 @@ const Home = () => {
                   </Col>
                   <Col span={4}>
                     <Form.Item>
-                      <Button type="primary" htmlType="submit">
+                      <Button type="primary" size="large" htmlType="submit">
                         Áp dụng
                       </Button>
                     </Form.Item>
@@ -376,7 +378,6 @@ const Home = () => {
                       <div className=" flex flex-col gap-1">
                         <Link
                           to={AppRoutes.postDetailId(it?.id)}
-                          // onClick={() => handleNavigate(it)}
                           className="text-2xl text-[#a62b00] font-semibold line-clamp-1 cursor-pointer"
                         >
                           {it.title}

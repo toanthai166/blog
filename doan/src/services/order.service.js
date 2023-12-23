@@ -41,10 +41,15 @@ const createOrder = async (body) => {
       if (discount) {
         await Discount.updateOne({ _id: discount.id }, { $set: { used: discount.used + 1 } });
         const discountUpdate = await Discount.findById(body.discountId);
+        console.log('discountUpdate :>> ', discountUpdate);
         if (discountUpdate.used >= discountUpdate.limit) {
           const abc = await Discount.updateOne({ _id: discount.id }, { $set: { isActive: false } });
-          return Order.create({ ...body, product: itemDetails, addresses: address, user: user, discount: abc });
+          console.log('abc :>> ', abc);
+          return Order.create({ ...body, product: itemDetails, addresses: address, user: user, discount: discountUpdate });
+        } else {
+          return Order.create({ ...body, product: itemDetails, addresses: address, user: user, discount: discountUpdate });
         }
+        console.log('1 :>> ', 1);
       } else {
         return Order.create({ ...body, product: itemDetails, addresses: address, user: user });
       }

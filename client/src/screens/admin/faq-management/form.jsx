@@ -25,14 +25,14 @@ const FormFaq = ({ isDetail, isEdit }) => {
 
   useEffect(() => {
     if (faq) {
-      form.setFieldsValue({ title: faq.title });
+      form.setFieldsValue({ title: faq?.data?.title });
     }
   }, [faq, form]);
 
   const onFinish = async (values) => {
     if (isEdit) {
       await handleUpdateFaq({
-        id: id,
+        faqId: id,
         title: values.title,
         description: dataEditor ? dataEditor : faq.description,
       });
@@ -95,7 +95,7 @@ const FormFaq = ({ isDetail, isEdit }) => {
               <CKEditor
                 disabled={isDetail}
                 editor={ClassicEditor}
-                data={isDetail || isEdit ? faq?.description : ""}
+                data={isDetail || isEdit ? faq?.data?.description : ""}
                 onChange={(event, editor) =>
                   handleChangeCkeditor(event, editor)
                 }

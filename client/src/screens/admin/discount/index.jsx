@@ -40,6 +40,7 @@ const DiscountManagement = () => {
     isActive: true,
   });
   const { discounts, isLoading } = useDiscount({ ...filter });
+  console.log("discounts :>> ", discounts);
 
   const listDiscount = discounts?.results
     ? discounts?.results?.map((item, index) => ({
@@ -86,8 +87,6 @@ const DiscountManagement = () => {
       key: "startDate",
       width: "20%",
       render(value, record) {
-        console.log("record", record.endDate);
-        console.log("dayjs(value)", dayjs(value).format(FORMAT_TIME));
         return (
           dayjs(value).format(FORMAT_TIME) +
           " - " +
@@ -120,8 +119,9 @@ const DiscountManagement = () => {
     },
     {
       title: "Đã dùng",
-      dataIndex: "address",
-      key: "address",
+      dataIndex: "used",
+      key: "used",
+      render: (used) => <span>{used}</span>,
     },
     {
       title: "Trạng thái",
@@ -257,7 +257,9 @@ const DiscountManagement = () => {
           </Button>
         }
       />
-      <Tabs items={tabs} activeKey={tabActive} onChange={handleChangeTab} />
+      <div className="item-banner px-5">
+        <Tabs items={tabs} activeKey={tabActive} onChange={handleChangeTab} />
+      </div>
 
       <div className="bg-white mx-5 mt-5">
         <Table

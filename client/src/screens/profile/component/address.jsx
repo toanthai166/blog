@@ -35,7 +35,6 @@ const MyAddress = ({ id }) => {
       .validateFields()
       .then(() => {
         const values = form.getFieldsValue();
-        console.log(values);
         if (addressItem) {
           handleUpdateAddress({ ...values, id: addressItem.id });
         } else {
@@ -53,9 +52,6 @@ const MyAddress = ({ id }) => {
 
     setIsModalOpen(false);
   };
-  // const onChange = (value) => {
-  //   console.log(`values`, value);
-  // };
   const validateField = async (rule, value) => {
     if (value === "" || value === undefined) {
       throw new Error(validationMessages.required);
@@ -207,7 +203,9 @@ const MyAddress = ({ id }) => {
                     </div>
                     {address?.isDefault === true ? (
                       <Button className="h-5">
-                        <span className="px-1 py-1  font-normal">Mặc định</span>
+                        <span className="px-1 py-1  font-normal -translate-y-2.5">
+                          Mặc định
+                        </span>
                       </Button>
                     ) : (
                       ""
@@ -229,6 +227,7 @@ const MyAddress = ({ id }) => {
                         handleDeleteAddress({ addressId: address?.id })
                       }
                       title="Xóa địa chỉ"
+                      cancelText="Hủy"
                       description="Bạn có chắc chắn xóa địa chỉ này?"
                       icon={<QuestionCircleOutlined style={{ color: "red" }} />}
                     >
@@ -242,7 +241,7 @@ const MyAddress = ({ id }) => {
                     </Popconfirm>
                   </div>
                   <Button className="h-5" disabled={address?.isDefault}>
-                    <span className="px-1 py-1  font-normal">
+                    <span className="px-1 py-1  font-normal  -translate-y-2.5">
                       Thiết lập mặc định
                     </span>
                   </Button>

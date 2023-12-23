@@ -182,3 +182,18 @@ header .ant-tabs-tab-btn {
   > .ant-tabs-nav::before {
   display: none !important;
 }
+
+:where(.css-dev-only-do-not-override-2xq5w3).ant-input:focus,
+:where(.css-dev-only-do-not-override-2xq5w3).ant-input:focus-within {
+  border-color: #9c3a17;
+  box-shadow: none;
+  /* box-shadow: 0 0 0 2px rgba(75, 40, 10, 0.2); */
+  outline: 0;
+}
+.ant-select-sm {
+  height: 44px !important;
+}
+.ant-input-password {
+  height: 47px;
+  padding: 0 12px;
+}

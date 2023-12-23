@@ -142,7 +142,7 @@ const Login = () => {
             <Checkbox>Ghi nhớ</Checkbox>
           </Form.Item>
 
-          <Form.Item className="mt-[32px]">
+          <Form.Item className="">
             <Button
               type="primary"
               className=""

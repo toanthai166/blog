@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useRegister } from "../../hooks/auth.hook.js";
 import { Apple, FacebookIcon, GoogleIcon } from "../../assets/index.js";
 import { AppRoutes } from "../../helpers/app-routes.jsx";
+import { REGEX_EMAIL } from "../../helpers/regex.js";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -84,7 +85,19 @@ const Register = () => {
           </div>
           <Form.Item
             name="email"
-            rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
+            rules={[
+              { required: true, message: "Đây là trường bắt buộc" },
+              {
+                validator(_, value) {
+                  if (!value) return Promise.resolve();
+
+                  const validation = REGEX_EMAIL.test(value);
+                  return validation
+                    ? Promise.resolve()
+                    : Promise.reject(new Error("Email chưa đúng định dạng"));
+                },
+              },
+            ]}
           >
             <Input placeholder="Nhập email" />
           </Form.Item>
@@ -107,7 +120,7 @@ const Register = () => {
             <Input.Password placeholder="Nhập mật khẩu" />
           </Form.Item>
 
-          <Form.Item className="mt-20">
+          <Form.Item>
             <Button
               type="primary"
               htmlType="submit"

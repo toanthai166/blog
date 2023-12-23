@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useGetUserById, useUpdateUser } from "../../../hooks/user.hook";
 import { focusManager } from "react-query";
 import { getUserById } from "../../../api/user.api";
+import { useAuth } from "../../../hooks/auth.hook";
 
 const ProfileManagement = () => {
   const [image, setImage] = useState();
@@ -15,13 +16,18 @@ const ProfileManagement = () => {
   const [form] = Form.useForm();
   const userLocal = JSON.parse(localStorage.getItem("auth"))?.data?.user;
   const { user } = useGetUserById(userLocal?.id);
+  const { auth } = useAuth();
+
   useEffect(() => {
-    form.setFieldValue({ ...user });
-  }, [form, user]);
+    form.setFieldValue({
+      name: auth?.data?.user.name,
+      description: auth?.data?.user.description,
+      email: auth?.data?.user.email,
+    });
+  }, [auth?.data?.user, form]);
 
   const { handleUpdateProfile, mutation } = useUpdateUser({});
   const { handleUploadFile, image: imageUpload } = useUploadImage();
-  console.log("imageUpload :>> ", imageUpload);
   const handleSetImage = ({ file }) => {
     setImage(file);
     handleUploadFile(file);
@@ -71,11 +77,11 @@ const ProfileManagement = () => {
             id="form-news"
             name="form-news"
             initialValues={
-              user
+              auth?.data?.user
                 ? {
-                    name: user.name,
-                    description: user.description,
-                    email: user.email,
+                    name: auth?.data?.user.name,
+                    description: auth?.data?.user.description,
+                    email: auth?.data?.user.email,
                   }
                 : ""
             }
@@ -91,7 +97,7 @@ const ProfileManagement = () => {
               </Upload>
             </Form.Item>
             <img
-              className="ml-60 my-10"
+              className="ml-[20%] rounded-lg my-10"
               src={image ? URL.createObjectURL(image) : user?.image}
               alt=""
             />
@@ -130,7 +136,7 @@ const ProfileManagement = () => {
                 <Button
                   className="w-20"
                   type="default"
-                  onClick={() => navigate(-1)}
+                  onClick={() => setIsEdit(false)}
                 >
                   Huỷ
                 </Button>

@@ -39,6 +39,7 @@ const getFAQ = catchAsync(async (req, res) => {
   if (!FAQ) {
     throw new ApiError(httpStatus.NOT_FOUND, 'FAQ not found');
   }
+  FAQ.description = FAQ.description.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
   res.send(FAQ);
 });
 const updateFAQById = catchAsync(async (req, res) => {

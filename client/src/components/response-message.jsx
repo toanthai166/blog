@@ -19,7 +19,7 @@ export const ResponseMessage = ({
         `px-[16px] py-[12px] rounded flex flex-row items-center text-[13px] text-yankees-blue 
         ${error && "bg-linen"} 
         ${warning && "bg-primarys-lighter"}
-        ${info && "bg-blue"}
+        ${info && "bg-red-400"}
         ${dashed && "bg-[#EEEEEE]"}
         ${gray && "bg-grayscale-border"}
         ${success && "bg-bright-green-gray"}`,

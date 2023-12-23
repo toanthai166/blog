@@ -224,7 +224,7 @@ const ProductDetail = () => {
               </div>
               <div>
                 <div className="grid grid-cols-2">
-                  <span className="opacity-70">Ngày xuất bản</span>
+                  <span className="opacity-70">Năm xuất bản</span>
                   <span className="font-normal">
                     {product?.publicationDate}
                   </span>

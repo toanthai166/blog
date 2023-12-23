@@ -17,7 +17,7 @@ export const createFaq = async (data) => {
   return res;
 };
 export const updateFaq = async (data) => {
-  const res = await request.patch(`/faq/${data.id}`, data);
+  const res = await request.patch(`/faq/${data.faqId}`, data);
   return res;
 };
 export const getFaqById = async (id) => {

@@ -69,7 +69,7 @@ export const useUpdateAddress = () => {
           notification.success({
             message: "Sửa địa chỉ thành công",
           });
-          navigate(AppRoutes.myAddress);
+          // navigate(AppRoutes.myAddress);
         },
       });
     },

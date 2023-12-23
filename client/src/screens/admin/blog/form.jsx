@@ -130,7 +130,7 @@ const FormCreateBlog = ({ isDetail, isEdit }) => {
               </Upload>
             </Form.Item>
             <img
-              className="ml-60 my-10"
+              className="ml-[20%] my-10"
               src={image ? URL.createObjectURL(image) : blog?.image}
               alt=""
             />
@@ -149,7 +149,11 @@ const FormCreateBlog = ({ isDetail, isEdit }) => {
               name="categoryId"
               rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
             >
-              <Select placeholder="Chọn danh mục" options={categoryOptions} />
+              <Select
+                placeholder="Chọn danh mục"
+                options={categoryOptions}
+                className="h-12"
+              />
             </Form.Item>
             <Form.Item
               label={<span className="text-base font-semibold">Mô tả</span>}
@@ -176,7 +180,7 @@ const FormCreateBlog = ({ isDetail, isEdit }) => {
                   </Button>
                   <Button
                     className="w-20"
-                    type="dashed"
+                    type="primary"
                     htmlType="submit"
                     loading={mutation.isLoading || mutationCreate.isLoading}
                     disabled={mutation.isLoading || mutationCreate.isLoading}

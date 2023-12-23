@@ -224,7 +224,7 @@ const DetailOrder = () => {
           <Descriptions.Item label="Thời gian đặt hàng">
             {order?.createdAt && dayjs(order.createdAt).format(FORMAT_TIME)}
           </Descriptions.Item>
-          {order?.status === "cancel" && (
+          {/* {order?.status === "cancel" && (
             <Descriptions.Item label="Thời gian huỷ">
               {order?.statusDetail?.createdAt &&
                 dayjs(order?.statusDetail?.createdAt).format(FORMAT_TIME)}
@@ -239,7 +239,7 @@ const DetailOrder = () => {
             <Descriptions.Item label="Ghi chú hủy đơn">
               {order?.statusDetail?.note}
             </Descriptions.Item>
-          )}
+          )} */}
           {order?.status === "delivered" && (
             <Descriptions.Item label="Thời gian đã giao hàng">
               {order?.updatedAt && dayjs(order?.updatedAt).format(FORMAT_TIME)}

@@ -81,7 +81,7 @@ export const ProductReview = () => {
     <>
       <div className="mb-5 item-banner bg-white p-2">
         <Tabs
-          activeKey={tabStarActive}
+          activeKey={`${tabStarActive}`}
           animated={{ inkBar: false, tabPane: false }}
           items={itemsStar}
           onChange={handleChangeTabStar}
@@ -90,8 +90,8 @@ export const ProductReview = () => {
 
       <div className="">
         <div className="">
-          {review && review.results.length > 0 ? (
-            (review.results ?? []).map((review) => (
+          {review && review?.results?.length > 0 ? (
+            (review?.results ?? []).map((review) => (
               <div
                 className="p-5 flex flex-col gap-4 bg-white"
                 key={review?.id}

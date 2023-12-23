@@ -44,6 +44,7 @@ const updateFAQ = {
   }),
   body: Joi.object()
     .keys({
+      faqId: Joi.string(),
       title: Joi.string(),
       description: Joi.string(),
       isActive: Joi.boolean(),

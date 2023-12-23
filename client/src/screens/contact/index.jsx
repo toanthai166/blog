@@ -3,6 +3,7 @@ import Lable from "../../components/lable";
 import TextArea from "antd/es/input/TextArea";
 import { useCreateContact } from "../../hooks/contact.hook";
 import { Link } from "react-router-dom";
+import { REGEX_EMAIL, REGEX_PHONE } from "../../helpers/regex.js";
 
 const Contact = () => {
   const [form] = Form.useForm();
@@ -33,7 +34,11 @@ const Contact = () => {
         <div className="w-[62px] h-[62px] rounded-full flex flex-col gap-5">
           <img src="../public/image/mess.png" alt="" />
           <span className="text-lg font-medium ">Message</span>
-          <Link to={"/"} className="">
+          <Link
+            target="_blank"
+            to={"https://www.facebook.com/toanthai1606"}
+            className=""
+          >
             0382203388
           </Link>
         </div>{" "}
@@ -41,7 +46,7 @@ const Contact = () => {
           <img src="../public/image/zalo.png" alt="" />
           <span className="text-lg font-medium ">Zalo</span>
           <Link to={"https://zalo.me/0382203388"} className="">
-            0382203388
+            t.me/0382203388
           </Link>
         </div>{" "}
       </div>
@@ -73,6 +78,18 @@ const Contact = () => {
                   className="w-full"
                   rules={[
                     { required: true, message: "Đây là trường bắt buộc" },
+                    {
+                      validator(_, value) {
+                        if (!value) return Promise.resolve();
+
+                        const validation = REGEX_EMAIL.test(value);
+                        return validation
+                          ? Promise.resolve()
+                          : Promise.reject(
+                              new Error("Email chưa đúng định dạng")
+                            );
+                      },
+                    },
                   ]}
                 >
                   <Input placeholder="Email" />
@@ -87,6 +104,18 @@ const Contact = () => {
                   className="w-full"
                   rules={[
                     { required: true, message: "Đây là trường bắt buộc" },
+                    {
+                      validator(_, value) {
+                        if (!value) return Promise.resolve();
+
+                        const validation = REGEX_PHONE.test(value);
+                        return validation
+                          ? Promise.resolve()
+                          : Promise.reject(
+                              new Error("Số điện thoại chưa đúng định dạng")
+                            );
+                      },
+                    },
                   ]}
                 >
                   <Input placeholder="Số điện thoại" />

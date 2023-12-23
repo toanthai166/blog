@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "../../../helpers/app-routes";
 import { FaUserFriends } from "react-icons/fa";
 import { useAuth } from "../../../hooks/auth.hook";
+import { IoReload } from "react-icons/io5";
 
 function getItem(label, key, icon, children) {
   return {
@@ -233,7 +234,16 @@ const AdminDashboard = ({ children }) => {
             background: "#ccc",
           }}
         >
-          <div className="flex justify-end">
+          <div className="flex justify-between">
+            <Button
+              type="default"
+              className="bg-green-400 flex items-center gap-2"
+              onClick={() => {
+                window.location.reload();
+              }}
+            >
+              <IoReload /> Refesh
+            </Button>
             <Button
               type="primary"
               onClick={() => {

@@ -16,6 +16,7 @@ const cartRoute = require('./cart.route');
 const reviewRouter = require('./review.route');
 const listFavoriteRoute = require('./listFavorite.route');
 const discountRoute = require('./discount.route');
+const revenueRoute = require('./revenue.route');
 const config = require('../../config/config');
 
 const router = express.Router();
@@ -86,6 +87,11 @@ const defaultRoutes = [
     path: '/favorites',
     route: listFavoriteRoute,
   },
+  {
+    path: '/revenue',
+    route: revenueRoute,
+  },
+  ,
 ];
 
 const devRoutes = [

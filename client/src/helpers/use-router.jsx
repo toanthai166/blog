@@ -28,6 +28,7 @@ import Payment from "../screens/payment";
 import PostDetail from "../screens/home/post-detail";
 import Search from "../screens/home/search";
 import OrderDetail from "../screens/profile/component/order-detail";
+import RevenueManagement from "../screens/admin/revenue";
 
 export const useRouter = () => {
   return createBrowserRouter([
@@ -98,6 +99,7 @@ export const useRouter = () => {
     {
       path: AppRoutes.admin,
       element: <PrivateRoute role={roles.admin} />,
+
       children: [
         { path: AppRoutes.blog, element: <BlogManagement /> },
         {
@@ -112,6 +114,7 @@ export const useRouter = () => {
           path: AppRoutes.blogDetail,
           element: <FormCreateBlog isDetail />,
         },
+        { path: AppRoutes.revenueManagement, element: <RevenueManagement /> },
         {
           path: AppRoutes.user,
           element: <UserManagement />,

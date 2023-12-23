@@ -152,6 +152,7 @@ const items = [
     </svg>
   ),
   getItem("Quản lý mã giảm giá", "9", <CiDiscount1 className="w-6 h-6" />),
+  getItem("Thống kê", "10", <FaUserFriends className="w-6 h-6" />),
 ];
 
 const AdminDashboard = ({ children }) => {
@@ -172,7 +173,7 @@ const AdminDashboard = ({ children }) => {
     console.log(e.key);
     switch (e.key) {
       case "10":
-        navigate(AppRoutes.admin);
+        navigate(AppRoutes.revenueManagement);
         break;
       case "1":
         navigate(AppRoutes.blog);

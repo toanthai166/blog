@@ -12,6 +12,7 @@ export { ReactComponent as ReceiptIcon } from "./receipt.svg";
 export { ReactComponent as InfoCircle } from "./info-circle.svg";
 export { ReactComponent as ErrorIcon } from "./error.svg";
 export { ReactComponent as ReviewEmpty } from "./review-empty.svg";
+export { ReactComponent as RadioInput } from "./radio-input.svg";
 
 export const Icon = {
   heart: "",

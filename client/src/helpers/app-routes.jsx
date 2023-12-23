@@ -68,4 +68,6 @@ export const AppRoutes = {
   contactManagement: "/admin/contact-management",
   contactDetail: "/admin/contact-management/detail/:id",
   contactDetailId: (id) => `/admin/contact-management/detail/${id}`,
+
+  revenueManagement: "/admin/contact-management",
 };

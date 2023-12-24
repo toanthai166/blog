@@ -1,14 +1,16 @@
 import {
+  Button,
   Divider,
   Popconfirm,
   Table,
   Tabs,
   Tag,
   Tooltip,
+  message,
   notification,
 } from "antd";
 import ProfileLayout from "./profile-layout";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { numberWithDots, DefaultPagination } from "../../../ultis/pagination";
 import dayjs from "dayjs";
@@ -24,6 +26,10 @@ import {
   CheckOutlined,
   QuestionCircleOutlined,
 } from "@ant-design/icons";
+import { ModalCustomize } from "../../../components/modal-customize";
+import TextArea from "antd/es/input/TextArea";
+
+const reasons = ["Không liên hệ được người bán", "Tôi muốn mua sản phẩm khác"];
 
 const tabs = [
   {
@@ -57,8 +63,14 @@ const MyOrder = ({ id }) => {
     status: "wait_for_confirm",
   });
   const { orders, isLoading } = useOrder({ ...filter, userId: id });
+  const [note, setNote] = useState();
+  const [open, setOpen] = useState(false);
   const [tabActive, setTabActive] = useState("wait_for_confirm");
-  const { handleUpdateOrder, mutation } = useUpdateOrder();
+  const { handleUpdateOrder, mutation } = useUpdateOrder({
+    ...filter,
+    userId: id,
+  });
+  const handleChangeNote = (e) => setNote(e.target.value);
 
   const handleChangeTab = (key) => {
     const newStatus = key;
@@ -94,7 +106,7 @@ const MyOrder = ({ id }) => {
           status: "shipping",
         });
 
-        setFilter({ ...filter, status: "wait_for_confirm" });
+        // setFilter({ ...filter, status: "" });
         notification.success({
           message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái đang giao`,
         });
@@ -106,7 +118,7 @@ const MyOrder = ({ id }) => {
         });
       }
     },
-    [filter, handleUpdateOrder]
+    [handleUpdateOrder]
   );
   const handleChangeStatusToShiped = useCallback(
     async (record) => {
@@ -116,7 +128,7 @@ const MyOrder = ({ id }) => {
           status: "delivered",
         });
 
-        setFilter({ ...filter, status: "shipping" });
+        // setFilter({ ...filter, status: "" });
         notification.success({
           message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái đã giao`,
         });
@@ -128,7 +140,7 @@ const MyOrder = ({ id }) => {
         });
       }
     },
-    [filter, handleUpdateOrder]
+    [handleUpdateOrder]
   );
   const handleChangeStatusToCompleted = useCallback(
     async (record) => {
@@ -138,7 +150,7 @@ const MyOrder = ({ id }) => {
           status: "complete",
         });
 
-        setFilter({ ...filter, status: "delivered" });
+        // setFilter({ ...filter, status: "delivered" });
         notification.success({
           message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái hoàn thành`,
         });
@@ -150,6 +162,21 @@ const MyOrder = ({ id }) => {
       }
     },
     [filter, handleUpdateOrder]
+  );
+  const [selectedReason, setSelectedReason] = useState([]);
+  const [idCancel, setIdCancel] = useState("");
+
+  const handleSelected = useCallback(
+    (id) => {
+      const exist = selectedReason.includes(id);
+
+      if (!exist) {
+        setSelectedReason([...selectedReason, id]);
+        return;
+      }
+      setSelectedReason(selectedReason.filter((i) => i !== id));
+    },
+    [selectedReason]
   );
 
   const renderActionsByStatus = (status, record) => {
@@ -166,21 +193,18 @@ const MyOrder = ({ id }) => {
               </Tag>
             </Tooltip>
             <span className="translate-y-0.5 text-grayscale-border">|</span>
-            <Popconfirm
-              title="Hủy đơn hàng"
-              //   okButtonProps={{ disabled: mutation.isLoading }}
-              onConfirm={() => {
-                handleUpdateOrder({ id: record.id, status: "cancel" });
+            <Button
+              className=""
+              type="text"
+              onClick={() => {
+                setOpen(true);
+                setIdCancel(record.id);
               }}
-              description="Bạn có chắc chắn hủy đơn hàng này?"
-              icon={<QuestionCircleOutlined style={{ color: "red" }} />}
             >
-              <Tooltip title="Hủy đơn hàng">
-                <Tag className="hover:cursor-pointer" color="#f50">
-                  <CloseOutlined />
-                </Tag>
-              </Tooltip>
-            </Popconfirm>
+              <Tag className="hover:cursor-pointer" color="#f50">
+                <CloseOutlined />
+              </Tag>
+            </Button>
             <span className="translate-y-0.5 text-grayscale-border">|</span>
             <Tooltip title="Xem chi tiết">
               <Tag
@@ -564,6 +588,7 @@ const MyOrder = ({ id }) => {
     },
   ];
   const [columns, setColumns] = useState(defaultColumns);
+
   return (
     <ProfileLayout>
       <div className="flex flex-col gap-5 w-full item-banner">
@@ -595,6 +620,56 @@ const MyOrder = ({ id }) => {
           </div>
         </div>
       </div>
+      <ModalCustomize
+        open={open}
+        title="Chọn lý do hủy đơn hàng"
+        okText="Xác nhận"
+        okButtonProps={{ disabled: selectedReason.length <= 0 }}
+        // cancelButtonProps={{
+        //   disabled: loading,
+        // }}
+        onOk={() => {
+          const arr = [...selectedReason];
+          arr.push(note);
+          const content = JSON.stringify(arr);
+          console.log(content);
+
+          handleUpdateOrder({
+            id: idCancel,
+            status: "cancel",
+            content: content,
+          });
+          notification.success({ message: "Bạn đã hủy đơn hàng thành công" });
+          setOpen(false);
+        }}
+        onCancel={() => setOpen(false)}
+      >
+        <>
+          <div className="h-[440px] overflow-y-auto text-smleading-18px ">
+            {(reasons || []).map((reason, key) => (
+              <div
+                onClick={() => handleSelected(reason)}
+                className={`px-4 py-3 mt-4 border border-[#EEEEEE] border-solid rounded mb-3 last:mb-0 cursor-pointer ${
+                  selectedReason.includes(reason)
+                    ? "border-red-600 border-solid bg-[#FFFDF6]"
+                    : ""
+                }`}
+                key={key}
+              >
+                {reason}
+              </div>
+            ))}
+
+            <TextArea
+              placeholder="Nhập lý do khác"
+              value={note}
+              maxLength={255}
+              onChange={handleChangeNote}
+              showCount
+            />
+          </div>
+        </>
+      </ModalCustomize>
     </ProfileLayout>
   );
 };

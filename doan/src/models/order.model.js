@@ -23,6 +23,7 @@ const orderSchema = mongoose.Schema(
       trim: true,
       default: '',
     },
+    statusDetail: {},
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',

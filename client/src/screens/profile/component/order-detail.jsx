@@ -281,6 +281,56 @@ const OrderDetail = () => {
                   label="Thời gian đặt"
                   value={dayjs(order?.createdAt).format(FORMAT_TIME)}
                 />
+                {order?.statusDetail?.timeCancel && (
+                  <RowItem
+                    wrapperStyle="pb-4"
+                    label="Thời gian hủy"
+                    value={dayjs(order?.statusDetail?.timeCancel).format(
+                      FORMAT_TIME
+                    )}
+                  />
+                )}
+                {order?.statusDetail?.timeConfirm && (
+                  <RowItem
+                    wrapperStyle="pb-4"
+                    label="Thời gian xác nhận"
+                    value={dayjs(order?.statusDetail?.timeConfirm).format(
+                      FORMAT_TIME
+                    )}
+                  />
+                )}
+                {order?.statusDetail?.timeDelivered && (
+                  <RowItem
+                    wrapperStyle="pb-4"
+                    label="Thời gian giao hàng"
+                    value={dayjs(order?.statusDetail?.timeDelivered).format(
+                      FORMAT_TIME
+                    )}
+                  />
+                )}{" "}
+                {order?.statusDetail?.timeComplete && (
+                  <RowItem
+                    wrapperStyle="pb-4"
+                    label="Thời gian hoàn thành"
+                    value={dayjs(order?.statusDetail?.timeComplete).format(
+                      FORMAT_TIME
+                    )}
+                  />
+                )}
+                {order?.statusDetail?.content && (
+                  <div className="flex gap-1">
+                    <span className="w-[90%] text-base">Nội dung hủy:</span>
+                    <div>
+                      {JSON.parse(order?.statusDetail?.content).map(
+                        (it, index) => (
+                          <span className="text-base" key={index}>
+                            {it + ","}
+                          </span>
+                        )
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             </Col>
           </Row>

@@ -61,15 +61,17 @@ export const useCreateOrder = () => {
 };
 
 export const useUpdateOrder = (filter) => {
+  console.log("filter :>> ", filter);
   const mutation = useMutation(updateOrder, {
-    mutationKey: [`order/${filter?.status}`],
+    mutationKey: [`orderupdate`],
   });
   const client = useQueryClient();
+
   const handleUpdateOrder = (data) => {
     mutation.mutate(data, {
       onSuccess: () => {
-        // navigate(AppRoutes.orderManagement);
-        client.invalidateQueries(`orders?status=${filter?.status}`);
+        console.log("1 :>> ");
+        client.invalidateQueries(`orders?status=${filter.status}`);
       },
     });
   };

@@ -88,18 +88,45 @@ const getOrderById = async (id) => {
  */
 const updateOrderById = async (id, updateBody) => {
   const order = await getOrderById(id);
-  // if (updateBody.status == 'shipping') {
-  //   order.product.map(async (it) => {
-  //     const product = await Product.findById(it.product._id);
-  //     await Product.updateOne({ _id: product._id }, { $set: { quantity: product.quantity - it.quantity } });
-  //   });
-  // }
   if (!order) {
     throw new ApiError(httpStatus.NOT_FOUND, 'order not found');
   }
-  Object.assign(order, updateBody);
-  await order.save();
-  return order;
+  if (updateBody.status == 'cancel') {
+    const currentDate = new Date();
+    Object.assign(order, { ...updateBody, statusDetail: { timeCancel: currentDate, content: updateBody.content } });
+    await order.save();
+    return order;
+  }
+
+  if (updateBody.status == 'shipping') {
+    const currentDate = new Date();
+    Object.assign(order, { ...updateBody, statusDetail: { timeConfirm: currentDate } });
+    await order.save();
+    return order;
+  }
+  if (updateBody.status == 'delivered') {
+    const currentDate = new Date();
+    Object.assign(order, {
+      ...updateBody,
+      statusDetail: { timeConfirm: order.statusDetail.timeConfirm, timeDelivered: currentDate },
+    });
+    await order.save();
+    return order;
+  }
+  if (updateBody.status == 'complete') {
+    const currentDate = new Date();
+    console.log('order :>> ', order);
+    Object.assign(order, {
+      ...updateBody,
+      statusDetail: {
+        timeConfirm: order.statusDetail.timeConfirm,
+        timeDelivered: order.statusDetail.timeDelivered,
+        timeComplete: currentDate,
+      },
+    });
+    await order.save();
+    return order;
+  }
 };
 
 /**

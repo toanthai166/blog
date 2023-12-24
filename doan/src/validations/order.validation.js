@@ -41,6 +41,7 @@ const updateOrder = {
     .keys({
       id: Joi.required().custom(objectId),
       status: Joi.string().required(),
+      content: Joi.string(),
     })
     .min(1),
 };

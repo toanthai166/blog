@@ -6,22 +6,65 @@ const { categoryService } = require('../services');
 const Order = require('../models/order.model');
 
 const getReportOrder = catchAsync(async (req, res) => {
-  console.log('req.time :>> ', req.query.time);
+  const { startDate, endDate } = req.query;
   const timeQuery = req.query.time;
   const currentDate = new Date();
 
   // Xác định ngày đầu tiên của tuần hiện tại
-  const startOfWeek = new Date(currentDate);
-  startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+  if (startDate && endDate) {
+    const nextDay = new Date(endDate);
+    nextDay.setDate(endDate.getDate() + 1);
+
+    // Chuyển đổi về định dạng 'YYYY-MM-DD'
+    const formattedNextDay = nextDay.toISOString().split('T')[0];
+
+    const completedOrdersInCurrentWeek = await Order.find({
+      status: 'complete',
+      createdAt: { $gte: startDate, $lte: formattedNextDay },
+    });
+    const transformedData = completedOrdersInCurrentWeek.map((order) => {
+      // Chuyển đổi định dạng của createdAt thành 'YYYY-MM-DD'
+      const date = new Date(order.createdAt).toISOString().split('T')[0];
+
+      // Trả về đối tượng mới với định dạng mong muốn
+      return {
+        date,
+        revenue: order.total,
+      };
+    });
+
+    const revenueByDate = new Map();
+
+    transformedData.forEach((item) => {
+      const date = item.date;
+      const revenue = item.revenue;
+
+      if (revenueByDate.has(date)) {
+        revenueByDate.set(date, revenueByDate.get(date) + revenue);
+      } else {
+        revenueByDate.set(date, revenue);
+      }
+    });
+
+    const result = Array.from(revenueByDate, ([date, revenue]) => ({ date, revenue }));
+    res.send({
+      report: result,
+      orderDetails: completedOrdersInCurrentWeek,
+    });
+  }
+
   if (timeQuery == 'weekly') {
+    const startOfWeek = new Date(currentDate);
+    startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
     // Xác định ngày cuối cùng của tuần hiện tại
     const endOfWeek = new Date(currentDate);
-    endOfWeek.setDate(currentDate.getDate() + (6 - currentDate.getDay()));
+    endOfWeek.setDate(currentDate.getDate() - 7);
+    console.log('endOfWeek :>> ', endOfWeek);
 
     // Thực hiện truy vấn để lấy đơn hàng trong khoảng thời gian từ startOfWeek đến endOfWeek
     const completedOrdersInCurrentWeek = await Order.find({
       status: 'complete',
-      createdAt: { $gte: startOfWeek, $lte: endOfWeek },
+      createdAt: { $gte: endOfWeek, $lte: startOfWeek },
     });
     const transformedData = completedOrdersInCurrentWeek.map((order) => {
       // Chuyển đổi định dạng của createdAt thành 'YYYY-MM-DD'

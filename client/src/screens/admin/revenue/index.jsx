@@ -170,7 +170,7 @@ const RevenueManagement = () => {
                       { label: "Một tháng qua", value: "monthly" },
                       { label: "Một năm qua", value: "yearly" },
                     ]}
-                    placeholder="Chọn danh mục"
+                    placeholder="Chọn thời gian"
                     disabled={startDate || endDate}
                   />
                 </Form.Item>

@@ -68,6 +68,13 @@ const ProductManagement = () => {
       ),
     },
     {
+      title: "Số lượng",
+      dataIndex: "quantity",
+      key: "unitPrice",
+      align: "end",
+      render: (it) => <span className="text-base font-normal">{it}</span>,
+    },
+    {
       title: "Trạng thái",
       key: "isActive",
       render: (it) => {

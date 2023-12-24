@@ -86,14 +86,14 @@ const getOrderById = async (id) => {
  * @param {Object} updateBody
  * @returns {Promise<User>}
  */
-const updateOrderById = async (id, updateBody) => {
+const updateOrderById = async (id, updateBody, user) => {
   const order = await getOrderById(id);
   if (!order) {
     throw new ApiError(httpStatus.NOT_FOUND, 'order not found');
   }
   if (updateBody.status == 'cancel') {
     const currentDate = new Date();
-    Object.assign(order, { ...updateBody, statusDetail: { timeCancel: currentDate, content: updateBody.content } });
+    Object.assign(order, { ...updateBody, statusDetail: { timeCancel: currentDate, content: updateBody.content, user } });
     await order.save();
     return order;
   }

@@ -107,6 +107,7 @@ const MyOrder = ({ id }) => {
         });
 
         // setFilter({ ...filter, status: "" });
+        navigate("?info=myOrder&status=shipping");
         notification.success({
           message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái đang giao`,
         });
@@ -118,7 +119,7 @@ const MyOrder = ({ id }) => {
         });
       }
     },
-    [handleUpdateOrder]
+    [handleUpdateOrder, navigate]
   );
   const handleChangeStatusToShiped = useCallback(
     async (record) => {
@@ -129,6 +130,7 @@ const MyOrder = ({ id }) => {
         });
 
         // setFilter({ ...filter, status: "" });
+        navigate("?info=myOrder&status=delivered");
         notification.success({
           message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái đã giao`,
         });
@@ -140,7 +142,7 @@ const MyOrder = ({ id }) => {
         });
       }
     },
-    [handleUpdateOrder]
+    [handleUpdateOrder, navigate]
   );
   const handleChangeStatusToCompleted = useCallback(
     async (record) => {
@@ -151,6 +153,7 @@ const MyOrder = ({ id }) => {
         });
 
         // setFilter({ ...filter, status: "delivered" });
+        navigate("?info=myOrder&status=complete");
         notification.success({
           message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái hoàn thành`,
         });
@@ -193,8 +196,8 @@ const MyOrder = ({ id }) => {
               </Tag>
             </Tooltip>
             <span className="translate-y-0.5 text-grayscale-border">|</span>
-            <Button
-              className=""
+            <div
+              className="cursor-pointer"
               type="text"
               onClick={() => {
                 setOpen(true);
@@ -204,7 +207,7 @@ const MyOrder = ({ id }) => {
               <Tag className="hover:cursor-pointer" color="#f50">
                 <CloseOutlined />
               </Tag>
-            </Button>
+            </div>
             <span className="translate-y-0.5 text-grayscale-border">|</span>
             <Tooltip title="Xem chi tiết">
               <Tag

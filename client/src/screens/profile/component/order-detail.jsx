@@ -290,6 +290,16 @@ const OrderDetail = () => {
                     )}
                   />
                 )}
+                {order?.statusDetail?.user && (
+                  <div className="flex gap-1">
+                    <span className="w-[50%] text-base">Được hủy bởi:</span>
+                    <div className="text-base">
+                      {order?.statusDetail?.user?.role === "user"
+                        ? "Người mua"
+                        : "Người bán"}
+                    </div>
+                  </div>
+                )}
                 {order?.statusDetail?.timeConfirm && (
                   <RowItem
                     wrapperStyle="pb-4"

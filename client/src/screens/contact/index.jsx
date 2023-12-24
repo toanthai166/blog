@@ -39,14 +39,7 @@ const Contact = () => {
             to={"https://www.facebook.com/toanthai1606"}
             className=""
           >
-            0382203388
-          </Link>
-        </div>{" "}
-        <div className=" w-[62px] h-[62px] rounded-full flex flex-col gap-5">
-          <img src="../public/image/zalo.png" alt="" />
-          <span className="text-lg font-medium ">Zalo</span>
-          <Link to={"https://zalo.me/0382203388"} className="">
-            t.me/0382203388
+            fb.toanthai1606
           </Link>
         </div>{" "}
       </div>

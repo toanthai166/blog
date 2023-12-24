@@ -5,6 +5,7 @@ const catchAsync = require('../utils/catchAsync');
 const { orderService } = require('../services');
 const Category = require('../models/category.model');
 const generateOrderCode = require('../utils/function');
+const { User } = require('../models');
 
 const createOrder = catchAsync(async (req, res) => {
   const orderCode = generateOrderCode();
@@ -32,7 +33,8 @@ const getOrder = catchAsync(async (req, res) => {
 });
 
 const updateOrder = catchAsync(async (req, res) => {
-  const order = await orderService.updateOrderById(req.params.id, req.body);
+  const user = await User.findById(req.user.id);
+  const order = await orderService.updateOrderById(req.params.id, req.body, user);
   res.send(order);
 });
 

@@ -19,6 +19,7 @@ export const useBlog = (filter) => {
   const { isLoading, error } = useQuery({
     queryKey: [
       `blogs/${filter.page}&&${filter.title}&&${filter.categoryId}&&${filter.title}`,
+      "blogs",
     ],
     queryFn: useCallback(() => getBlogs(filter), [filter]),
     onSuccess: (res) => {
@@ -43,7 +44,7 @@ export const useAdminBlog = (filter) => {
 export const useGetBlogById = (blogId) => {
   const [blog, setBlog] = useAtom(blogItem);
   const { isLoading, error } = useQuery({
-    queryKey: [`blog/${blogId}`],
+    queryKey: [`blog`],
     queryFn: () => getBlogById(blogId),
     enabled: blogId ? true : false,
     onSuccess: (res) => {
@@ -97,16 +98,20 @@ export const useDeleteBlog = () => {
   return { mutation, handleDeleteBlog };
 };
 
-export const useChangeIsActiveBlog = (id) => {
+export const useChangeIsActiveBlog = (filter) => {
   const mutation = useMutation(changeIsActiveBlog, {
-    mutationKey: [`blogs/${id}/active`],
+    mutationKey: [
+      `blogs/${filter.page}&&${filter.title}&&${filter.categoryId}&&${filter.title}`,
+    ],
   });
   const client = useQueryClient();
   const handleChangeIsActiveBlog = (data) => {
     console.log(data);
     mutation.mutate(data, {
       onSuccess: () => {
-        client.invalidateQueries("blogs");
+        client.invalidateQueries(
+          `blogs/${filter.page}&&${filter.title}&&${filter.categoryId}&&${filter.title}`
+        );
         notification.success({
           message: "Sửa trạng thái bài viết thành công",
         });
@@ -119,17 +124,17 @@ export const useChangeIsActiveBlog = (id) => {
   };
 };
 
-export const useUpdateBlog = (id) => {
+export const useUpdateBlog = (filter) => {
   const navigate = useNavigate();
 
   const mutation = useMutation(updateBlog, {
-    mutationKey: [`blogs/${id}`],
+    mutationKey: [`blogs`],
   });
   const client = useQueryClient();
   const handleUpdateBlog = (data) => {
     mutation.mutate(data, {
       onSuccess: () => {
-        client.invalidateQueries("blogs");
+        client.invalidateQueries(`blogs`);
         notification.success({
           message: "Sửa bài viết thành công",
         });

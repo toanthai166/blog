@@ -26,7 +26,7 @@ export const ConfirmInfomationOrder = ({
   onReChooseVoucher,
   carts = [],
 }) => {
-  const [note, setNote] = useState("");
+  const [note, setNote] = useState(" ");
   const { handleCreateOrder, mutation } = useCreateOrder();
   const totalPayments = useMemo(() => {
     const { unit, value = 0 } = discount || {};
@@ -43,7 +43,6 @@ export const ConfirmInfomationOrder = ({
     return payment;
   }, [discount, totalPayment]);
 
-  console.log("totalPayments :>> ", totalPayments);
   const handleUserCreateOrder = useCallback(() => {
     if (discount) {
       handleCreateOrder({
@@ -159,9 +158,7 @@ export const ConfirmInfomationOrder = ({
             </table>
 
             <div className="flex gap-5 mt-5">
-              <span className="text-base">
-                Ghi chú đơn hàng: <span className="text-red-700">*</span>
-              </span>
+              <span className="text-base">Ghi chú đơn hàng:</span>
               <TextArea
                 className="flex-1"
                 showCount
@@ -223,9 +220,7 @@ export const ConfirmInfomationOrder = ({
                 type="primary"
                 loading={mutation.isLoading}
                 onClick={handleUserCreateOrder}
-                disabled={
-                  !address || !productsBuy || mutation.isLoading || !note
-                }
+                disabled={!address || !productsBuy || mutation.isLoading}
               >
                 Đặt mua
               </Button>

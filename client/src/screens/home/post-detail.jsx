@@ -15,6 +15,11 @@ import { ClockCircleOutlined } from "@ant-design/icons";
 
 import BodyRight from "./body-right";
 import { ModalCustomize } from "../../components/modal-customize/modal-customize";
+import { HeartIcon } from "../../assets";
+import {
+  useAddToListFavorites,
+  useRemoveToListBlogs,
+} from "../../hooks/listFavorite.hook";
 
 dayjs.locale("vi");
 dayjs.extend(relativeTime);
@@ -35,8 +40,27 @@ const PostDetail = () => {
     categoryId: blog.categoryId,
     title: "",
   });
+  const { hanldeAddToListBlogs, mutation } = useAddToListFavorites();
+  const { handleRemoveToListBlogs, mutation: mutationDelete } =
+    useRemoveToListBlogs();
 
-  const { handleCreateComment, mutation } = useCreateComment();
+  const { handleCreateComment, mutation: mutationDeleteComment } =
+    useCreateComment();
+  const handleAddToFavoriteBlog = (id) => {
+    console.log("id :>> ", id);
+    if (auth == undefined) {
+      setOpen(true);
+    } else {
+      hanldeAddToListBlogs({ blogId: id });
+    }
+  };
+  const handleRemoveToFavoriteBlog = (id) => {
+    if (auth == undefined) {
+      setOpen(true);
+    } else {
+      handleRemoveToListBlogs({ blogId: id });
+    }
+  };
 
   const createComment = useCallback(() => {
     if (auth == undefined) {
@@ -67,6 +91,32 @@ const PostDetail = () => {
         <BodyRight />
         <Col span={17} data-aos="fade-right" className="p-6 post-details">
           <div className="flex flex-col  w-full rounded-lg gap-5 bg-white p-6">
+            <div className="flex justify-between">
+              <span className="px-4 py-2 inline-block rounded-lg bg-red-500 text-white">
+                {blog?.category?.name}
+              </span>
+              {blog.isFavorite ? (
+                <Button
+                  loading={mutationDelete.isLoading}
+                  disabled={mutationDelete.isLoading}
+                  type="primary"
+                  className="w-14 h-10"
+                  onClick={() => handleRemoveToFavoriteBlog(blog?._id)}
+                >
+                  <HeartIcon />
+                </Button>
+              ) : (
+                <Button
+                  loading={mutation.isLoading}
+                  disabled={mutation.isLoading}
+                  type="text"
+                  className="w-14 h-10"
+                  onClick={() => handleAddToFavoriteBlog(blog?._id)}
+                >
+                  <HeartIcon />
+                </Button>
+              )}
+            </div>
             <h2
               data-aos="fade-right"
               className="text-2xl font-semibold leading-6"

@@ -50,7 +50,7 @@ export const useAddToListFavorite = () => {
   );
   return { mutation, hanldeAddToListBlog };
 };
-export const useAddToListFavorites = (filter) => {
+export const useAddToListFavorites = () => {
   const mutation = useMutation(addToListFavorite, {
     mutationKey: "favorite/create",
   });
@@ -59,9 +59,7 @@ export const useAddToListFavorites = (filter) => {
     (data) => {
       mutation.mutate(data, {
         onSuccess: () => {
-          client.invalidateQueries(
-            `blogs/${filter.page}&&${filter.title}&&${filter.categoryId}&&${filter.title}`
-          );
+          client.invalidateQueries(`blog`);
 
           notification.success({
             message: "Thêm bài viết vào danh sách yêu thích thành công",
@@ -103,7 +101,7 @@ export const useRemoveToListBlog = () => {
   };
 };
 
-export const useRemoveToListBlogs = (filter) => {
+export const useRemoveToListBlogs = () => {
   const mutation = useMutation(removeToListFavorite, {
     mutationKey: [`cart/remove`],
   });
@@ -112,16 +110,14 @@ export const useRemoveToListBlogs = (filter) => {
     (data) => {
       mutation.mutate(data, {
         onSuccess: () => {
-          client.invalidateQueries(
-            `blogs/${filter.page}&&${filter.title}&&${filter.categoryId}&&${filter.title}`
-          );
+          client.invalidateQueries(`blog`);
           notification.success({
             message: "Xóa khỏi danh sách yêu thích thành công",
           });
         },
       });
     },
-    [client, filter?.categoryId, filter?.page, filter?.title, mutation]
+    [client, mutation]
   );
   return {
     mutation,

@@ -94,7 +94,7 @@ const MyOrder = ({ id }) => {
           status: "shipping",
         });
 
-        client.invalidateQueries(`orders?status=wait_for_confirm`);
+        setFilter({ ...filter, status: "wait_for_confirm" });
         notification.success({
           message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái đang giao`,
         });
@@ -106,7 +106,7 @@ const MyOrder = ({ id }) => {
         });
       }
     },
-    [client, handleUpdateOrder]
+    [filter, handleUpdateOrder]
   );
   const handleChangeStatusToShiped = useCallback(
     async (record) => {
@@ -116,7 +116,7 @@ const MyOrder = ({ id }) => {
           status: "delivered",
         });
 
-        client.invalidateQueries(`orders?status=wait_for_confirm`);
+        setFilter({ ...filter, status: "shipping" });
         notification.success({
           message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái đã giao`,
         });
@@ -128,7 +128,7 @@ const MyOrder = ({ id }) => {
         });
       }
     },
-    [client, handleUpdateOrder]
+    [filter, handleUpdateOrder]
   );
   const handleChangeStatusToCompleted = useCallback(
     async (record) => {
@@ -138,7 +138,7 @@ const MyOrder = ({ id }) => {
           status: "complete",
         });
 
-        client.invalidateQueries(`orders?status=wait_for_confirm`);
+        setFilter({ ...filter, status: "delivered" });
         notification.success({
           message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái hoàn thành`,
         });
@@ -149,7 +149,7 @@ const MyOrder = ({ id }) => {
         });
       }
     },
-    [client, handleUpdateOrder]
+    [filter, handleUpdateOrder]
   );
 
   const renderActionsByStatus = (status, record) => {
@@ -259,9 +259,9 @@ const MyOrder = ({ id }) => {
     {
       title: "Mã đơn hàng",
       dataIndex: "code",
-      key: "code",
+      key: "id",
       width: "10%",
-      render: (code) => <span>{code}</span>,
+      render: (code) => <span>{code.slice(0, 7)}</span>,
     },
     {
       title: "Sản phẩm",
@@ -345,8 +345,8 @@ const MyOrder = ({ id }) => {
     {
       title: "Mã đơn hàng",
       key: "code",
-      dataIndex: "code",
-      render: (code) => <spa>{code}</spa>,
+      dataIndex: "id",
+      render: (code) => <spa>{code.slice(0, 7)}</spa>,
       width: "10%",
     },
     {
@@ -456,8 +456,8 @@ const MyOrder = ({ id }) => {
     {
       title: "Mã đơn hàng",
       key: "code",
-      dataIndex: "code",
-      render: (code) => <span>{code}</span>,
+      dataIndex: "id",
+      render: (code) => <span>{code.slice(0, 7)}</span>,
       width: "10%",
     },
     {

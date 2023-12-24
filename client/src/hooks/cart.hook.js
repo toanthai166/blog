@@ -55,6 +55,9 @@ export const useRemoveToCart = () => {
       mutation.mutate(data, {
         onSuccess: () => {
           client.invalidateQueries("carts");
+          notification.success({
+            message: "Xóa sản phẩm khỏi giỏ hàng thành công",
+          });
         },
       });
     },

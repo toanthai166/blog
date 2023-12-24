@@ -53,7 +53,7 @@ const BodyRight = () => {
       </SidebarItem>{" "}
       <SidebarItem title="Danh sách danh mục">
         <div className="flex gap-2 flex-col items-start">
-          {categories.map((it) => (
+          {categories?.results?.map((it) => (
             <Button
               type="default"
               onClick={() =>

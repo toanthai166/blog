@@ -19,7 +19,7 @@ import { useReport } from "../../../hooks/revenue.hook";
 const dataEmpty = [
   {
     date: "",
-    revenue: 102000,
+    revenue: 0,
   },
 ];
 
@@ -102,10 +102,10 @@ const RevenueManagement = () => {
     {
       title: "Mã đơn hàng",
       key: "code",
-      dataIndex: "code",
+      dataIndex: "id",
       width: "4%",
       render(value) {
-        return value;
+        return value.slice(0, 7);
       },
     },
     {
@@ -236,18 +236,15 @@ const RevenueManagement = () => {
             </ResponsiveContainer>
           </div>
           <div className="bg-white rounded-lg p-5">
+            <span className="text-base font-medium">
+              Số lượng đơn hàng là: {reports?.orderDetails?.length} đơn
+            </span>
             <Table
               size="small"
               className="p-5"
               bordered
               columns={columnOrder}
               dataSource={reports?.orderDetails}
-              // pagination={{
-              //   ...DefaultPagination,
-              //   onChange: onChangePage,
-              //   current: Number(filter?.page),
-              //   // total: blogs?.totalResults,
-              // }}
               scroll={{ y: "calc(100vh - 320px)" }}
             />
           </div>

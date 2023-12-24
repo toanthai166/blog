@@ -47,16 +47,13 @@ const Home = () => {
     isActive: true,
     categoryId: undefined,
   });
-  const { hanldeAddToListBlogs, mutation } = useAddToListFavorites(filter);
-  const { handleRemoveToListBlogs, mutation: mutationDelete } =
-    useRemoveToListBlogs(filter);
 
   const { categories } = useCategoriesIsActive();
   console.log("categories :>> ", categories);
 
   const categoriesTypeOptions = useMemo(
     () =>
-      categories?.map((it) => ({
+      categories?.results?.map((it) => ({
         label: it.name,
         value: it.id,
       })),
@@ -103,21 +100,6 @@ const Home = () => {
     label: <span className="text-[#A62B00]">{it.title}</span>,
     children: <div dangerouslySetInnerHTML={{ __html: it.description }}></div>,
   }));
-
-  const handleAddToFavoriteBlog = (id) => {
-    if (auth == undefined) {
-      setOpen(true);
-    } else {
-      hanldeAddToListBlogs({ blogId: id });
-    }
-  };
-  const handleRemoveToFavoriteBlog = (id) => {
-    if (auth == undefined) {
-      setOpen(true);
-    } else {
-      handleRemoveToListBlogs({ blogId: id });
-    }
-  };
 
   const handleFilter = useCallback(
     (values) => {
@@ -394,27 +376,6 @@ const Home = () => {
                           className="w-full h-[70px] line-clamp-3 text-base font-normal"
                           dangerouslySetInnerHTML={{ __html: it.content }}
                         ></div>
-                        {it.isFavorite ? (
-                          <Button
-                            loading={mutationDelete.isLoading}
-                            disabled={mutationDelete.isLoading}
-                            type="primary"
-                            className="w-14 h-10"
-                            onClick={() => handleRemoveToFavoriteBlog(it?.id)}
-                          >
-                            <HeartIcon />
-                          </Button>
-                        ) : (
-                          <Button
-                            loading={mutation.isLoading}
-                            disabled={mutation.isLoading}
-                            type="text"
-                            className="w-14 h-10"
-                            onClick={() => handleAddToFavoriteBlog(it?.id)}
-                          >
-                            <HeartIcon />
-                          </Button>
-                        )}
                       </div>
                     </div>
                     <div className="w-full h-[1px] bg-slate-300 my-6"></div>

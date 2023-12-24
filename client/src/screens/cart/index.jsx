@@ -1,9 +1,19 @@
-import { Button, Drawer, Input, InputNumber, Table } from "antd";
+import {
+  Button,
+  Drawer,
+  Input,
+  InputNumber,
+  Popconfirm,
+  Table,
+  Tag,
+  Tooltip,
+} from "antd";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useCart, useRemoveToCart } from "../../hooks/cart.hook";
 import { numberWithDots } from "../../ultis/pagination";
 import { AppRoutes } from "../../helpers/app-routes";
 import { useNavigate } from "react-router-dom";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 
 const minQuantity = 1;
 
@@ -15,7 +25,7 @@ const Cart = ({ open, setIsOpenDrawer }) => {
   const { cart } = useCart(user?.user?.id);
   const [productOrder, setProductOrder] = useState([]);
 
-  const { handleRemoveToCart } = useRemoveToCart();
+  const { handleRemoveToCart, mutation } = useRemoveToCart();
 
   const handleChangeQuantityProduct = useCallback(
     (quantity, product, isIncrease) => {
@@ -183,12 +193,21 @@ const Cart = ({ open, setIsOpenDrawer }) => {
         width: "10%",
         render: (product, item) => (
           <div className="flex justify-center items-center gap-x-12px">
-            <span
-              className="hover:cursor-pointer text-white border py-1 px-3 rounded-lg bg-red-500 "
-              onClick={() => handleRemoveProduct(item?.product?._id)}
+            <Popconfirm
+              title="Xóa bài viết"
+              cancelText="Hủy"
+              okText="Xóa"
+              okButtonProps={{ disabled: mutation.isLoading }}
+              onConfirm={() => handleRemoveProduct(item?.product?._id)}
+              description="Bạn có chắc chắn xóa sản phẩm này ra khỏi giở hàng?"
+              icon={<QuestionCircleOutlined style={{ color: "red" }} />}
             >
-              Xóa
-            </span>
+              <Tooltip title="Xóa">
+                <Tag className="hover:cursor-pointer" color="#f50">
+                  Xóa
+                </Tag>
+              </Tooltip>
+            </Popconfirm>
           </div>
         ),
       },
@@ -197,6 +216,7 @@ const Cart = ({ open, setIsOpenDrawer }) => {
       handleChangeInput,
       handleChangeQuantityProduct,
       handleRemoveProduct,
+      mutation.isLoading,
       productsBuy,
       quantityByProduct,
     ]

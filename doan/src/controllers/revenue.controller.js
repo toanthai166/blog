@@ -76,8 +76,23 @@ const getReportOrder = catchAsync(async (req, res) => {
         revenue: order.total,
       };
     });
+
+    const revenueByDate = new Map();
+
+    transformedData.forEach((item) => {
+      const date = item.date;
+      const revenue = item.revenue;
+
+      if (revenueByDate.has(date)) {
+        revenueByDate.set(date, revenueByDate.get(date) + revenue);
+      } else {
+        revenueByDate.set(date, revenue);
+      }
+    });
+
+    const result = Array.from(revenueByDate, ([date, revenue]) => ({ date, revenue }));
     res.send({
-      report: transformedData,
+      report: result,
       orderDetails: completedOrdersInCurrentWeek,
     });
   }

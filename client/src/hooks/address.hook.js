@@ -27,7 +27,6 @@ export const useAddress = (userId) => {
 };
 
 export const useCreateAddress = (setIsModalOpen) => {
-  const navigate = useNavigate();
   const mutation = useMutation(createAddress, {
     mutationKey: "address/create",
   });
@@ -46,11 +45,10 @@ export const useCreateAddress = (setIsModalOpen) => {
           notification.error({
             message: "Thêm địa chỉ thất bại",
           });
-          navigate(AppRoutes.myAddress);
         },
       });
     },
-    [client, mutation, navigate, setIsModalOpen]
+    [client, mutation, setIsModalOpen]
   );
   return { mutation, handleCreateAddress };
 };

@@ -52,15 +52,15 @@ export const useRegister = () => {
       mutation.mutate(
         { email, name, password },
         {
-          onError: (err) => {
-            console.log(err);
-          },
-        },
-        {
           onSuccess: () => {
             notification.success({
               message: "Đăng kí tài khoản thành công",
             });
+          },
+        },
+        {
+          onError: (err) => {
+            console.log(err);
           },
         }
       );

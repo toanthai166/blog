@@ -152,7 +152,7 @@ const FormCreateBlog = ({ isDetail, isEdit }) => {
               <Select
                 placeholder="Chọn danh mục"
                 options={categoryOptions}
-                className="h-12"
+                // className="h-11"
               />
             </Form.Item>
             <Form.Item

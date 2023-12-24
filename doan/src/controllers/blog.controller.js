@@ -67,8 +67,8 @@ const getBlog = catchAsync(async (req, res) => {
   if (!blog) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Blog not found');
   }
-  const { isActive, isFavorite, _id, title, categoryId, image } = blog;
-  const newblog = { isActive, isFavorite, _id, title, categoryId, image, content: content };
+  const { isActive, isFavorite, _id, title, categoryId, image, category } = blog;
+  const newblog = { isActive, isFavorite, _id, title, categoryId, image, content: content, category };
   res.send(newblog);
 });
 

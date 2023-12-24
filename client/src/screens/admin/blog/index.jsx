@@ -1,4 +1,17 @@
-import { Button, Popconfirm, Spin, Switch, Table, Tag, Tooltip } from "antd";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Popconfirm,
+  Row,
+  Select,
+  Spin,
+  Switch,
+  Table,
+  Tag,
+  Tooltip,
+} from "antd";
 import { SubHeader } from "../../../components/sub-header/SubHeader";
 import {
   DeleteOutlined,
@@ -8,26 +21,28 @@ import {
 } from "@ant-design/icons";
 
 import { AppRoutes } from "../../../helpers/app-routes";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { DefaultPagination } from "../../../ultis/pagination";
 import {
   useAdminBlog,
+  useBlog,
   useChangeIsActiveBlog,
   useDeleteBlog,
 } from "../../../hooks/blog.hook";
 import { useNavigate } from "react-router-dom";
+import { useCategoriesIsActive } from "../../../hooks/category.hook";
 
 const BlogManagement = () => {
   const navigate = useNavigate();
   const [filter, setFilter] = useState({
-    limit: 100,
+    limit: 10,
     page: 1,
     title: "",
   });
-  const { blogs, isLoading } = useAdminBlog({ ...filter });
+  const { blogs, isLoading } = useBlog({ ...filter });
 
-  const { handleDeleteBlog, mutation } = useDeleteBlog();
-  const { handleChangeIsActiveBlog } = useChangeIsActiveBlog();
+  const { handleDeleteBlog, mutation } = useDeleteBlog({ ...filter });
+  const { handleChangeIsActiveBlog } = useChangeIsActiveBlog({ ...filter });
 
   const handleChangeStatus = (row) => {
     const { id, isActive } = row;
@@ -45,6 +60,25 @@ const BlogManagement = () => {
   const onChangePage = (newPage) => {
     setFilter({ ...filter, page: newPage });
   };
+
+  const { categories } = useCategoriesIsActive();
+  console.log("categories :>> ", categories);
+
+  const categoriesTypeOptions = useMemo(
+    () =>
+      categories?.results?.map((it) => ({
+        label: it.name,
+        value: it.id,
+      })),
+    [categories]
+  );
+  const handleFilter = useCallback(
+    (values) => {
+      setFilter({ ...filter, ...values, page: 1 });
+    },
+    [filter]
+  );
+
   const columns = [
     {
       title: "STT",
@@ -150,6 +184,36 @@ const BlogManagement = () => {
           </Button>
         }
       />
+      <div className="bg-white mt-5 mx-5 rounded w-[97%]">
+        <Form
+          size="middle"
+          onFinish={handleFilter}
+          className=" p-5 information-form-vehicle"
+        >
+          <Row className="space-x-5">
+            <Col span={10}>
+              <Form.Item name="title">
+                <Input placeholder="Tìm kiếm theo tên bài viết"></Input>
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <Form.Item name="categoryId">
+                <Select
+                  options={categoriesTypeOptions}
+                  placeholder="Chọn danh mục"
+                />
+              </Form.Item>
+            </Col>
+            <Col span={4}>
+              <Form.Item>
+                <Button type="primary" htmlType="submit">
+                  Áp dụng
+                </Button>
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
+      </div>
       <div className="bg-white mx-5 mt-5 rounded-lg">
         <h2 className="text-lg font-semibold p-5">
           {blogs?.totalResults} bài viết tất cả

@@ -21,6 +21,7 @@ const orderSchema = mongoose.Schema(
     note: {
       type: String,
       trim: true,
+      default: '',
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,

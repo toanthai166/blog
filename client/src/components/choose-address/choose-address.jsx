@@ -82,7 +82,7 @@ export const ChooseAddress = ({ onCancel, open, onFinish, defaultAddress }) => {
                     {add?.addressMoreInfo}
                   </p>
                   {add?.isDefault && (
-                    <div className="text-primary">Địa chỉ mặc định</div>
+                    <div className="text-red-500">Địa chỉ mặc định</div>
                   )}
                 </div>
               </div>

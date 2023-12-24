@@ -1,16 +1,24 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, message, notification } from "antd";
 
 import { AuthLayout } from "../../layouts/auth-layout";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useRegister } from "../../hooks/auth.hook.js";
-import { Apple, FacebookIcon, GoogleIcon } from "../../assets/index.js";
+import {
+  Apple,
+  FacebookIcon,
+  GoogleIcon,
+  RadioInput,
+} from "../../assets/index.js";
 import { AppRoutes } from "../../helpers/app-routes.jsx";
-import { REGEX_EMAIL } from "../../helpers/regex.js";
+import { REGEX_EMAIL, REGEX_PASSWORD } from "../../helpers/regex.js";
+import { PASSWORD_MIN_LENGTH } from "../login/index.jsx";
 
 const Register = () => {
   const navigate = useNavigate();
+  const [password, setPassword] = useState("");
+
   const [form] = Form.useForm();
   const {
     handleRegister,
@@ -31,6 +39,38 @@ const Register = () => {
       });
     });
   }, [form, handleRegister]);
+
+  useEffect(() => {
+    if (password) {
+      const isSpace = password.includes(" ");
+      if (isSpace) {
+        notification.error({
+          message: `Mật khẩu hợp lệ không chứa khoảng trắng`,
+          description: "Vui lòng kiểm tra lại!",
+        });
+      }
+    }
+  }, [password]);
+
+  const validatePasswordLength = () => {
+    return password.length >= PASSWORD_MIN_LENGTH;
+  };
+
+  const validatePasswordRegex = () => {
+    return REGEX_PASSWORD.test(password);
+  };
+
+  const validatePasswordHasNoSpace = () => {
+    return password && !password.includes(" ");
+  };
+
+  const validatePassword = () => {
+    return (
+      validatePasswordHasNoSpace() &&
+      validatePasswordLength() &&
+      validatePasswordRegex()
+    );
+  };
 
   return (
     <AuthLayout>
@@ -76,7 +116,9 @@ const Register = () => {
           </div>
           <Form.Item
             name="fullname"
-            rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
+            rules={[
+              { required: true, message: "Họ và tên là trường bắt buộc" },
+            ]}
           >
             <Input placeholder="Nhập họ và tên" />
           </Form.Item>
@@ -86,7 +128,7 @@ const Register = () => {
           <Form.Item
             name="email"
             rules={[
-              { required: true, message: "Đây là trường bắt buộc" },
+              { required: true, message: "Email là trường bắt buộc" },
               {
                 validator(_, value) {
                   if (!value) return Promise.resolve();
@@ -115,17 +157,43 @@ const Register = () => {
           </div>
           <Form.Item
             name="password"
-            rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
+            rules={[{ required: true, message: "Mật khẩu là trường bắt buộc" }]}
+            // normalize={(e) => e.trim()}
           >
-            <Input.Password placeholder="Nhập mật khẩu" />
+            <Input.Password
+              placeholder="Nhập mật khẩu"
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </Form.Item>
+          <h2 className="mt-2">Mật khẩu hợp lệ bao gồm</h2>
+          <div className="space-x-1 flex flex-2">
+            <RadioInput
+              className="translate-y-1 "
+              fill={`${validatePasswordLength() ? "#1BB045" : "#A4A4AE"}`}
+            />
+            <span>Tối thiểu 6 kí tự</span>
+          </div>
+          <div className="space-x-1 flex flex-2">
+            <RadioInput
+              className="translate-y-1"
+              fill={`${validatePasswordRegex() ? "#1BB045" : "#A4A4AE"}`}
+            />
+            <span>Bao gồm chữ cái và số</span>
+          </div>
+          <div className="space-x-1 flex flex-2">
+            <RadioInput
+              className="translate-y-1"
+              fill={`${validatePasswordHasNoSpace() ? "#1BB045" : "#A4A4AE"}`}
+            />
+            <span>Không chứa khoảng trắng</span>
+          </div>
 
           <Form.Item>
             <Button
               type="primary"
               htmlType="submit"
               className="mt-10"
-              disabled={isLoading}
+              disabled={!validatePassword() || isLoading}
               loading={isLoading}
               block
             >

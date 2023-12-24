@@ -9,6 +9,7 @@ import { AppRoutes } from "../../../helpers/app-routes";
 import { FaUserFriends } from "react-icons/fa";
 import { useAuth } from "../../../hooks/auth.hook";
 import { IoReload } from "react-icons/io5";
+import { IoBarChartOutline } from "react-icons/io5";
 
 function getItem(label, key, icon, children) {
   return {
@@ -152,7 +153,7 @@ const items = [
     </svg>
   ),
   getItem("Quản lý mã giảm giá", "9", <CiDiscount1 className="w-6 h-6" />),
-  getItem("Thống kê", "10", <FaUserFriends className="w-6 h-6" />),
+  getItem("Thống kê", "10", <IoBarChartOutline className="w-6 h-6" />),
 ];
 
 const AdminDashboard = ({ children }) => {

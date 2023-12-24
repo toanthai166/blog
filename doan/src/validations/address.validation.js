@@ -7,7 +7,7 @@ const createAddress = {
     fullname: Joi.string().required(),
     phone: Joi.string().required(),
     addressMoreInfo: Joi.string().required(),
-    isDefault: Joi.boolean().required(),
+    isDefault: Joi.boolean(),
   }),
 };
 

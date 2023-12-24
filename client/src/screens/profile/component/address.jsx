@@ -10,6 +10,7 @@ import {
 } from "../../../hooks/address.hook";
 import { validationMessages } from "../../../helpers/validation-messages";
 import ProfileLayout from "./profile-layout";
+import { REGEX_PHONE } from "../../../helpers/regex";
 
 const MyAddress = ({ id }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -162,6 +163,18 @@ const MyAddress = ({ id }) => {
                     {
                       validator: (rule, value) => validateField(rule, value),
                     },
+                    {
+                      validator(_, value) {
+                        if (!value) return Promise.resolve();
+
+                        const validation = REGEX_PHONE.test(value);
+                        return validation
+                          ? Promise.resolve()
+                          : Promise.reject(
+                              new Error("Số điện thoại chưa đúng định dạng")
+                            );
+                      },
+                    },
                   ]}
                 >
                   <Input
@@ -223,6 +236,7 @@ const MyAddress = ({ id }) => {
                     </Button>
                     <Divider className="translate-y-4" type="vertical" />
                     <Popconfirm
+                      okText="Xóa"
                       onConfirm={() =>
                         handleDeleteAddress({ addressId: address?.id })
                       }
@@ -240,11 +254,6 @@ const MyAddress = ({ id }) => {
                       </Button>
                     </Popconfirm>
                   </div>
-                  <Button className="h-5" disabled={address?.isDefault}>
-                    <span className="px-1 py-1  font-normal  -translate-y-2.5">
-                      Thiết lập mặc định
-                    </span>
-                  </Button>
                 </div>
               </div>
             </div>

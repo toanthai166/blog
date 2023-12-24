@@ -13,7 +13,7 @@ import {
   GoogleIcon,
   RadioInput,
 } from "../../assets/index.js";
-const PASSWORD_MIN_LENGTH = 6;
+export const PASSWORD_MIN_LENGTH = 6;
 
 const Login = () => {
   const navigate = useNavigate();
@@ -26,13 +26,13 @@ const Login = () => {
     error,
     mutation: { isLoading },
   } = useAuth();
-  console.log("error :>> ", error);
 
   useEffect(() => {
     if (auth) {
       navigate(AppRoutes.home);
     }
   }, [auth, navigate]);
+
   useEffect(() => {
     if (error !== undefined) {
       notification.error({
@@ -41,6 +41,18 @@ const Login = () => {
       form.resetFields();
     }
   }, [error, form]);
+
+  useEffect(() => {
+    if (password) {
+      const isSpace = password.includes(" ");
+      if (isSpace) {
+        notification.error({
+          message: `Mật khẩu hợp lệ không chứa khoảng trắng`,
+          description: "Vui lòng kiểm tra lại!",
+        });
+      }
+    }
+  }, [password]);
 
   const onFinish = useCallback(() => {
     form.validateFields().then(() => {
@@ -114,7 +126,7 @@ const Login = () => {
           <Form.Item
             name="email"
             rules={[
-              { required: true, message: "Đây là trường bắt buộc" },
+              { required: true, message: "Email là trường bắt buộc" },
               {
                 validator(_, value) {
                   if (!value) return Promise.resolve();
@@ -126,6 +138,7 @@ const Login = () => {
                 },
               },
             ]}
+            normalize={(e) => e.trimStart()}
           >
             <Input placeholder="Nhập email" />
           </Form.Item>
@@ -134,16 +147,13 @@ const Login = () => {
             <div className="font-medium text-14px text-yankees-blue">
               Mật khẩu
             </div>
-            <div
-              className="text-14px text-yankees-blue underline cursor-pointer"
-              //   onClick={onClickForgetPassword}
-            >
+            <div className="text-14px text-yankees-blue underline cursor-pointer">
               Quên mật khẩu?
             </div>
           </div>
           <Form.Item
             name="password"
-            rules={[{ required: true, message: "Đây là trường bắt buộc" }]}
+            rules={[{ required: true, message: "Mật khẩu là trường bắt buộc" }]}
           >
             <Input.Password
               placeholder="Nhập mật khẩu"

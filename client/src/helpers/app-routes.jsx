@@ -69,5 +69,5 @@ export const AppRoutes = {
   contactDetail: "/admin/contact-management/detail/:id",
   contactDetailId: (id) => `/admin/contact-management/detail/${id}`,
 
-  revenueManagement: "/admin/contact-management",
+  revenueManagement: "/admin/revenue-management",
 };

@@ -47,7 +47,7 @@ const discountSchema = mongoose.Schema(
     },
     limitPerAccount: {
       type: Number,
-      required: true,
+      // required: true,
     },
   },
   {

@@ -10,13 +10,13 @@ const getReportOrder = catchAsync(async (req, res) => {
   const timeQuery = req.query.time;
   const currentDate = new Date();
 
-  // Xác định ngày đầu tiên của tuần hiện tại
   if (startDate && endDate) {
     const nextDay = new Date(endDate);
     nextDay.setDate(endDate.getDate() + 1);
 
     // Chuyển đổi về định dạng 'YYYY-MM-DD'
     const formattedNextDay = nextDay.toISOString().split('T')[0];
+    console.log('formattedNextDay :>> ', formattedNextDay);
 
     const completedOrdersInCurrentWeek = await Order.find({
       status: 'complete',
@@ -55,10 +55,10 @@ const getReportOrder = catchAsync(async (req, res) => {
 
   if (timeQuery == 'weekly') {
     const startOfWeek = new Date(currentDate);
-    startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+    startOfWeek.setDate(currentDate.getDate() + 1);
     // Xác định ngày cuối cùng của tuần hiện tại
     const endOfWeek = new Date(currentDate);
-    endOfWeek.setDate(currentDate.getDate() - 7);
+    endOfWeek.setDate(currentDate.getDate() - 6);
     console.log('endOfWeek :>> ', endOfWeek);
 
     // Thực hiện truy vấn để lấy đơn hàng trong khoảng thời gian từ startOfWeek đến endOfWeek

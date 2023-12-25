@@ -10,7 +10,7 @@ const createDisCount = {
     unit: Joi.string().required(),
     value: Joi.number().required(),
     minOrderValue: Joi.number().required(),
-    limitPerAccount: Joi.number().required(),
+    // limitPerAccount: Joi.number().required(),
     productIds: Joi.array().items(Joi.string().required()).required(),
   }),
 };

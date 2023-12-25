@@ -25,12 +25,19 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useOrder, useUpdateOrder } from "../../../hooks/order.hook";
 import dayjs from "dayjs";
 import { useQueryClient } from "react-query";
+import { ModalCustomize } from "../../../components/modal-customize";
+import TextArea from "antd/es/input/TextArea";
 
 export const FORMAT_TIME = "DD/MM/YYYY HH:mm";
+const reasons = ["Không liên hệ được người mua", "Sản phẩm bị lỗi"];
 
 const OrderManagement = () => {
   const navigate = useNavigate();
   const [, setParams] = useSearchParams();
+  const [note, setNote] = useState();
+  const [open, setOpen] = useState(false);
+  const [selectedReason, setSelectedReason] = useState([]);
+  const [idCancel, setIdCancel] = useState("");
 
   const [tabActive, setTabActive] = useState("wait_for_confirm");
   const [filter, setFilter] = useState({
@@ -100,6 +107,22 @@ const OrderManagement = () => {
     },
     [client, handleUpdateOrder]
   );
+
+  const handleSelected = useCallback(
+    (id) => {
+      const exist = selectedReason.includes(id);
+
+      if (!exist) {
+        setSelectedReason([...selectedReason, id]);
+        return;
+      }
+      setSelectedReason(selectedReason.filter((i) => i !== id));
+    },
+    [selectedReason]
+  );
+
+  const handleChangeNote = (e) => setNote(e.target.value);
+
   const handleChangeStatusToShiped = useCallback(
     async (record) => {
       try {
@@ -159,21 +182,18 @@ const OrderManagement = () => {
               </Tag>
             </Tooltip>
             <span className="translate-y-0.5 text-grayscale-border">|</span>
-            <Popconfirm
-              title="Hủy đơn hàng"
-              okButtonProps={{ disabled: mutation.isLoading }}
-              onConfirm={() => {
-                handleUpdateOrder({ id: record.id, status: "cancel" });
+            <div
+              className="cursor-pointer"
+              type="text"
+              onClick={() => {
+                setOpen(true);
+                setIdCancel(record.id);
               }}
-              description="Bạn có chắc chắn hủy đơn hàng này?"
-              icon={<QuestionCircleOutlined style={{ color: "red" }} />}
             >
-              <Tooltip title="Hủy đơn hàng">
-                <Tag className="hover:cursor-pointer" color="#f50">
-                  <CloseOutlined />
-                </Tag>
-              </Tooltip>
-            </Popconfirm>
+              <Tag className="hover:cursor-pointer" color="#f50">
+                <CloseOutlined />
+              </Tag>
+            </div>
             <span className="translate-y-0.5 text-grayscale-border">|</span>
             <Tooltip title="Xem chi tiết">
               <Tag
@@ -263,9 +283,9 @@ const OrderManagement = () => {
     },
     {
       title: "Mã đơn hàng",
-      dataIndex: "code",
+      dataIndex: "id",
       key: "code",
-      render: (code) => <span>{code}</span>,
+      render: (code) => <span>{code.slice(0, 8)}</span>,
     },
     {
       title: "Sản phẩm",
@@ -343,8 +363,8 @@ const OrderManagement = () => {
     {
       title: "Mã đơn hàng",
       key: "code",
-      dataIndex: "code",
-      render: (code) => <spa>{code}</spa>,
+      dataIndex: "id",
+      render: (code) => <spa>{code.slice(0, 8)}</spa>,
       width: "10%",
     },
     {
@@ -451,8 +471,8 @@ const OrderManagement = () => {
     {
       title: "Mã đơn hàng",
       key: "code",
-      dataIndex: "code",
-      render: (code) => <span>{code}</span>,
+      dataIndex: "id",
+      render: (code) => <span>{code.slice(0, 8)}</span>,
       width: "10%",
     },
     {
@@ -610,6 +630,56 @@ const OrderManagement = () => {
           scroll={{ y: "calc(100vh - 320px)" }}
         />
       </div>
+      <ModalCustomize
+        open={open}
+        title="Chọn lý do hủy đơn hàng"
+        okText="Xác nhận"
+        okButtonProps={{ disabled: selectedReason.length <= 0 }}
+        // cancelButtonProps={{
+        //   disabled: loading,
+        // }}
+        onOk={() => {
+          const arr = [...selectedReason];
+          arr.push(note);
+          const content = JSON.stringify(arr);
+          console.log(content);
+
+          handleUpdateOrder({
+            id: idCancel,
+            status: "cancel",
+            content: content,
+          });
+          notification.success({ message: "Bạn đã hủy đơn hàng thành công" });
+          setOpen(false);
+        }}
+        onCancel={() => setOpen(false)}
+      >
+        <>
+          <div className="h-[440px] overflow-y-auto text-smleading-18px ">
+            {(reasons || []).map((reason, key) => (
+              <div
+                onClick={() => handleSelected(reason)}
+                className={`px-4 py-3 mt-4 border border-[#EEEEEE] border-solid rounded mb-3 last:mb-0 cursor-pointer ${
+                  selectedReason.includes(reason)
+                    ? "border-red-600 border-solid bg-[#FFFDF6]"
+                    : ""
+                }`}
+                key={key}
+              >
+                {reason}
+              </div>
+            ))}
+
+            <TextArea
+              placeholder="Nhập lý do khác"
+              value={note}
+              maxLength={255}
+              onChange={handleChangeNote}
+              showCount
+            />
+          </div>
+        </>
+      </ModalCustomize>
     </Spin>
   );
 };

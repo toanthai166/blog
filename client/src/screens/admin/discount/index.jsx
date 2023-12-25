@@ -40,7 +40,6 @@ const DiscountManagement = () => {
     isActive: true,
   });
   const { discounts, isLoading } = useDiscount({ ...filter });
-  console.log("discounts :>> ", discounts);
 
   const listDiscount = discounts?.results
     ? discounts?.results?.map((item, index) => ({
@@ -155,7 +154,7 @@ const DiscountManagement = () => {
               <Tag
                 className="hover:cursor-pointer"
                 color="gold"
-                onClick={() => navigate(AppRoutes.promotions.detailId(id))}
+                onClick={() => navigate(AppRoutes.discountDetailId(id))}
               >
                 <EyeOutlined />
               </Tag>
@@ -168,7 +167,7 @@ const DiscountManagement = () => {
               <Tag
                 className="hover:cursor-pointer"
                 color="gold"
-                onClick={() => navigate(AppRoutes.promotions.detailId(id))}
+                onClick={() => navigate(AppRoutes.discountDetailId(id))}
               >
                 <EyeOutlined />
               </Tag>
@@ -218,7 +217,7 @@ const DiscountManagement = () => {
               <Tag
                 className="hover:cursor-pointer"
                 color="#2db7f5"
-                onClick={() => navigate(AppRoutes.promotions.editId(id))}
+                onClick={() => navigate(AppRoutes.discountEditById(id))}
               >
                 <EditOutlined />
               </Tag>

@@ -197,3 +197,7 @@ header .ant-tabs-tab-btn {
   height: 47px;
   padding: 0 12px;
 }
+
+.ant-select-selector {
+  height: 42px !important;
+}

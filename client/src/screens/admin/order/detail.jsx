@@ -205,9 +205,7 @@ const DetailOrder = () => {
       <div className="text-lg">
         <h2 className="mb-[12px]">Thông tin khách hàng</h2>
         <Descriptions column={1} labelStyle={{ width: "150px" }}>
-          <Descriptions.Item label="Mã đơn hàng">
-            {order?.code}
-          </Descriptions.Item>
+          <Descriptions.Item label="Mã đơn hàng">{order?.id}</Descriptions.Item>
           <Descriptions.Item label="Tên khách hàng">
             {order?.addresses?.fullname}
           </Descriptions.Item>
@@ -224,6 +222,21 @@ const DetailOrder = () => {
           <Descriptions.Item label="Thời gian đặt hàng">
             {order?.createdAt && dayjs(order.createdAt).format(FORMAT_TIME)}
           </Descriptions.Item>
+          {order?.statusDetail && (
+            <Descriptions.Item label="Thời gian xác nhận">
+              {dayjs(order?.statusDetails?.timeConfirm).format(FORMAT_TIME)}
+            </Descriptions.Item>
+          )}
+          {order?.statusDetail?.timeDelivered && (
+            <Descriptions.Item label="Thời gian giao hàng">
+              {dayjs(order?.statusDetails?.timeDelivered).format(FORMAT_TIME)}
+            </Descriptions.Item>
+          )}
+          {order?.statusDetail?.timeComplete && (
+            <Descriptions.Item label="Thời gian hoàn thành">
+              {dayjs(order?.statusDetails?.timeComplete).format(FORMAT_TIME)}
+            </Descriptions.Item>
+          )}
           {/* {order?.status === "cancel" && (
             <Descriptions.Item label="Thời gian huỷ">
               {order?.statusDetail?.createdAt &&

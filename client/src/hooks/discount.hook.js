@@ -116,7 +116,7 @@ export const useGetDiscountById = (id) => {
     queryKey: [`discount/${id}`],
     queryFn: () => getDiscountById(id),
     onSuccess: (res) => {
-      setDiscount(res);
+      setDiscount(res.data);
     },
   });
   return { isLoading, error, discount };

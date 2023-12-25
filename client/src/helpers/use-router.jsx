@@ -199,6 +199,14 @@ export const useRouter = () => {
           path: AppRoutes.createDiscount,
           element: <FormDiscount />,
         },
+        {
+          path: AppRoutes.discountEdit,
+          element: <FormDiscount isEdit />,
+        },
+        {
+          path: AppRoutes.discountDetail,
+          element: <FormDiscount isDetail />,
+        },
         // {
         //   path: AppRoutes.faqDetail,
         //   element: <FormFaq isDetail />,

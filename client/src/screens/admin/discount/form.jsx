@@ -19,6 +19,7 @@ import dayjs from "dayjs";
 import {
   useCreateDiscount,
   useGetDiscountById,
+  useUpdateDisCount,
 } from "../../../hooks/discount.hook";
 import { ModalSelectProduct } from "./modal-select-product";
 
@@ -30,6 +31,7 @@ const FormDiscount = ({ isDetail, isEdit }) => {
   const [form] = Form.useForm();
 
   const { id } = useParams();
+  console.log("id :>> ", id);
   const [products, setProducts] = useState([]);
   const [editing, setEditing] = useState(false);
   const [open, setOpen] = useState(false);
@@ -39,16 +41,23 @@ const FormDiscount = ({ isDetail, isEdit }) => {
 
   const productIds = Form.useWatch("productIds", form);
 
+  const { handleUpdateDiscount } = useUpdateDisCount();
+
   const navigate = useNavigate();
   const { discount } = useGetDiscountById(id);
+  useEffect(() => {
+    if (discount) {
+      form.setFieldsValue({
+        name: discount.name,
+        value: discount.value,
+        limit: discount.limit,
+        minOrderValue: discount.minOrderValue,
+      });
+    }
+  }, [discount, form]);
+  console.log("discount :>> ", discount);
 
   const { handleCreateDiscount } = useCreateDiscount();
-
-  // useEffect(() => {
-  //   if (faq) {
-  //     form.setFieldsValue({ title: faq.title });
-  //   }
-  // }, [faq, form]);
 
   const handleFinishSelectProducts = useCallback(
     (newProductIds, newProducts) => {
@@ -61,7 +70,14 @@ const FormDiscount = ({ isDetail, isEdit }) => {
 
   const onFinish = async (values) => {
     if (isEdit) {
-      console.log(1);
+      const startDate = JSON.stringify(values.startDate).replace(/"/g, "");
+      const endDate = JSON.stringify(values.endDate).replace(/"/g, "");
+      handleUpdateDiscount({
+        id: id,
+        ...values,
+        startDate: startDate,
+        endDate: endDate,
+      });
     } else {
       const startDate = JSON.stringify(values.startDate).replace(/"/g, "");
       const endDate = JSON.stringify(values.endDate).replace(/"/g, "");
@@ -138,7 +154,7 @@ const FormDiscount = ({ isDetail, isEdit }) => {
         >
           {productIds && productIds.length > 0 ? (
             <Table
-              dataSource={products}
+              dataSource={products ? products : discount.productIds}
               pagination={{
                 ...DefaultPagination,
               }}
@@ -266,7 +282,7 @@ const FormDiscount = ({ isDetail, isEdit }) => {
               />
             </Form.Item>
           </Col>
-          <Col span={8}>
+          {/* <Col span={8}>
             <Form.Item
               label={"Giới hạn số lượt sử dụng tài khoản"}
               name="limitPerAccount"
@@ -282,7 +298,7 @@ const FormDiscount = ({ isDetail, isEdit }) => {
                 placeholder={`Nhập giới hạn số lượt sử dụng tài khoản.`}
               />
             </Form.Item>
-          </Col>
+          </Col> */}
           <Col span={8}>
             <Form.Item
               label="Giá trị đơn hàng tối thiểu"

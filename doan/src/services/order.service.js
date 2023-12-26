@@ -26,7 +26,6 @@ const createOrder = async (body) => {
     if (!product) {
       throw new Error('Product not found');
     }
-    await Product.updateOne({ _id: product._id }, { $set: { quantity: product.quantity - item.quantity } });
 
     return {
       product: product,
@@ -115,7 +114,11 @@ const updateOrderById = async (id, updateBody, user) => {
   }
   if (updateBody.status == 'complete') {
     const currentDate = new Date();
-    console.log('order :>> ', order);
+    console.log('order :>> ', order.product);
+
+    order.product.map(async (it) => {
+      await Product.updateOne({ _id: it._id }, { $set: { quantity: it.product.quantity - it.quantity } });
+    });
     Object.assign(order, {
       ...updateBody,
       statusDetail: {

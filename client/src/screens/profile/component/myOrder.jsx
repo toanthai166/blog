@@ -66,10 +66,7 @@ const MyOrder = ({ id }) => {
   const [note, setNote] = useState();
   const [open, setOpen] = useState(false);
   const [tabActive, setTabActive] = useState("wait_for_confirm");
-  const { handleUpdateOrder, mutation } = useUpdateOrder({
-    ...filter,
-    userId: id,
-  });
+  const { handleUpdateOrder, mutation } = useUpdateOrder({ ...filter });
   const handleChangeNote = (e) => setNote(e.target.value);
 
   const handleChangeTab = (key) => {
@@ -107,7 +104,7 @@ const MyOrder = ({ id }) => {
         });
 
         // setFilter({ ...filter, status: "" });
-        navigate("?info=myOrder&status=shipping");
+        // navigate("?info=myOrder&status=shipping");
         notification.success({
           message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái đang giao`,
         });
@@ -130,7 +127,7 @@ const MyOrder = ({ id }) => {
         });
 
         // setFilter({ ...filter, status: "" });
-        navigate("?info=myOrder&status=delivered");
+        // navigate("?info=myOrder&status=delivered");
         notification.success({
           message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái đã giao`,
         });
@@ -153,7 +150,7 @@ const MyOrder = ({ id }) => {
         });
 
         // setFilter({ ...filter, status: "delivered" });
-        navigate("?info=myOrder&status=complete");
+        // navigate("?info=myOrder&status=complete");
         notification.success({
           message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái hoàn thành`,
         });

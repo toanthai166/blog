@@ -261,9 +261,7 @@ const ProductDetail = () => {
               </div>
             </div>
             <div className="p-6 bg-white rounded-lg ">
-              <h2 className="text-xl font-semibold mb-5">
-                Thông tin chi tiết sách
-              </h2>
+              <h2 className="text-xl font-semibold mb-5">Mô tả:</h2>
               <div
                 className="w-full max-w-[590px] mx-auto font-normal text-base "
                 dangerouslySetInnerHTML={{ __html: product.description }}

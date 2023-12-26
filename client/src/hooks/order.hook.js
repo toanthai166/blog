@@ -16,7 +16,9 @@ import {
 export const useOrder = (filter) => {
   const [orders, setOrders] = useAtom(listOrder);
   const { isLoading, error } = useQuery({
-    queryKey: [`orders?status=${filter.status}`],
+    queryKey: [
+      `orders?status=${filter.status}?limit=${filter.limit}?page=${filter.page}`,
+    ],
     queryFn: () => getOrders(filter),
     onSuccess: (res) => {
       setOrders(res.data);
@@ -70,8 +72,9 @@ export const useUpdateOrder = (filter) => {
   const handleUpdateOrder = (data) => {
     mutation.mutate(data, {
       onSuccess: () => {
-        console.log("1 :>> ");
-        client.invalidateQueries(`orders?status=${filter.status}`);
+        client.invalidateQueries(
+          `orders?status=${filter.status}?limit=${filter.limit}?page=${filter.page}`
+        );
       },
     });
   };

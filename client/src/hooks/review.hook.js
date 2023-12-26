@@ -19,7 +19,7 @@ export const useReview = (filter) => {
   return { isLoading, error, review };
 };
 
-export const useCreateReview = () => {
+export const useCreateReview = (setOpen) => {
   const mutation = useMutation(createReview, {
     mutationKey: "reviews",
   });
@@ -30,13 +30,14 @@ export const useCreateReview = () => {
       mutation.mutate(data, {
         onSuccess: () => {
           client.invalidateQueries("rv");
+          setOpen(false);
           notification.success({
             message: "Đánh giá thành công thành công",
           });
         },
       });
     },
-    [mutation]
+    [client, mutation, setOpen]
   );
   return { mutation, handleCreateReview };
 };

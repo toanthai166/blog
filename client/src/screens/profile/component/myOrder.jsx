@@ -57,17 +57,17 @@ const tabs = [
 const MyOrder = ({ id }) => {
   const navigate = useNavigate();
   const [, setParams] = useSearchParams();
+  const [tabActive, setTabActive] = useState("wait_for_confirm");
   const [filter, setFilter] = useState({
     limit: 100,
     page: 1,
-    status: "wait_for_confirm",
+    status: tabActive,
   });
-  const { orders, isLoading } = useOrder({ ...filter, userId: id });
   const [note, setNote] = useState();
   const [open, setOpen] = useState(false);
-  const [tabActive, setTabActive] = useState("wait_for_confirm");
   const { handleUpdateOrder, mutation } = useUpdateOrder({ ...filter });
   const handleChangeNote = (e) => setNote(e.target.value);
+  const { orders, isLoading } = useOrder({ ...filter, userId: id });
 
   const handleChangeTab = (key) => {
     const newStatus = key;
@@ -76,7 +76,7 @@ const MyOrder = ({ id }) => {
       return p;
     });
     setTabActive(newStatus);
-    setFilter({ ...filter, status: newStatus, page: 1 });
+    setFilter({ ...filter, status: newStatus, page: 1, userId: id });
 
     switch (newStatus) {
       case "complete":
@@ -95,29 +95,6 @@ const MyOrder = ({ id }) => {
 
   const client = useQueryClient();
 
-  const handleChangeStatusToShipping = useCallback(
-    async (record) => {
-      try {
-        handleUpdateOrder({
-          id: record?.id,
-          status: "shipping",
-        });
-
-        // setFilter({ ...filter, status: "" });
-        // navigate("?info=myOrder&status=shipping");
-        notification.success({
-          message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái đang giao`,
-        });
-      } catch (error) {
-        // Xử lý lỗi nếu có
-        console.error("Lỗi khi cập nhật đơn hàng:", error);
-        notification.error({
-          message: "Có lỗi xảy ra khi cập nhật đơn hàng",
-        });
-      }
-    },
-    [handleUpdateOrder, navigate]
-  );
   const handleChangeStatusToShiped = useCallback(
     async (record) => {
       try {
@@ -128,6 +105,8 @@ const MyOrder = ({ id }) => {
 
         // setFilter({ ...filter, status: "" });
         // navigate("?info=myOrder&status=delivered");
+        window.location.reload();
+        client.invalidateQueries("orders?status=shipping");
         notification.success({
           message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái đã giao`,
         });
@@ -139,7 +118,7 @@ const MyOrder = ({ id }) => {
         });
       }
     },
-    [handleUpdateOrder, navigate]
+    [client, handleUpdateOrder]
   );
   const handleChangeStatusToCompleted = useCallback(
     async (record) => {
@@ -151,6 +130,9 @@ const MyOrder = ({ id }) => {
 
         // setFilter({ ...filter, status: "delivered" });
         // navigate("?info=myOrder&status=complete");
+        window.location.reload();
+        client.invalidateQueries("orders?status=delivered");
+
         notification.success({
           message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái hoàn thành`,
         });
@@ -161,7 +143,7 @@ const MyOrder = ({ id }) => {
         });
       }
     },
-    [filter, handleUpdateOrder]
+    [client, handleUpdateOrder]
   );
   const [selectedReason, setSelectedReason] = useState([]);
   const [idCancel, setIdCancel] = useState("");
@@ -184,12 +166,22 @@ const MyOrder = ({ id }) => {
       case "wait_for_confirm":
         return (
           <div className="flex gap-2 justify-end">
-            <Tooltip title="Xác nhận đơn hàng" className="hover:cursor-pointer">
+            {/* <Tooltip title="Xác nhận đơn hàng" className="hover:cursor-pointer">
               <Tag
                 color="green"
                 onClick={() => handleChangeStatusToShipping(record)}
               >
                 <SendOutlined />
+              </Tag>
+            </Tooltip>
+            <span className="translate-y-0.5 text-grayscale-border">|</span> */}
+            <Tooltip title="Xem chi tiết">
+              <Tag
+                className="hover:cursor-pointer"
+                color="gold"
+                onClick={() => navigate(AppRoutes.orderDetailId(record.id))}
+              >
+                <EyeOutlined />
               </Tag>
             </Tooltip>
             <span className="translate-y-0.5 text-grayscale-border">|</span>
@@ -201,20 +193,12 @@ const MyOrder = ({ id }) => {
                 setIdCancel(record.id);
               }}
             >
-              <Tag className="hover:cursor-pointer" color="#f50">
-                <CloseOutlined />
-              </Tag>
+              <Tooltip title="Hủy đơn hàng">
+                <Tag className="hover:cursor-pointer" color="#f50">
+                  <CloseOutlined />
+                </Tag>
+              </Tooltip>
             </div>
-            <span className="translate-y-0.5 text-grayscale-border">|</span>
-            <Tooltip title="Xem chi tiết">
-              <Tag
-                className="hover:cursor-pointer"
-                color="gold"
-                onClick={() => navigate(AppRoutes.orderDetailId(record.id))}
-              >
-                <EyeOutlined />
-              </Tag>
-            </Tooltip>
           </div>
         );
       case "shipping":
@@ -282,7 +266,7 @@ const MyOrder = ({ id }) => {
   const defaultColumns = [
     {
       title: "Mã đơn hàng",
-      dataIndex: "code",
+      dataIndex: "id",
       key: "id",
       width: "10%",
       render: (code) => <span>{code.slice(0, 7)}</span>,

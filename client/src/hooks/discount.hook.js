@@ -114,6 +114,7 @@ export const useGetDiscountById = (id) => {
   const [discount, setDiscount] = useAtom(listDiscount);
   const { isLoading, error } = useQuery({
     queryKey: [`discount/${id}`],
+    enabled: id == undefined ? false : true,
     queryFn: () => getDiscountById(id),
     onSuccess: (res) => {
       setDiscount(res.data);

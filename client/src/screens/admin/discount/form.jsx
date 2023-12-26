@@ -45,6 +45,10 @@ const FormDiscount = ({ isDetail, isEdit }) => {
 
   const navigate = useNavigate();
   const { discount } = useGetDiscountById(id);
+
+  const endDate = dayjs(discount.endDate);
+  const startDates = dayjs(discount.startDate);
+
   useEffect(() => {
     if (discount) {
       form.setFieldsValue({
@@ -52,11 +56,12 @@ const FormDiscount = ({ isDetail, isEdit }) => {
         value: discount.value,
         limit: discount.limit,
         minOrderValue: discount.minOrderValue,
+        startDate: startDates,
+        endDate: endDate,
       });
     }
-  }, [discount, form]);
+  }, [discount, endDate, form, startDates]);
   console.log("discount :>> ", discount);
-
   const { handleCreateDiscount } = useCreateDiscount();
 
   const handleFinishSelectProducts = useCallback(
@@ -123,6 +128,7 @@ const FormDiscount = ({ isDetail, isEdit }) => {
         form={form}
         name="form-promotion"
         id="form-promotion"
+        disabled={isDetail}
         layout="vertical"
         className="max-w-[868px] bg-white mx-auto mt-20px p-5 mt-10 rounded-lg shadow-md mb-[80px]"
         initialValues={{

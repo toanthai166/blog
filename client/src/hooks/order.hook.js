@@ -14,11 +14,10 @@ import {
 } from "../api/order.api";
 
 export const useOrder = (filter) => {
+  console.log("filter orrder :>> ", filter);
   const [orders, setOrders] = useAtom(listOrder);
   const { isLoading, error } = useQuery({
-    queryKey: [
-      `orders?status=${filter.status}?limit=${filter.limit}?page=${filter.page}`,
-    ],
+    queryKey: [`orders?status=${filter.status}`],
     queryFn: () => getOrders(filter),
     onSuccess: (res) => {
       setOrders(res.data);
@@ -57,13 +56,13 @@ export const useCreateOrder = () => {
         },
       });
     },
-    [mutation]
+    [client, mutation, navigate]
   );
   return { mutation, handleCreateOrder };
 };
 
 export const useUpdateOrder = (filter) => {
-  console.log("filter :>> ", filter);
+  console.log("filter update :>> ", filter);
   const mutation = useMutation(updateOrder, {
     mutationKey: [`orderupdate`],
   });
@@ -72,9 +71,14 @@ export const useUpdateOrder = (filter) => {
   const handleUpdateOrder = (data) => {
     mutation.mutate(data, {
       onSuccess: () => {
-        client.invalidateQueries(
-          `orders?status=${filter.status}?limit=${filter.limit}?page=${filter.page}`
-        );
+        if (filter.status == "wait_for_confirm")
+          client.invalidateQueries(`orders?status="wait_for_confirm"`);
+        if (filter.status == "shipping")
+          client.invalidateQueries(`orders?status="shipping"`);
+        if (filter.status == "delivered")
+          client.invalidateQueries(`orders?status="delivered"`);
+        if (filter.status == "complete")
+          client.invalidateQueries(`orders?status="complete"`);
       },
     });
   };

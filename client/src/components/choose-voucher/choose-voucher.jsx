@@ -54,7 +54,7 @@ export const ChooseVoucher = ({
             }
             return (
               <div
-                className={`flex gap-x-12px mb-16px ${
+                className={`flex gap-x-3 mb-4 ${
                   priceOfOrder < v?.minOrderValue
                     ? "hover:cursor-no-drop opacity-50"
                     : "hover:cursor-pointer"
@@ -66,9 +66,9 @@ export const ChooseVoucher = ({
                 }}
               >
                 <img
-                  src="/img/image-voucher.png"
+                  src="../../public/image/blog-am-thuc.png"
                   alt=""
-                  className="w-[90px] h-[90px]"
+                  className="w-[70px] h-[70px]"
                 />
                 <div className="flex-1">
                   <h4 className="line-clamp-2"> {v?.name}</h4>

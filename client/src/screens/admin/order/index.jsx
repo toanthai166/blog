@@ -130,7 +130,7 @@ const OrderManagement = () => {
           id: record?.id,
           status: "delivered",
         });
-
+        window.location.reload();
         client.invalidateQueries(`orders?status=wait_for_confirm`);
         notification.success({
           message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái đã giao`,
@@ -152,7 +152,8 @@ const OrderManagement = () => {
           id: record?.id,
           status: "complete",
         }).then(() => {
-          client.invalidateQueries(`orders?status=wait_for_confirm`);
+          window.location.reload();
+          client.invalidateQueries(`orders?status=delivered`);
           notification.success({
             message: `Đơn hàng ${record?.code} đã chuyển sang trạng thái hoàn thành`,
           });

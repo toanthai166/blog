@@ -68,13 +68,13 @@ const ContactDetail = () => {
             <div className="">
               <div className="border-b border-t-0 border-l-0 border-r-0 border-solid border-grayscale-light">
                 <p className="py-3 pl-4 text-grayscale-gray text-base">
-                  Thời gian phản ánh:{" "}
+                  Thời gian liên hệ:{" "}
                   {dayjs(contact.createdAt).format(FORMAT_TIME)}
                 </p>
               </div>
               <div className="min-h-full pl-4">
                 <p className="pt-3 pb-2 text-grayscale-gray text-base ">
-                  Nội dung phản ánh:
+                  Nội dung liên hệ:
                 </p>
                 <p className="font-semibold">{contact.content}</p>
               </div>

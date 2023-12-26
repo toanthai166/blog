@@ -119,7 +119,7 @@ const OrderDetail = () => {
   }, [order?.discount, totalCost]);
 
   const [openReview, setOpenReview] = useState(false);
-  const { handleCreateReview } = useCreateReview();
+  const { handleCreateReview } = useCreateReview(setOpenReview);
 
   const renderMessageByStatus = useCallback(() => {
     switch (order?.status) {
@@ -212,14 +212,21 @@ const OrderDetail = () => {
                   Địa chỉ nhận hàng
                 </h2>
                 <p className="text-base font-normal">
-                  Tên người nhận: {order?.addresses?.fullname}
+                  Tên người nhận:{" "}
+                  <span className="font-medium">
+                    {order?.addresses?.fullname}
+                  </span>
                 </p>
                 <p className="text-base font-normal">
-                  Địa chỉ: {order?.addresses?.addressMoreInfo}
-                  {", " + order?.addresses?.addressName}
+                  Địa chỉ:
+                  <span className="font-medium">
+                    {order?.addresses?.addressMoreInfo}
+                    {", " + order?.addresses?.addressName}
+                  </span>
                 </p>
                 <p className="text-base font-normal">
-                  Điện thoại liên hệ {order?.addresses?.phone}
+                  Điện thoại liên hệ{" "}
+                  <span className="font-medium">{order?.addresses?.phone}</span>
                 </p>
                 <p className="text-base font-normal"></p>
               </div>
@@ -266,11 +273,13 @@ const OrderDetail = () => {
                 <h2 className="uppercase text-base leading-6 font-semibold">
                   thông tin đơn hàng
                 </h2>
-                <RowItem
-                  wrapperStyle="py-4"
-                  label="Mã đơn hàng"
-                  value={order?.code}
-                />
+                {order?.id && (
+                  <RowItem
+                    wrapperStyle="py-4"
+                    label="Mã đơn hàng"
+                    value={order?.id.slice(0, 7)}
+                  />
+                )}
                 <RowItem
                   wrapperStyle="pb-4"
                   label="Trạng thái"

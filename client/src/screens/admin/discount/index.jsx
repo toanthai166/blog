@@ -148,7 +148,7 @@ const DiscountManagement = () => {
         const startDate = record?.startDate;
         const endDate = record?.endDate;
 
-        if (dayjs(endDate).isBefore(dayjs())) {
+        if (record.isActive == false) {
           return (
             <Tooltip title="Xem chi tiết">
               <Tag
